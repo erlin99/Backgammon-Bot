@@ -5,14 +5,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class displayPanel extends JPanel {
+public class displayBoard extends JPanel {
 
     //private BufferedImage boardImage;
     //private int FRAME_WIDTH = 1080, FRAME_HEIGHT = 720;
 
     private BufferedImage image;
 
-    public displayPanel() {
+    public displayBoard() {
         try {
             image = ImageIO.read(new File("boardBackground.png"));
         } catch (IOException ex) {
