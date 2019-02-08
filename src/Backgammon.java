@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class Backgammon {
+public class Backgammon{
+
 	
     public static void main(String args[])
     { 	
@@ -35,6 +37,11 @@ public class Backgammon {
         pip1.setFont(new Font("Serif", Font.PLAIN, 18));
         pipPanel1.add(pip1);
         
+        JTextField player1Pips = new JTextField(3);
+        player1Pips.setFont(new Font("Serif", Font.PLAIN, 15));
+        player1Pips.setEditable(false);
+        pipPanel1.add(player1Pips);
+        
         
         
         JPanel pipPanel2 = new JPanel();
@@ -45,6 +52,13 @@ public class Backgammon {
         pip2.setFont(new Font("Serif", Font.PLAIN, 18));
         pipPanel2.add(pip2);
         
+        JTextField player2Pips = new JTextField(3);
+        player2Pips.setFont(new Font("Serif", Font.PLAIN, 15));
+        player2Pips.setEditable(false);
+        pipPanel2.add(player2Pips);
+        
+        
+        
         
         JPanel messagePanel = new JPanel();
         messagePanel.setBackground(Color.YELLOW);
@@ -53,9 +67,9 @@ public class Backgammon {
         JLabel message = new JLabel("Message box");
         message.setFont(new Font("Serif", Font.PLAIN, 18));
         messagePanel.add(message);
-       
-         
-        JTextArea messageText = new JTextArea("Here is where your next move options will appear",22,16);
+           
+        JTextArea messageText = new JTextArea("Here is where your next move options will appear.",22,16);
+        messageText.append(" Enter your option in the command panel below.");
         messageText.setFont(new Font("Serif", Font.PLAIN, 18));
         messageText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         // wraps the text onto the next line
@@ -66,12 +80,7 @@ public class Backgammon {
         messageText.setEditable(false);
         // the scroll pane ensures scrolling when the text box is full
         JScrollPane jsp = new JScrollPane(messageText);
-        
         messagePanel.add(jsp);       
-        
-        
-        
-        
         
         
         
@@ -79,10 +88,62 @@ public class Backgammon {
         commandPanel.setBackground(Color.ORANGE);
         commandPanel.setBounds(1300,570,250,180);
         
-        JLabel cmd = new JLabel("Enter your option:");
+        JLabel cmd = new JLabel("Command Panel");
         cmd.setFont(new Font("Serif", Font.PLAIN, 18));
         commandPanel.add(cmd);
-  
+        
+        JTextField userCmd = new JTextField(15);
+        userCmd.setFont(new Font("Serif", Font.PLAIN, 18));
+        userCmd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        commandPanel.add(userCmd);
+        
+        
+        userCmd.addActionListener(new ActionListener() 
+        {
+            String userResponse = new String();
+            public void actionPerformed(ActionEvent e) 
+            {
+            	userResponse = userCmd.getText();
+            	//if user types quit exit the program
+            	if(userResponse.equalsIgnoreCase("quit"))
+            		System.exit(0);
+            	// clears text when user clicks enter
+            	userCmd.setText("");
+//            	System.out.println("Text=" + userResponse);
+            }
+          });
+        
+        
+//        messageText.append(userCmd.getText());
+//        System.out.println(messageText.getText());
+        
+        
+        JButton rollDice = new JButton("Roll Dice");
+        // gets rid of dotted border when the button is clicked
+        rollDice.setFocusPainted(false);
+        commandPanel.add(rollDice);
+        
+        //DICE ROLL METHOD TO BE IMPLEMENTED IN LATER SPRINTS
+//        rollDice.addActionListener(new ActionListener(){  
+//        	public void actionPerformed(ActionEvent e){  
+//        	              
+//        	        }  
+//        	    });  
+        
+        
+        JButton doublingCube = new JButton("Double");
+        // gets rid of dotted border when the button is clicked
+        doublingCube.setFocusPainted(false);
+        commandPanel.add(doublingCube);
+        
+        //DOUBLING CUBE METHOD TO BE IMPLEMENTED IN LATER SPRINTS
+//        doublingCube.addActionListener(new ActionListener(){  
+//        	public void actionPerformed(ActionEvent e){  
+//        	              
+//        	        }  
+//        	    });  
+ 
+        
 
 
         panel.add(boardPanel);
@@ -97,54 +158,6 @@ public class Backgammon {
         
         frame.setVisible(true);
    
-    	
-    	
-        //ORIGINAL BORDERLAYOUT ATTEMPT
-//        displayPanel boardPanel = new displayPanel();
-//        boardPanel.setPreferredSize(new Dimension(1320, 760));
-//        frame.add(boardPanel, BorderLayout.LINE_START);
-//        
-//        JPanel pipPanel = new JPanel();
-//        pipPanel.setBackground(Color.RED);
-//        pipPanel.setPreferredSize(new Dimension(25, 50));
-//        frame.add(pipPanel, BorderLayout.PAGE_START);
-//        
-//        JPanel infoPanel = new JPanel();
-//        infoPanel.setBackground(Color.BLUE);
-//        infoPanel.setPreferredSize(new Dimension(50, 300));
-//        frame.add(infoPanel, BorderLayout.LINE_END);
-        
-        
-        
-     	//BORDER LAYOUT ATTEMPT 2
-//    	JFrame frame = new JFrame();
-//    	frame.setSize(1500, 900);
-//        frame.setTitle("Backgammon Version 1");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        
-//        displayPanel board = new displayPanel();
-//        JPanel pipPanel1 = new JPanel();
-//        pipPanel1.setBackground(Color.RED);
-//        pipPanel1.setPreferredSize(new Dimension(200,30));
-//        JPanel messagePanel = new JPanel();
-//        messagePanel.setPreferredSize(new Dimension(150,550));
-//        messagePanel.setBackground(Color.YELLOW);
-//        
-//    	
-//        JPanel leftPanel = new JPanel(new BorderLayout());
-//        
-//        
-//        leftPanel.add(pipPanel1, BorderLayout.PAGE_START);
-//        leftPanel.add(board, BorderLayout.CENTER);
-//        
-//        JPanel total = new JPanel(new BorderLayout());
-//        total.add(leftPanel, BorderLayout.CENTER);
-//        total.add(messagePanel, BorderLayout.EAST);
-//        
-//        frame.add(total);
-//        
-//        frame.setVisible(true);
-                 
         
     }
 }
