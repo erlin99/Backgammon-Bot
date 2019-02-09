@@ -1,22 +1,20 @@
-import jdk.nashorn.internal.objects.Global;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.event.*;
+public class Backgammon{
 
-public class Backgammon {
 
     public static void main(String args[])
     {
-    	//initialize the frame
-    	JFrame frame = new JFrame();
-    	frame.setSize(1572, 805);
+        //initialize the frame
+        JFrame frame = new JFrame();
+        frame.setSize(1572, 805);
         frame.setTitle("Backgammon Version 1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         // the 'null' means the Panel doesn't follow a specific layout manager
-        JPanel panel = new JPanel(null);
+        JPanel mainPanel = new JPanel(null);
 
 
         displayBoard boardPanel = new displayBoard();
@@ -27,75 +25,148 @@ public class Backgammon {
         // second 2 are the width & height
         boardPanel.setBounds(0,30,1300,760);
 
+        //create a green colour using hex codes close to the board bg green colour
+        Color myGreen = Color.decode("#006600");
+        Color myGray = Color.decode("#F2F2F2");
+
 
         // the panel to display player1's pip count
-        JPanel pipPanel1 = new JPanel();
-        pipPanel1.setBackground(Color.RED);
-        pipPanel1.setBounds(0,0,650,30);
+        JPanel player1PipPanelContainer = new JPanel();
+        player1PipPanelContainer.setBackground(myGreen);
+        player1PipPanelContainer.setBounds(0,0,650,30);
 
         // the text showing that it is Player1's pip count
-        JLabel pip1 = new JLabel("Player 1 - Pip Count:");
-        pip1.setFont(new Font("Serif", Font.PLAIN, 18));
-        pipPanel1.add(pip1);
+        JLabel player1PipPanelText = new JLabel("Player 1 - Pip Count:");
+        player1PipPanelText.setForeground(Color.WHITE);
+        player1PipPanelText.setFont(new Font("Serif", Font.PLAIN, 18));
+        player1PipPanelContainer.add(player1PipPanelText);
+
+        JTextField player1PipScoreField = new JTextField(3);
+        // gets rid of default border
+        player1PipScoreField.setBorder(BorderFactory.createEmptyBorder());
+        player1PipScoreField.setBackground(myGreen);
+        player1PipScoreField.setForeground(Color.WHITE);
+        player1PipScoreField.setFont(new Font("Serif", Font.PLAIN, 15));
+        player1PipScoreField.setEditable(false);
+        player1PipPanelContainer.add(player1PipScoreField);
 
 
 
-        JPanel pipPanel2 = new JPanel();
-        pipPanel2.setBackground(Color.BLUE);
-        pipPanel2.setBounds(650,0,650,30);
+        JPanel player2PipPanelContainer = new JPanel();
+        player2PipPanelContainer.setBackground(myGreen);
+        player2PipPanelContainer.setBounds(650,0,650,30);
 
-        JLabel pip2 = new JLabel("Player 2 - Pip Count:");
-        pip2.setFont(new Font("Serif", Font.PLAIN, 18));
-        pipPanel2.add(pip2);
+        JLabel player2PipPanelText = new JLabel("Player 2 - Pip Count:");
+        player2PipPanelText.setForeground(Color.WHITE);
+        player2PipPanelText.setFont(new Font("Serif", Font.PLAIN, 18));
+        player2PipPanelContainer.add(player2PipPanelText);
+
+        JTextField player2PipScoreField = new JTextField(3);
+        player2PipScoreField.setBorder(BorderFactory.createEmptyBorder());
+        player2PipScoreField.setBackground(myGreen);
+        player2PipScoreField.setForeground(Color.WHITE);
+        player2PipScoreField.setFont(new Font("Serif", Font.PLAIN, 15));
+        player2PipScoreField.setEditable(false);
+        player2PipPanelContainer.add(player2PipScoreField);
 
 
-        JPanel messagePanel = new JPanel();
-        messagePanel.setBackground(Color.YELLOW);
-        messagePanel.setBounds(1300,0,250,570);
-
-        JLabel message = new JLabel("Message box");
-        message.setFont(new Font("Serif", Font.PLAIN, 18));
-        messagePanel.add(message);
 
 
-        JTextArea messageText = new JTextArea("Here is where your next move options will appear",22,16);
-        messageText.setFont(new Font("Serif", Font.PLAIN, 18));
-        messageText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        JPanel messagePanelContainer = new JPanel();
+        messagePanelContainer.setBackground(myGray);
+        messagePanelContainer.setBounds(1300,0,250,620);
+
+        JLabel messageHeading = new JLabel("Message box");
+        messageHeading.setFont(new Font("Serif", Font.PLAIN, 18));
+        messagePanelContainer.add(messageHeading);
+
+        JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
+        messagePanelText.append(" Enter your option in the command panel below.");
+        messagePanelText.setFont(new Font("Serif", Font.PLAIN, 18));
+        messagePanelText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         // wraps the text onto the next line
-        messageText.setLineWrap(true);
+        messagePanelText.setLineWrap(true);
         // ensures the full word goes onto the next line
-        messageText.setWrapStyleWord(true);
+        messagePanelText.setWrapStyleWord(true);
         // ensures the user can't type in the text box
-        messageText.setEditable(false);
+        messagePanelText.setEditable(false);
         // the scroll pane ensures scrolling when the text box is full
-        JScrollPane jsp = new JScrollPane(messageText);
-
-        messagePanel.add(jsp);
-
+        JScrollPane jsp = new JScrollPane(messagePanelText);
+        messagePanelContainer.add(jsp);
 
 
 
+        JPanel commandPanelContainer = new JPanel();
+        commandPanelContainer.setBackground(myGray);
+        commandPanelContainer.setBounds(1300,620,250,130);
 
-        JPanel commandPanel = new JPanel();
-        commandPanel.setBackground(Color.ORANGE);
-        commandPanel.setBounds(1300,570,250,180);
+        JLabel commandPanelHeading = new JLabel("Command Panel");
+        commandPanelHeading.setFont(new Font("Serif", Font.PLAIN, 18));
+        commandPanelContainer.add(commandPanelHeading);
 
-        JLabel cmd = new JLabel("Enter your option:");
-        cmd.setFont(new Font("Serif", Font.PLAIN, 18));
-        commandPanel.add(cmd);
-
-
-
-        panel.add(boardPanel);
-        panel.add(pipPanel1);
-        panel.add(pipPanel2);
-        panel.add(messagePanel);
-        panel.add(commandPanel);
+        JTextField userCmd = new JTextField(15);
+        userCmd.setFont(new Font("Serif", Font.PLAIN, 18));
+        userCmd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        commandPanelContainer.add(userCmd);
 
 
+        userCmd.addActionListener(new ActionListener()
+        {
+            String userResponse = new String();
+            public void actionPerformed(ActionEvent e)
+            {
+                userResponse = userCmd.getText();
+                //if user types quit exit the program
+                if(userResponse.equalsIgnoreCase("quit"))
+                    System.exit(0);
+                // clears text when user clicks enter
+                userCmd.setText("");
+//            	System.out.println("Text=" + userResponse);
+            }
+        });
 
 
-        frame.setContentPane(panel);
+//        messageText.append(userCmd.getText());
+//        System.out.println(messageText.getText());
+
+
+        JButton rollDiceButton = new JButton("Roll Dice");
+        // gets rid of dotted border when the button is clicked
+        rollDiceButton.setFocusPainted(false);
+        commandPanelContainer.add(rollDiceButton);
+
+        //DICE ROLL METHOD TO BE IMPLEMENTED IN LATER SPRINTS
+//        rollDice.addActionListener(new ActionListener(){
+//        	public void actionPerformed(ActionEvent e){
+//
+//        	        }
+//        	    });
+
+
+        JButton doublingCubeButton = new JButton("Double");
+        // gets rid of dotted border when the button is clicked
+        doublingCubeButton.setFocusPainted(false);
+        commandPanelContainer.add(doublingCubeButton);
+
+        //DOUBLING CUBE METHOD TO BE IMPLEMENTED IN LATER SPRINTS
+//        doublingCube.addActionListener(new ActionListener(){
+//        	public void actionPerformed(ActionEvent e){
+//
+//        	        }
+//        	    });
+
+
+
+
+        mainPanel.add(boardPanel);
+        mainPanel.add(player1PipPanelContainer);
+        mainPanel.add(player2PipPanelContainer);
+        mainPanel.add(messagePanelContainer);
+        mainPanel.add(commandPanelContainer);
+
+
+
+        frame.setContentPane(mainPanel);
 
         frame.setVisible(true);
 
