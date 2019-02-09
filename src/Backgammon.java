@@ -1,10 +1,13 @@
+import jdk.nashorn.internal.objects.Global;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 public class Backgammon {
-	
+
     public static void main(String args[])
-    { 	
+    {
     	//initialize the frame
     	JFrame frame = new JFrame();
     	frame.setSize(1572, 805);
@@ -68,12 +71,10 @@ public class Backgammon {
         JScrollPane jsp = new JScrollPane(messageText);
         
         messagePanel.add(jsp);       
+
         
         
-        
-        
-        
-        
+
         
         JPanel commandPanel = new JPanel();
         commandPanel.setBackground(Color.ORANGE);
@@ -82,7 +83,7 @@ public class Backgammon {
         JLabel cmd = new JLabel("Enter your option:");
         cmd.setFont(new Font("Serif", Font.PLAIN, 18));
         commandPanel.add(cmd);
-  
+
 
 
         panel.add(boardPanel);
@@ -90,14 +91,15 @@ public class Backgammon {
         panel.add(pipPanel2);
         panel.add(messagePanel);
         panel.add(commandPanel);
-        
+
+
  
 
         frame.setContentPane(panel);
         
         frame.setVisible(true);
-   
-    	
+
+        fillCounterMap();
     	
         //ORIGINAL BORDERLAYOUT ATTEMPT
 //        displayPanel boardPanel = new displayPanel();
@@ -146,5 +148,187 @@ public class Backgammon {
 //        frame.setVisible(true);
                  
         
+    }
+
+    //Given a number between one and 24 a counter if there is one will be sent to the respective bar
+    public static void barCounter(int counterPosition){
+        if(Globals.counterMap[counterPosition].getNumCounters() > 0 && (counterPosition > 0 && counterPosition < 25)){
+            Globals.counterMap[counterPosition].removeCounter();
+            if(Globals.counterMap[counterPosition].getColor() == 1){
+                Globals.counterMap[27].addCounter();
+            } else if(Globals.counterMap[counterPosition].getColor() == 2){
+                Globals.counterMap[26].addCounter();
+            }
+        }
+
+    }
+
+    //Given a position from 1 to 24 and there is a counter that counter will be sent to bear off
+    public static void bearOff(int counterPosition){
+        if(Globals.counterMap[counterPosition].getNumCounters() > 0 && (counterPosition > 0 && counterPosition < 25)){
+            Globals.counterMap[counterPosition].removeCounter();
+            if(Globals.counterMap[counterPosition].getColor() == 1){
+                Globals.counterMap[25].addCounter();
+            } else if(Globals.counterMap[counterPosition].getColor() == 2){
+                Globals.counterMap[0].addCounter();
+            }
+        }
+
+    }
+
+    //Moves a counter from one position to another
+    public static void moveCounter(int currentPosition, int nextPosition){
+        boolean currentPositionInsideBounds = (Globals.counterMap[currentPosition].getNumCounters() > 0 && (currentPosition > 0 && currentPosition < 25));
+        boolean nexPositionInsideBounds = (Globals.counterMap[nextPosition].getNumCounters() > 0 && (nextPosition > 0 && nextPosition < 25));
+
+        if(currentPositionInsideBounds && nexPositionInsideBounds){
+            Globals.counterMap[currentPosition].removeCounter();
+            Globals.counterMap[nextPosition].addCounter();
+        }
+
+    }
+
+    /*
+    CounterMap is a CounterPositions array with 28 spaces That holds a x co-ordinate, a Y co-ordinate, Color,
+    number of counters and wether it is on the top row or not
+    CounterMap[0] is the white bear off location
+    counterMap[1]-[24] is the pip positions
+    counterMap[25] is the white bear off
+    counterMap[26] is the locations for the white bar
+    counterMap[27 is the location for the red bar
+     */
+    public static void fillCounterMap(){
+
+        //Filling counterMap with starting positions and number of checkers in each position
+        //Color 1 = red
+        //Color 2 = white
+        //Color 0 = blank
+        for(int i=0 ;i<Globals.counterMap.length; i++){
+            Globals.counterMap[i] = null;
+        }
+
+        int initialxCo = 1107;
+        int bottomyCo = 625;
+        int topyCo = 40;
+        int triangleBase = 88;
+        int bar = 80;
+
+        for(int i=0; i<=27; i++){
+            switch (i){
+                //White bear off
+                case 0:
+                    Globals.counterMap[i] = new CounterPositions(1220, 615, 2, 0, false);
+                    Globals.counterMap[i].setBearoff(true);
+                    break;
+                case 1:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 1, 2, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 2:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 0, 0, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 3:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 0, 0, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 4:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 0, 0, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 5:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 0, 0, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 6:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 2, 5, false);
+                    initialxCo -= (triangleBase + bar);
+                    break;
+                case 7:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 0, 0, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 8:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 2, 3, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 9:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 0, 0, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 10:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 0, 0, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 11:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 0, 0, false);
+                    initialxCo -= triangleBase;
+                    break;
+                case 12:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, bottomyCo, 1, 5, false);
+                    break;
+                case 13:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 2, 5, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 14:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 0, 0, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 15:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 0, 0, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 16:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 0, 0, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 17:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 1, 3, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 18:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 0, 0, true);
+                    initialxCo += (triangleBase + bar);
+                    break;
+                case 19:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 1, 5, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 20:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 0, 0, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 21:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 0, 0, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 22:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 0, 0, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 23:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 0, 0, true);
+                    initialxCo += triangleBase;
+                    break;
+                case 24:
+                    Globals.counterMap[i] = new CounterPositions(initialxCo, topyCo, 2, 2, true);
+                    initialxCo += triangleBase;
+                    break;
+                //Red bear off
+                case 25 :
+                    Globals.counterMap[i] = new CounterPositions(1220, 90, 1, 0, true);
+                    Globals.counterMap[i].setBearoff(true);
+                    break;
+                //White bar
+                case 26:
+                    Globals.counterMap[i] = new CounterPositions(580, 305, 2, 0, false);
+                    break;
+                //Red bar
+                case 27:
+                    Globals.counterMap[i] = new CounterPositions(580, 370, 1, 0, true);
+                    break;
+            }
+        }
     }
 }
