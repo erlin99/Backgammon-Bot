@@ -78,6 +78,7 @@ public class Backgammon{
 
         JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
         messagePanelText.append(" Enter your option in the command panel below.");
+        messagePanelText.append("\n- Enter \"move red\" or \"move white\" a coloured checker from bar to bear off");
         messagePanelText.setFont(new Font("Serif", Font.PLAIN, 18));
         messagePanelText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         // wraps the text onto the next line
