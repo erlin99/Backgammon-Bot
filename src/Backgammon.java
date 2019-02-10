@@ -6,6 +6,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
 public class Backgammon{
 
     public static void main(String [] args)
@@ -102,7 +103,7 @@ public class Backgammon{
         userCmd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         commandPanelContainer.add(userCmd);
 
-
+        fillCounterMap();
 
         userCmd.addActionListener(new ActionListener()
         {
@@ -117,48 +118,66 @@ public class Backgammon{
 
                 //moving red from bar to bear off as a test for sprint 1 one pip at a time (missing timer to slow it down)
                 if (userResponse.equalsIgnoreCase("move red")){
-                    for (int i = 0; i < 25; i++){
-                        if (i == 0){
-                            moveChecker(1, 27);
-                            frame.repaint();
-                            moveChecker(27, 1);
-                            frame.repaint();
-                        }
-                        else {
-                            Globals.counterMap[i].removeCounter();
-                            if (Globals.counterMap[i + 1].getColor() == 2) {
-                                i++;
-                                Globals.counterMap[i + 1].addCounter();
+
+                    final Timer timer = new Timer(400, null);
+                    timer.addActionListener(new ActionListener() {
+                        int i = -1;
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (i == -1){
+                                moveChecker(1, 27);
+                                frame.repaint();
+                            }
+                            else if (i == 0) {
+                                moveChecker(27, 1);
+                                frame.repaint();
                             }
                             else {
+                                Globals.counterMap[i].removeCounter();
                                 Globals.counterMap[i + 1].addCounter();
+                                frame.repaint();
                             }
-                            frame.repaint();
+                            i++;
+                            if (i > 24) {
+                                timer.stop();
+                            }
                         }
-                    }
+
+                    });
+                    timer.setRepeats(true);
+                    timer.start();
                 }
 
                 //moving white from bar to bear off as a test for sprint 1 (missing timer to slow it down)
                 if (userResponse.equalsIgnoreCase("move white")){
-                    for (int i = 25; i > 0; i--){
-                        if (i == 25) {
-                            moveChecker(24, 26);
-                            frame.repaint();
-                            moveChecker(26, 24);
-                            frame.repaint();
-                        }
-                        else {
-                            Globals.counterMap[i].removeCounter();
-                            if (Globals.counterMap[i - 1].getColor() == 1) {
-                                i--;
-                                Globals.counterMap[i - 1].addCounter();
+                    final Timer timer = new Timer(400, null);
+                    timer.addActionListener(new ActionListener() {
+                        int i = 26;
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (i == 26) {
+                                moveChecker(24, 26);
+                                frame.repaint();
+
+                            }
+                            else if (i == 25) {
+                                moveChecker(26, 24);
+                                frame.repaint();
                             }
                             else {
+                                Globals.counterMap[i].removeCounter();
                                 Globals.counterMap[i - 1].addCounter();
+
+                                frame.repaint();
                             }
-                            frame.repaint();
+                            if (i == 1) {
+                                timer.stop();
+                            }
+                            i--;
                         }
-                    }
+                    });
+                    timer.setRepeats(true);
+                    timer.start();
                 }
 
                 //append the text on to the message box
@@ -205,7 +224,6 @@ public class Backgammon{
 
         frame.setVisible(true);
 
-        fillCounterMap();
     }
 
     public static void moveChecker(int remove, int add){

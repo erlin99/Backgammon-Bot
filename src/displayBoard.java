@@ -1,9 +1,11 @@
-import jdk.nashorn.internal.objects.Global;
+/**
+ * Team name: Arrays start at 1
+ * Team members: 17328173, 17768231,
+ */
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
