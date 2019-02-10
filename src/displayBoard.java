@@ -10,12 +10,6 @@ import java.io.IOException;
 
 public class displayBoard extends JPanel {
 
-    //private BufferedImage boardImage;
-    //private int FRAME_WIDTH = 1080, FRAME_HEIGHT = 720;
-    //public CounterPositions counter = new CounterPositions(30, 30, 30, 1);
-
-    //public CounterPositions counter = new CounterPositions(655, 40, 70, 1);
-
     private BufferedImage image;
 
     public displayBoard() {

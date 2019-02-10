@@ -1,8 +1,12 @@
+/**
+ * Team name: Arrays start at 1
+ * Team members: 17328173, 17768231,
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class Backgammon{
-
 
     public static void main(String args[])
     {
@@ -12,13 +16,10 @@ public class Backgammon{
         frame.setTitle("Backgammon Version 1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
         // the 'null' means the Panel doesn't follow a specific layout manager
         JPanel mainPanel = new JPanel(null);
 
-
         displayBoard boardPanel = new displayBoard();
-//        boardPanel.setPreferredSize(new Dimension(1320, 760));
 
         // the setBounds method takes 4 args
         // first 2 are the x & y coordinates
@@ -28,7 +29,6 @@ public class Backgammon{
         //create a green colour using hex codes close to the board bg green colour
         Color myGreen = Color.decode("#006600");
         Color myGray = Color.decode("#F2F2F2");
-
 
         // the panel to display player1's pip count
         JPanel player1PipPanelContainer = new JPanel();
@@ -50,8 +50,6 @@ public class Backgammon{
         player1PipScoreField.setEditable(false);
         player1PipPanelContainer.add(player1PipScoreField);
 
-
-
         JPanel player2PipPanelContainer = new JPanel();
         player2PipPanelContainer.setBackground(myGreen);
         player2PipPanelContainer.setBounds(650,0,650,30);
@@ -68,9 +66,6 @@ public class Backgammon{
         player2PipScoreField.setFont(new Font("Serif", Font.PLAIN, 15));
         player2PipScoreField.setEditable(false);
         player2PipPanelContainer.add(player2PipScoreField);
-
-
-
 
         JPanel messagePanelContainer = new JPanel();
         messagePanelContainer.setBackground(myGray);
@@ -94,8 +89,6 @@ public class Backgammon{
         JScrollPane jsp = new JScrollPane(messagePanelText);
         messagePanelContainer.add(jsp);
 
-
-
         JPanel commandPanelContainer = new JPanel();
         commandPanelContainer.setBackground(myGray);
         commandPanelContainer.setBounds(1300,620,250,130);
@@ -109,7 +102,6 @@ public class Backgammon{
         userCmd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         commandPanelContainer.add(userCmd);
 
-
         userCmd.addActionListener(new ActionListener()
         {
             String userResponse = new String();
@@ -119,16 +111,16 @@ public class Backgammon{
                 //if user types quit exit the program
                 if(userResponse.equalsIgnoreCase("quit"))
                     System.exit(0);
+
+                //append the text on to the message box
+                messagePanelText.append("\n" + userResponse);
                 // clears text when user clicks enter
                 userCmd.setText("");
-//            	System.out.println("Text=" + userResponse);
+
+                //make sure new text is visible, even if there was a selection in message box
+                messagePanelText.setCaretPosition(messagePanelText.getDocument().getLength());
             }
         });
-
-
-//        messageText.append(userCmd.getText());
-//        System.out.println(messageText.getText());
-
 
         JButton rollDiceButton = new JButton("Roll Dice");
         // gets rid of dotted border when the button is clicked
@@ -142,7 +134,6 @@ public class Backgammon{
 //        	        }
 //        	    });
 
-
         JButton doublingCubeButton = new JButton("Double");
         // gets rid of dotted border when the button is clicked
         doublingCubeButton.setFocusPainted(false);
@@ -155,70 +146,17 @@ public class Backgammon{
 //        	        }
 //        	    });
 
-
-
-
         mainPanel.add(boardPanel);
         mainPanel.add(player1PipPanelContainer);
         mainPanel.add(player2PipPanelContainer);
         mainPanel.add(messagePanelContainer);
         mainPanel.add(commandPanelContainer);
 
-
-
         frame.setContentPane(mainPanel);
 
         frame.setVisible(true);
 
         fillCounterMap();
-
-        //ORIGINAL BORDERLAYOUT ATTEMPT
-//        displayPanel boardPanel = new displayPanel();
-//        boardPanel.setPreferredSize(new Dimension(1320, 760));
-//        frame.add(boardPanel, BorderLayout.LINE_START);
-//
-//        JPanel pipPanel = new JPanel();
-//        pipPanel.setBackground(Color.RED);
-//        pipPanel.setPreferredSize(new Dimension(25, 50));
-//        frame.add(pipPanel, BorderLayout.PAGE_START);
-//
-//        JPanel infoPanel = new JPanel();
-//        infoPanel.setBackground(Color.BLUE);
-//        infoPanel.setPreferredSize(new Dimension(50, 300));
-//        frame.add(infoPanel, BorderLayout.LINE_END);
-
-
-
-     	//BORDER LAYOUT ATTEMPT 2
-//    	JFrame frame = new JFrame();
-//    	frame.setSize(1500, 900);
-//        frame.setTitle("Backgammon Version 1");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//        displayPanel board = new displayPanel();
-//        JPanel pipPanel1 = new JPanel();
-//        pipPanel1.setBackground(Color.RED);
-//        pipPanel1.setPreferredSize(new Dimension(200,30));
-//        JPanel messagePanel = new JPanel();
-//        messagePanel.setPreferredSize(new Dimension(150,550));
-//        messagePanel.setBackground(Color.YELLOW);
-//
-//
-//        JPanel leftPanel = new JPanel(new BorderLayout());
-//
-//
-//        leftPanel.add(pipPanel1, BorderLayout.PAGE_START);
-//        leftPanel.add(board, BorderLayout.CENTER);
-//
-//        JPanel total = new JPanel(new BorderLayout());
-//        total.add(leftPanel, BorderLayout.CENTER);
-//        total.add(messagePanel, BorderLayout.EAST);
-//
-//        frame.add(total);
-//
-//        frame.setVisible(true);
-
-        
     }
 
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
@@ -231,7 +169,6 @@ public class Backgammon{
                 Globals.counterMap[26].addCounter();
             }
         }
-
     }
 
     //Given a position from 1 to 24 and there is a counter that counter will be sent to bear off
@@ -244,7 +181,6 @@ public class Backgammon{
                 Globals.counterMap[0].addCounter();
             }
         }
-
     }
 
     //Moves a counter from one position to another
@@ -256,12 +192,11 @@ public class Backgammon{
             Globals.counterMap[currentPosition].removeCounter();
             Globals.counterMap[nextPosition].addCounter();
         }
-
     }
 
     /*
     CounterMap is a CounterPositions array with 28 spaces That holds a x co-ordinate, a Y co-ordinate, Color,
-    number of counters and wether it is on the top row or not
+    number of counters and whether it is on the top row or not
     CounterMap[0] is the white bear off location
     counterMap[1]-[24] is the pip positions
     counterMap[25] is the white bear off
