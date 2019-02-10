@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 public class Backgammon{
 
-    public static void main(String args[])
+    public static void main(String [] args)
     {
         //initialize the frame
         JFrame frame = new JFrame();
@@ -102,8 +102,11 @@ public class Backgammon{
         userCmd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         commandPanelContainer.add(userCmd);
 
+
+
         userCmd.addActionListener(new ActionListener()
         {
+            int pos  = 1;
             String userResponse = new String();
             public void actionPerformed(ActionEvent e)
             {
@@ -111,6 +114,52 @@ public class Backgammon{
                 //if user types quit exit the program
                 if(userResponse.equalsIgnoreCase("quit"))
                     System.exit(0);
+
+                //moving red from bar to bear off as a test for sprint 1 one pip at a time (missing timer to slow it down)
+                if (userResponse.equalsIgnoreCase("move red")){
+                    for (int i = 0; i < 25; i++){
+                        if (i == 0){
+                            moveChecker(1, 27);
+                            frame.repaint();
+                            moveChecker(27, 1);
+                            frame.repaint();
+                        }
+                        else {
+                            Globals.counterMap[i].removeCounter();
+                            if (Globals.counterMap[i + 1].getColor() == 2) {
+                                i++;
+                                Globals.counterMap[i + 1].addCounter();
+                            }
+                            else {
+                                Globals.counterMap[i + 1].addCounter();
+                            }
+                            frame.repaint();
+                        }
+                    }
+                }
+
+                //moving white from bar to bear off as a test for sprint 1 (missing timer to slow it down)
+                if (userResponse.equalsIgnoreCase("move white")){
+                    for (int i = 25; i > 0; i--){
+                        if (i == 25) {
+                            moveChecker(24, 26);
+                            frame.repaint();
+                            moveChecker(26, 24);
+                            frame.repaint();
+                        }
+                        else {
+                            Globals.counterMap[i].removeCounter();
+                            if (Globals.counterMap[i - 1].getColor() == 1) {
+                                i--;
+                                Globals.counterMap[i - 1].addCounter();
+                            }
+                            else {
+                                Globals.counterMap[i - 1].addCounter();
+                            }
+                            frame.repaint();
+                        }
+                    }
+                }
 
                 //append the text on to the message box
                 messagePanelText.append("\n" + userResponse);
@@ -157,6 +206,11 @@ public class Backgammon{
         frame.setVisible(true);
 
         fillCounterMap();
+    }
+
+    public static void moveChecker(int remove, int add){
+        Globals.counterMap[remove].removeCounter();
+        Globals.counterMap[add].addCounter();
     }
 
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
