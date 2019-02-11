@@ -108,7 +108,6 @@ public class Backgammon{
 
         userCmd.addActionListener(new ActionListener()
         {
-            int pos  = 1;
             String userResponse = new String();
             public void actionPerformed(ActionEvent e)
             {
@@ -219,7 +218,6 @@ public class Backgammon{
         frame.setContentPane(mainPanel);
 
         frame.setVisible(true);
-
     }
 
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
