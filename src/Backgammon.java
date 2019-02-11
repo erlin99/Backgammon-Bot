@@ -225,23 +225,26 @@ public class Backgammon{
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
     public static void barCounter(int counterPosition){
         if(Globals.counterMap[counterPosition].getNumCounters() > 0 && (counterPosition > 0 && counterPosition < 25)){
-            Globals.counterMap[counterPosition].removeCounter();
-            if(Globals.counterMap[counterPosition].getColor() == 1){
-                Globals.counterMap[27].addCounter();
-            } else if(Globals.counterMap[counterPosition].getColor() == 2){
-                Globals.counterMap[26].addCounter();
+            int currentColour = Globals.counterMap[counterPosition].getColor();
+            if(currentColour == 1) {
+                moveCounter(counterPosition, 27);
+            }
+            else if (currentColour == 2) {
+                moveCounter(counterPosition, 26);
             }
         }
     }
 
     //Given a position from 1 to 24 and there is a counter that counter will be sent to bear off
     public static void bearOff(int counterPosition){
+
         if(Globals.counterMap[counterPosition].getNumCounters() > 0 && (counterPosition > 0 && counterPosition < 25)){
-            Globals.counterMap[counterPosition].removeCounter();
-            if(Globals.counterMap[counterPosition].getColor() == 1){
-                Globals.counterMap[25].addCounter();
-            } else if(Globals.counterMap[counterPosition].getColor() == 2){
-                Globals.counterMap[0].addCounter();
+            int currentColour = Globals.counterMap[counterPosition].getColor();
+            if(currentColour == 1) {
+                moveCounter(counterPosition, 25);
+            }
+            else if (currentColour == 2) {
+                moveCounter(counterPosition, 0);
             }
         }
     }
@@ -252,7 +255,11 @@ public class Backgammon{
         boolean nexPositionInsideBounds = (Globals.counterMap[nextPosition].getNumCounters() >= 0 && (nextPosition >= 0 && nextPosition <= 27));
 
         if(currentPositionInsideBounds && nexPositionInsideBounds){
+            int currentColour = Globals.counterMap[currentPosition].getColor();
             Globals.counterMap[currentPosition].removeCounter();
+            if (Globals.counterMap[nextPosition].getColor() == 0) {
+                Globals.counterMap[nextPosition].setColor(currentColour);
+            }
             Globals.counterMap[nextPosition].addCounter();
         }
     }

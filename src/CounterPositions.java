@@ -53,6 +53,9 @@ public class CounterPositions {
 
     public void removeCounter(){
         setNumCounters(getNumCounters() - 1);
+        if (getNumCounters() == 0) {
+            setColor(0);
+        }
     }
 
     public void addCounter(){
