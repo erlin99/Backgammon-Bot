@@ -126,16 +126,15 @@ public class Backgammon{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (i == -1){
-                                moveChecker(1, 27);
+                                barCounter(1);
                                 frame.repaint();
                             }
                             else if (i == 0) {
-                                moveChecker(27, 1);
+                                moveCounter(27, 1);
                                 frame.repaint();
                             }
                             else {
-                                Globals.counterMap[i].removeCounter();
-                                Globals.counterMap[i + 1].addCounter();
+                                moveCounter(i, i + 1);
                                 frame.repaint();
                             }
                             i++;
@@ -143,7 +142,6 @@ public class Backgammon{
                                 timer.stop();
                             }
                         }
-
                     });
                     timer.setRepeats(true);
                     timer.start();
@@ -157,18 +155,15 @@ public class Backgammon{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (i == 26) {
-                                moveChecker(24, 26);
+                                barCounter(24);
                                 frame.repaint();
-
                             }
                             else if (i == 25) {
-                                moveChecker(26, 24);
+                                moveCounter(26, 24);
                                 frame.repaint();
                             }
                             else {
-                                Globals.counterMap[i].removeCounter();
-                                Globals.counterMap[i - 1].addCounter();
-
+                                moveCounter(i, i - 1);
                                 frame.repaint();
                             }
                             if (i == 1) {
@@ -227,11 +222,6 @@ public class Backgammon{
 
     }
 
-    public static void moveChecker(int remove, int add){
-        Globals.counterMap[remove].removeCounter();
-        Globals.counterMap[add].addCounter();
-    }
-
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
     public static void barCounter(int counterPosition){
         if(Globals.counterMap[counterPosition].getNumCounters() > 0 && (counterPosition > 0 && counterPosition < 25)){
@@ -258,8 +248,8 @@ public class Backgammon{
 
     //Moves a counter from one position to another
     public static void moveCounter(int currentPosition, int nextPosition){
-        boolean currentPositionInsideBounds = (Globals.counterMap[currentPosition].getNumCounters() > 0 && (currentPosition > 0 && currentPosition < 25));
-        boolean nexPositionInsideBounds = (Globals.counterMap[nextPosition].getNumCounters() > 0 && (nextPosition > 0 && nextPosition < 25));
+        boolean currentPositionInsideBounds = (Globals.counterMap[currentPosition].getNumCounters() > 0 && (currentPosition >= 0 && currentPosition <= 27));
+        boolean nexPositionInsideBounds = (Globals.counterMap[nextPosition].getNumCounters() >= 0 && (nextPosition >= 0 && nextPosition <= 27));
 
         if(currentPositionInsideBounds && nexPositionInsideBounds){
             Globals.counterMap[currentPosition].removeCounter();
