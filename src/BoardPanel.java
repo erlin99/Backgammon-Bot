@@ -10,11 +10,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class displayBoard extends JPanel {
-
-    private BufferedImage image;
-
-    public displayBoard() {
+public class BoardPanel extends JPanel {
+ 
+	private BufferedImage image;
+    
+    public BoardPanel() 
+    {
         try {
             image = ImageIO.read(new File("boardBackground.png"));
         } catch (IOException ex) {
@@ -31,7 +32,7 @@ public class displayBoard extends JPanel {
 
 
         for(int i = 0; i<=27; i++){
-            Globals.counterMap[i].draw(g2);
+            Backgammon.counterMap[i].draw(g2);
         }
     }
 }

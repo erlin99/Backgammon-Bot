@@ -8,8 +8,8 @@ public class CounterPositions {
     int xCo, yCo, color, numCounters;
     boolean isTopRow;
     boolean isBearoff = false;
-    final int diameter = 55;
-    final int height = 10;
+    final int DIAMETER = 55;
+    final int HEIGHT = 10;
 
     CounterPositions(int xCo, int yCo, int color, int numCounters, boolean isTopRow) {
         this.xCo = xCo;
@@ -19,7 +19,7 @@ public class CounterPositions {
         this.isTopRow = isTopRow;
     }
 
-    //Draw is called in displayBoard to draw counters
+    //Draw is called in DisplayBoard to draw counters
     public void draw(Graphics2D g) // draw must be called by paintComponent of the panel
     {
         //Sets the color of the to be drawn counters
@@ -32,21 +32,32 @@ public class CounterPositions {
         /*If the counters are on the top row their yCo are increased to be drawn towards the bottom of the board
         but if they are not the top row their yCos are negated so they are drawn towards the top
          */
-        if(isTopRow && !isBearoff){
-            for(int i=0; i<getNumCounters(); i++){
-                g.fillOval(xCo, (yCo + ((diameter + 2) * i)), diameter, diameter);
+        if(isTopRow && !isBearoff)
+        {
+            for(int i=0; i<getNumCounters(); i++)
+            {
+                g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
             }
-        } else if(!isTopRow && !isBearoff){
-            for(int i=0; i<getNumCounters(); i++){
-                g.fillOval(xCo, (yCo - ((diameter + 2) * i)), diameter, diameter);
+        } 
+        else if(!isTopRow && !isBearoff)
+        {
+            for(int i=0; i<getNumCounters(); i++)
+            {
+                g.fillOval(xCo, (yCo - ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
             }
-        } else if(!isTopRow && isBearoff){
-            for(int i=0; i<getNumCounters(); i++){
-                g.fillRect(xCo, (yCo - ((height + 2) * i)), diameter, height);
+        } 
+        else if(!isTopRow && isBearoff)
+        {
+            for(int i=0; i<getNumCounters(); i++)
+            {
+                g.fillRect(xCo, (yCo - ((HEIGHT + 2) * i)), DIAMETER, HEIGHT);
             }
-        } else if(isTopRow && isBearoff){
-            for(int i=0; i<getNumCounters(); i++){
-                g.fillRect(xCo, (yCo + ((height + 2) * i)), diameter, height);
+        } 
+        else if(isTopRow && isBearoff)
+        {
+            for(int i=0; i<getNumCounters(); i++)
+            {
+                g.fillRect(xCo, (yCo + ((HEIGHT + 2) * i)), DIAMETER, HEIGHT);
             }
         }
     }
@@ -104,7 +115,7 @@ public class CounterPositions {
     }
 
     public int getDiameter() {
-        return diameter;
+        return DIAMETER;
     }
 
     public boolean isTopRow() {
