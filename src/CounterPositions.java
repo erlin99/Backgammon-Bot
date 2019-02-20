@@ -5,13 +5,14 @@
 import java.awt.*;
 
 public class CounterPositions {
-    int xCo, yCo, color, numCounters;
+    int xCo, yCo, numCounters;
+    char color;
     boolean isTopRow;
     boolean isBearoff = false;
     final int DIAMETER = 55;
     final int HEIGHT = 10;
 
-    CounterPositions(int xCo, int yCo, int color, int numCounters, boolean isTopRow) {
+    CounterPositions(int xCo, int yCo, char color, int numCounters, boolean isTopRow) {
         this.xCo = xCo;
         this.yCo = yCo;
         this.color = color;
@@ -23,9 +24,9 @@ public class CounterPositions {
     public void draw(Graphics2D g) // draw must be called by paintComponent of the panel
     {
         //Sets the color of the to be drawn counters
-        if(color == 1){
+        if(color == 'R'){
             g.setColor(Color.red);
-        } else if(color == 2){
+        } else if(color == 'W'){
             g.setColor(Color.WHITE);
         }
 
@@ -65,7 +66,7 @@ public class CounterPositions {
     public void removeCounter(){
         setNumCounters(getNumCounters() - 1);
         if (getNumCounters() == 0) {
-            setColor(0);
+            setColor('B');
         }
     }
 
@@ -82,7 +83,7 @@ public class CounterPositions {
         this.yCo = yCo;
     }
 
-    public void setColor(int color) {
+    public void setColor(char color) {
         this.color = color;
     }
 
@@ -106,7 +107,7 @@ public class CounterPositions {
         return yCo;
     }
 
-    public int getColor() {
+    public char getColor() {
         return color;
     }
 
