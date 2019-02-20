@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel {
     public BoardPanel() 
     {
         try {
-            image = ImageIO.read(getClass().getResource("boardBackground.png"));
+            image = ImageIO.read(getClass().getResource("boardRed.png"));
         } catch (IOException ex) {
             // handle exception...
             System.out.println(ex);
