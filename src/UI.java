@@ -176,9 +176,7 @@ public class UI {
 
                 //make sure new text is visible, even if there was a selection in message box
                 messagePanelText.setCaretPosition(messagePanelText.getDocument().getLength());
-
             }
-
         });
 
         JButton rollDiceButton = new JButton("Roll Dice");
@@ -210,26 +208,6 @@ public class UI {
         mainPanel.add(player2PipPanelContainer);
         mainPanel.add(messagePanelContainer);
         mainPanel.add(commandPanelContainer);
-
-        userCmd.addActionListener(new ActionListener()
-        {
-            String userResponse = new String();
-            public void actionPerformed(ActionEvent e)
-            {
-                userResponse = userCmd.getText();
-                inputCommands(userResponse);
-
-                //append the text on to the message box
-                messagePanelText.append("\n" + "-" + userResponse);
-                // clears text when user clicks enter
-                userCmd.setText("");
-
-                //make sure new text is visible, even if there was a selection in message box
-                messagePanelText.setCaretPosition(messagePanelText.getDocument().getLength());
-
-            }
-
-        });
 
         for(int i=1; i<=12; i++ ){
             JButton button = new JButton("Hello there");
