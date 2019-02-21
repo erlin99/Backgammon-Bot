@@ -230,6 +230,28 @@ public class UI {
         frame.setContentPane(mainPanel);
 
         frame.setVisible(true);
+    }
 
+    public static void mainMenuUI(){
+        //initialize the frame
+        frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
+        frame.setTitle("Backgammon Menu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel(null);
+
+        MainMenuPanel menuPanel = new MainMenuPanel();
+
+        menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+
+
+        mainPanel.add(menuPanel);
+
+        frame.setContentPane(mainPanel);
+        frame.setVisible(true);
+    }
+
+    public static void main(String [] args) {
+        mainMenuUI();
     }
 }
