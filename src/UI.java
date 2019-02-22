@@ -185,11 +185,16 @@ public class UI {
         commandPanelContainer.add(rollDiceButton);
 
         //DICE ROLL METHOD TO BE IMPLEMENTED IN LATER SPRINTS
-//        rollDice.addActionListener(new ActionListener(){
-//        	public void actionPerformed(ActionEvent e){
-//
-//        	        }
-//        	    });
+        rollDiceButton.addActionListener(new ActionListener()
+        {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		Dice.rollDice();
+        		//**** TEST ANSWERS
+        		System.out.println(Dice.getDie1Value() + " " + Dice.getDie2Value());
+        	}
+        	    
+        });
 
         JButton doublingCubeButton = new JButton("Double");
         // gets rid of dotted border when the button is clicked

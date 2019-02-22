@@ -18,6 +18,7 @@ public class Backgammon
     {
         initializeBoard();
         UI.initializeUI();
+        Dice.initialDiceRoll();
     }
 
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
