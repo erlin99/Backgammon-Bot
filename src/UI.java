@@ -13,6 +13,8 @@ public class UI {
     public static String userResponse = new String();
     public static JFrame frame = new JFrame();
     public static JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
+    // the 'null' means the Panel doesn't follow a specific layout manager
+    public static JPanel mainPanel = new JPanel(null);
 
     public static String getUserInput(){
         return userResponse;
@@ -59,14 +61,21 @@ public class UI {
         if(userResponse.equalsIgnoreCase("next")){
             if(Backgammon.currentPlayer == Backgammon.player1){
                 Backgammon.currentPlayer.setMoveMade(false);
+                Backgammon.currentPlayer.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player2;
             } else {
                 Backgammon.currentPlayer.setMoveMade(false);
+                Backgammon.currentPlayer.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player1;
             }
 
             messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
         }
+    }
+
+    //Method which repaints the main Panel
+    public static void rePaintMainPanel(){
+        mainPanel.repaint();
     }
 
     public static void initializeUI()
@@ -75,9 +84,6 @@ public class UI {
         frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
         frame.setTitle("Backgammon Version 1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // the 'null' means the Panel doesn't follow a specific layout manager
-        JPanel mainPanel = new JPanel(null);
 
         BoardPanel boardPanel = new BoardPanel();
 
@@ -231,19 +237,40 @@ public class UI {
 
         });
 
-        for(int i=1; i<=12; i++ ){
-            JButton button = new JButton("Hello there");
+        /*
+        Creates a button at each of the pips and gives each one an action listener that allows
+        a player to move around the board using clicks
+         */
+        for(int i=0; i<=27; i++ ){
+            JButton button = new JButton();
             button.setLayout(null);
-            button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 150, 50, 260);
+            if(i==0)
+            {
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 140, 50, 180);
+            } else if(i == 25){
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 30, 50, 180);
+            } else if(i <= 12 && i > 0){
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 200, 50, 290);
+            } else if(i > 12 && i <= 24){
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 20, 50, 290);
+            } else if(i == 26){
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 230, 50, 320);
+            } else if(i == 27){
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 20, 50, 320);
+            }
+
+            //Sets each button to be invisible
             button.setOpaque(false);
             button.setContentAreaFilled(false);
             button.setBorderPainted(false);
+
             final int position = i;
             button.addActionListener(new ActionListener() {
                 int buttonPressed = position;
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     messagePanelText.append("\n-You pressed: " + buttonPressed);
+                    Backgammon.currentPlayer.clickMove(position);
                 }
             });
             mainPanel.add(button);
