@@ -20,7 +20,7 @@ public class CounterPositions {
         this.isTopRow = isTopRow;
     }
 
-    //Draw is called in DisplayBoard to draw counters
+    //Draw is called in BoardPanel to draw counters
     public void draw(Graphics2D g) // draw must be called by paintComponent of the panel
     {
         //Sets the color of the to be drawn counters

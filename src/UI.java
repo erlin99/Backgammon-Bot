@@ -78,8 +78,7 @@ public class UI {
         mainPanel.repaint();
     }
 
-    public static void initializeUI()
-    {
+    public static void initializeUI() {
         //initialize the frame
         frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
         frame.setTitle("Backgammon Version 1");
@@ -90,7 +89,7 @@ public class UI {
         // the setBounds method takes 4 args
         // first 2 are the x & y coordinates
         // second 2 are the width & height
-        boardPanel.setBounds(0,30,1300,760);
+        boardPanel.setBounds(0, 30, 1300, 760);
 
         //create a green colour using hex codes close to the board bg green colour
         Color myGreen = Color.decode("#006600");
@@ -99,7 +98,7 @@ public class UI {
         // the panel to display player1's pip count
         JPanel player1PipPanelContainer = new JPanel();
         player1PipPanelContainer.setBackground(myGreen);
-        player1PipPanelContainer.setBounds(0,0,650,30);
+        player1PipPanelContainer.setBounds(0, 0, 650, 30);
 
         // the text showing that it is Player1's pip count
         JLabel player1PipPanelText = new JLabel("Player 1 - Pip Count:");
@@ -118,7 +117,7 @@ public class UI {
 
         JPanel player2PipPanelContainer = new JPanel();
         player2PipPanelContainer.setBackground(myGreen);
-        player2PipPanelContainer.setBounds(650,0,650,30);
+        player2PipPanelContainer.setBounds(650, 0, 650, 30);
 
         JLabel player2PipPanelText = new JLabel("Player 2 - Pip Count:");
         player2PipPanelText.setForeground(Color.WHITE);
@@ -135,7 +134,7 @@ public class UI {
 
         JPanel messagePanelContainer = new JPanel();
         messagePanelContainer.setBackground(myGray);
-        messagePanelContainer.setBounds(1300,0,250,620);
+        messagePanelContainer.setBounds(1300, 0, 250, 620);
 
         JLabel messageHeading = new JLabel("Message box");
         messageHeading.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
@@ -156,7 +155,7 @@ public class UI {
 
         JPanel commandPanelContainer = new JPanel();
         commandPanelContainer.setBackground(myGray);
-        commandPanelContainer.setBounds(1300,620,250,130);
+        commandPanelContainer.setBounds(1300, 620, 250, 130);
 
         JLabel commandPanelHeading = new JLabel("Command Panel");
         commandPanelHeading.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
@@ -167,11 +166,10 @@ public class UI {
         userCmd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         commandPanelContainer.add(userCmd);
 
-        userCmd.addActionListener(new ActionListener()
-        {
+        userCmd.addActionListener(new ActionListener() {
             String userResponse = new String();
-            public void actionPerformed(ActionEvent e)
-            {
+
+            public void actionPerformed(ActionEvent e) {
                 userResponse = userCmd.getText();
                 inputCommands(userResponse);
 
@@ -193,11 +191,16 @@ public class UI {
         commandPanelContainer.add(rollDiceButton);
 
         //DICE ROLL METHOD TO BE IMPLEMENTED IN LATER SPRINTS
-//        rollDice.addActionListener(new ActionListener(){
-//        	public void actionPerformed(ActionEvent e){
-//
-//        	        }
-//        	    });
+        rollDiceButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                Dice.rollDice();
+                //**** TEST ANSWERS
+                System.out.println(Dice.getDie1Value() + " " + Dice.getDie2Value());
+            }
+
+        });
 
         JButton doublingCubeButton = new JButton("Double");
         // gets rid of dotted border when the button is clicked
@@ -217,11 +220,10 @@ public class UI {
         mainPanel.add(messagePanelContainer);
         mainPanel.add(commandPanelContainer);
 
-        userCmd.addActionListener(new ActionListener()
-        {
+        userCmd.addActionListener(new ActionListener() {
             String userResponse = new String();
-            public void actionPerformed(ActionEvent e)
-            {
+
+            public void actionPerformed(ActionEvent e) {
                 userResponse = userCmd.getText();
                 inputCommands(userResponse);
 
@@ -241,21 +243,20 @@ public class UI {
         Creates a button at each of the pips and gives each one an action listener that allows
         a player to move around the board using clicks
          */
-        for(int i=0; i<=27; i++ ){
+        for (int i = 0; i <= 27; i++) {
             JButton button = new JButton();
             button.setLayout(null);
-            if(i==0)
-            {
+            if (i == 0) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 140, 50, 180);
-            } else if(i == 25){
+            } else if (i == 25) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 30, 50, 180);
-            } else if(i <= 12 && i > 0){
+            } else if (i <= 12 && i > 0) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 200, 50, 290);
-            } else if(i > 12 && i <= 24){
+            } else if (i > 12 && i <= 24) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 20, 50, 290);
-            } else if(i == 26){
+            } else if (i == 26) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 230, 50, 320);
-            } else if(i == 27){
+            } else if (i == 27) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 20, 50, 320);
             }
 
@@ -267,6 +268,7 @@ public class UI {
             final int position = i;
             button.addActionListener(new ActionListener() {
                 int buttonPressed = position;
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     messagePanelText.append("\n-You pressed: " + buttonPressed);
@@ -279,6 +281,28 @@ public class UI {
         frame.setContentPane(mainPanel);
 
         frame.setVisible(true);
-
     }
-}
+
+        public static void mainMenuUI () {
+            //initialize the frame
+            frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
+            frame.setTitle("Backgammon Menu");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JPanel mainPanel = new JPanel(null);
+
+            MainMenuPanel menuPanel = new MainMenuPanel();
+
+            menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+
+
+            mainPanel.add(menuPanel);
+
+            frame.setContentPane(mainPanel);
+            frame.setVisible(true);
+        }
+
+        public static void main (String[]args){
+            mainMenuUI();
+        }
+    }

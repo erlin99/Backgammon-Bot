@@ -13,15 +13,13 @@ public class Backgammon
     public static Player player1 = new Player("Player 1", 'R', 167);
     public static Player player2 = new Player("Player 2", 'W', 167);
     public static Player currentPlayer = player1;
-	
-	
-	
+
     public static void main(String [] args)
     {
         initializeBoard();
         UI.initializeUI();
+        Dice.initialDiceRoll();
     }
-
 
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
     public static void sendCounterToBar(int counterPosition)
@@ -61,7 +59,6 @@ public class Backgammon
     //Moves a counter from one position to another
     public static void moveCounter(int currentPosition, int nextPosition)
     {
-
         boolean inbounds = (currentPosition >= 0 && currentPosition <= 27) && (nextPosition >= 0 && nextPosition <= 27);
 
         if(inbounds){
@@ -146,6 +143,5 @@ public class Backgammon
 
         //Red bar
         counterMap[27] = new CounterPositions(580, 370, 'R', 0, true);
-
     }
 }
