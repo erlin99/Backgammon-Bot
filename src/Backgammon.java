@@ -18,6 +18,8 @@ public class Backgammon
     {
         initializeBoard();
 //        UI.initializeUI();
+        player1.setPlayerName("Enda");
+        player2.setPlayerName("Stephen");
         UI.mainMenuUI();
         Dice.initialDiceRoll();
     }

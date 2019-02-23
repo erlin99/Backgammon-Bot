@@ -181,7 +181,6 @@ public class UI {
                 //make sure new text is visible, even if there was a selection in message box
                 messagePanelText.setCaretPosition(messagePanelText.getDocument().getLength());
             }
-
         });
 
         JButton rollDiceButton = new JButton("Roll Dice");
@@ -274,6 +273,21 @@ public class UI {
             MainMenuPanel menuPanel = new MainMenuPanel();
             menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
+            //Setting up text field to enter name of the red checker player
+            JTextField redPlayer = new JTextField();
+            redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+            redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            redPlayer.setBounds(196,374, 418, 35);
+            mainPanel.add(redPlayer);
+
+            //Setting up text field to enter name of the white checker player
+            JTextField whitePlayer = new JTextField();
+            whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+            whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            whitePlayer.setBounds(838,374, 457, 35);
+            mainPanel.add(whitePlayer);
+
+            //Start button
             JButton startButton = new JButton();
             startButton.setLayout(null);
             startButton.setBounds(589, 576, 342, 101);
@@ -281,43 +295,17 @@ public class UI {
             startButton.setContentAreaFilled(false);
             startButton.setBorderPainted(false);
 
+            //When start button is pressed assign the names and initialize game
             startButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-//                    System.exit(0);
+                    String red = redPlayer.getText();
+                    Backgammon.player1.setPlayerName(red);
+
+                    String white = whitePlayer.getText();
+                    Backgammon.player2.setPlayerName(white);
+
                     initializeUI();
-                }
-            });
-
-            JTextField redPlayer = new JTextField();
-            redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
-            redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            redPlayer.setBounds(196,374, 418, 35);
-            mainPanel.add(redPlayer);
-
-            redPlayer.addActionListener(new ActionListener() {
-                String name = new String();
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    name = redPlayer.getText();
-                    Backgammon.player1.setPlayerName(name);
-                }
-            });
-
-            JTextField whitePlayer = new JTextField();
-            whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
-            whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            whitePlayer.setBounds(838,374, 457, 35);
-            mainPanel.add(whitePlayer);
-
-            whitePlayer.addActionListener(new ActionListener() {
-                String name = new String();
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    name = whitePlayer.getText();
-                    Backgammon.player2.setPlayerName(name);
                 }
             });
 
@@ -326,9 +314,5 @@ public class UI {
 
             frame.setContentPane(mainPanel);
             frame.setVisible(true);
-        }
-
-        public static void main (String[]args){
-            mainMenuUI();
         }
     }
