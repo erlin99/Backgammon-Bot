@@ -220,25 +220,6 @@ public class UI {
         mainPanel.add(messagePanelContainer);
         mainPanel.add(commandPanelContainer);
 
-        userCmd.addActionListener(new ActionListener() {
-            String userResponse = new String();
-
-            public void actionPerformed(ActionEvent e) {
-                userResponse = userCmd.getText();
-                inputCommands(userResponse);
-
-                //append the text on to the message box
-                messagePanelText.append("\n" + "-" + userResponse);
-                // clears text when user clicks enter
-                userCmd.setText("");
-
-                //make sure new text is visible, even if there was a selection in message box
-                messagePanelText.setCaretPosition(messagePanelText.getDocument().getLength());
-
-            }
-
-        });
-
         /*
         Creates a button at each of the pips and gives each one an action listener that allows
         a player to move around the board using clicks
@@ -292,11 +273,21 @@ public class UI {
             JPanel mainPanel = new JPanel(null);
 
             MainMenuPanel menuPanel = new MainMenuPanel();
-
             menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
+            JButton startButton = new JButton();
+            startButton.setLayout(null);
+            startButton.setBounds(100, 100, 320, 50);
+
+            startButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            });
 
             mainPanel.add(menuPanel);
+            mainPanel.add(startButton);
 
             frame.setContentPane(mainPanel);
             frame.setVisible(true);
