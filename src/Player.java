@@ -5,12 +5,30 @@ public class Player {
     public String playerColorString;
     public int pipCount;
     public boolean moveMade = false;
+    public int currentPosition = -1;
+    public int nextPosition;
 
     public Player(String playerName, char playerColor, int pipCount) {
         this.playerName = playerName;
         this.playerColor = playerColor;
         this.pipCount = pipCount;
         setColorString();
+    }
+
+    public void clickMove(int position){
+
+        if(!moveMade){
+            if(currentPosition == -1){
+                currentPosition = position;
+                if(Backgammon.counterMap[currentPosition].getColor() != Backgammon.currentPlayer.getPlayerColor()) currentPosition = -1;
+            } else {
+                nextPosition = position;
+                if(Backgammon.counterMap[nextPosition].getColor() == Backgammon.currentPlayer.getPlayerColor() || Backgammon.counterMap[nextPosition].getColor() == 'B' || Backgammon.counterMap[nextPosition].getNumCounters() < 2){
+                    playerMove(currentPosition, nextPosition);
+                    UI.rePaintMainPanel();
+                }
+            }
+        }
     }
 
     private void setColorString(){
@@ -36,7 +54,6 @@ public class Player {
             UI.messagePanelText.append("\nLooks like that is not a valid move!");
         }
     }
-
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;

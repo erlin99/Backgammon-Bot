@@ -15,7 +15,7 @@ public class MainMenuPanel extends JPanel {
     public MainMenuPanel()
     {
         try {
-            image = ImageIO.read(getClass().getResource("boards/menuBackground.png"));
+            image = ImageIO.read(getClass().getResource("boards/Background.png"));
         } catch (IOException ex) {
             // handle exception...
             System.out.println(ex);

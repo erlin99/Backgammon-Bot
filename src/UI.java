@@ -13,6 +13,10 @@ public class UI {
     public static String userResponse = new String();
     public static JFrame frame = new JFrame();
     public static JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
+<<<<<<< HEAD
+=======
+    // the 'null' means the Panel doesn't follow a specific layout manager
+>>>>>>> 42e2c52ada4389e6f7225d28fddde6a14b6716ab
     public static JPanel mainPanel = new JPanel(null);
 
     public static String getUserInput(){
@@ -61,9 +65,11 @@ public class UI {
         if(userResponse.equalsIgnoreCase("next")){
             if(Backgammon.currentPlayer == Backgammon.player1){
                 Backgammon.currentPlayer.setMoveMade(false);
+                Backgammon.currentPlayer.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player2;
             } else {
                 Backgammon.currentPlayer.setMoveMade(false);
+                Backgammon.currentPlayer.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player1;
             }
 
@@ -71,22 +77,23 @@ public class UI {
         }
     }
 
-    public static void initializeUI()
-    {
+    //Method which repaints the main Panel
+    public static void rePaintMainPanel(){
+        mainPanel.repaint();
+    }
+
+    public static void initializeUI() {
         //initialize the frame
         frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
         frame.setTitle("Backgammon Version 1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // the 'null' means the Panel doesn't follow a specific layout manager
-        JPanel mainPanel = new JPanel(null);
 
         BoardPanel boardPanel = new BoardPanel();
 
         // the setBounds method takes 4 args
         // first 2 are the x & y coordinates
         // second 2 are the width & height
-        boardPanel.setBounds(0,30,1300,760);
+        boardPanel.setBounds(0, 30, 1300, 760);
 
         //create a green colour using hex codes close to the board bg green colour
         Color myGreen = Color.decode("#006600");
@@ -95,7 +102,7 @@ public class UI {
         // the panel to display player1's pip count
         JPanel player1PipPanelContainer = new JPanel();
         player1PipPanelContainer.setBackground(myGreen);
-        player1PipPanelContainer.setBounds(0,0,650,30);
+        player1PipPanelContainer.setBounds(0, 0, 650, 30);
 
         // the text showing that it is Player1's pip count
         JLabel player1PipPanelText = new JLabel("Player 1 - Pip Count:");
@@ -114,7 +121,7 @@ public class UI {
 
         JPanel player2PipPanelContainer = new JPanel();
         player2PipPanelContainer.setBackground(myGreen);
-        player2PipPanelContainer.setBounds(650,0,650,30);
+        player2PipPanelContainer.setBounds(650, 0, 650, 30);
 
         JLabel player2PipPanelText = new JLabel("Player 2 - Pip Count:");
         player2PipPanelText.setForeground(Color.WHITE);
@@ -131,7 +138,7 @@ public class UI {
 
         JPanel messagePanelContainer = new JPanel();
         messagePanelContainer.setBackground(myGray);
-        messagePanelContainer.setBounds(1300,0,250,620);
+        messagePanelContainer.setBounds(1300, 0, 250, 620);
 
         JLabel messageHeading = new JLabel("Message box");
         messageHeading.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
@@ -152,7 +159,7 @@ public class UI {
 
         JPanel commandPanelContainer = new JPanel();
         commandPanelContainer.setBackground(myGray);
-        commandPanelContainer.setBounds(1300,620,250,130);
+        commandPanelContainer.setBounds(1300, 620, 250, 130);
 
         JLabel commandPanelHeading = new JLabel("Command Panel");
         commandPanelHeading.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
@@ -163,11 +170,10 @@ public class UI {
         userCmd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         commandPanelContainer.add(userCmd);
 
-        userCmd.addActionListener(new ActionListener()
-        {
+        userCmd.addActionListener(new ActionListener() {
             String userResponse = new String();
-            public void actionPerformed(ActionEvent e)
-            {
+
+            public void actionPerformed(ActionEvent e) {
                 userResponse = userCmd.getText();
                 inputCommands(userResponse);
 
@@ -188,11 +194,21 @@ public class UI {
 
         rollDiceButton.addActionListener(new ActionListener()
         {
+<<<<<<< HEAD
         	public void actionPerformed(ActionEvent e)
         	{
         		Dice.rollDice();
         	}
         	    
+=======
+            public void actionPerformed(ActionEvent e)
+            {
+                Dice.rollDice();
+                //**** TEST ANSWERS
+                System.out.println(Dice.getDie1Value() + " " + Dice.getDie2Value());
+            }
+
+>>>>>>> 42e2c52ada4389e6f7225d28fddde6a14b6716ab
         });
 
         JButton doublingCubeButton = new JButton("Double");
@@ -213,19 +229,40 @@ public class UI {
         mainPanel.add(messagePanelContainer);
         mainPanel.add(commandPanelContainer);
 
-        for(int i=1; i<=12; i++ ){
-            JButton button = new JButton("Hello there");
+        /*
+        Creates a button at each of the pips and gives each one an action listener that allows
+        a player to move around the board using clicks
+         */
+        for (int i = 0; i <= 27; i++) {
+            JButton button = new JButton();
             button.setLayout(null);
-            button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 150, 50, 260);
+            if (i == 0) {
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 140, 50, 180);
+            } else if (i == 25) {
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 30, 50, 180);
+            } else if (i <= 12 && i > 0) {
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 200, 50, 290);
+            } else if (i > 12 && i <= 24) {
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 20, 50, 290);
+            } else if (i == 26) {
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 230, 50, 320);
+            } else if (i == 27) {
+                button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 20, 50, 320);
+            }
+
+            //Sets each button to be invisible
             button.setOpaque(false);
             button.setContentAreaFilled(false);
             button.setBorderPainted(false);
+
             final int position = i;
             button.addActionListener(new ActionListener() {
                 int buttonPressed = position;
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     messagePanelText.append("\n-You pressed: " + buttonPressed);
+                    Backgammon.currentPlayer.clickMove(position);
                 }
             });
             mainPanel.add(button);
@@ -236,26 +273,57 @@ public class UI {
         frame.setVisible(true);
     }
 
-    public static void mainMenuUI(){
-        //initialize the frame
-        frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
-        frame.setTitle("Backgammon Menu");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        public static void mainMenuUI () {
+            //initialize the frame
+            frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
+            frame.setTitle("Backgammon Menu");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel mainPanel = new JPanel(null);
+            JPanel mainPanel = new JPanel(null);
 
-        MainMenuPanel menuPanel = new MainMenuPanel();
+            MainMenuPanel menuPanel = new MainMenuPanel();
+            menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
-        menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+            //Setting up text field to enter name of the red checker player
+            JTextField redPlayer = new JTextField();
+            redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+            redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            redPlayer.setBounds(196,374, 418, 35);
+            mainPanel.add(redPlayer);
 
+            //Setting up text field to enter name of the white checker player
+            JTextField whitePlayer = new JTextField();
+            whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+            whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            whitePlayer.setBounds(838,374, 457, 35);
+            mainPanel.add(whitePlayer);
 
-        mainPanel.add(menuPanel);
+            //Start button
+            JButton startButton = new JButton();
+            startButton.setLayout(null);
+            startButton.setBounds(589, 576, 342, 101);
+            startButton.setOpaque(false);
+            startButton.setContentAreaFilled(false);
+            startButton.setBorderPainted(false);
 
-        frame.setContentPane(mainPanel);
-        frame.setVisible(true);
+            //When start button is pressed assign the names and initialize game
+            startButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String red = redPlayer.getText();
+                    Backgammon.player1.setPlayerName(red);
+
+                    String white = whitePlayer.getText();
+                    Backgammon.player2.setPlayerName(white);
+
+                    initializeUI();
+                }
+            });
+
+            mainPanel.add(menuPanel);
+            mainPanel.add(startButton);
+
+            frame.setContentPane(mainPanel);
+            frame.setVisible(true);
+        }
     }
-
-    public static void main(String [] args) {
-        mainMenuUI();
-    }
-}
