@@ -21,7 +21,6 @@ public class Backgammon
         player1.setPlayerName("Enda");
         player2.setPlayerName("Stephen");
         UI.mainMenuUI();
-        Dice.initialDiceRoll();
     }
 
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar

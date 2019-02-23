@@ -13,10 +13,8 @@ public class UI {
     public static String userResponse = new String();
     public static JFrame frame = new JFrame();
     public static JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
-<<<<<<< HEAD
-=======
+    
     // the 'null' means the Panel doesn't follow a specific layout manager
->>>>>>> 42e2c52ada4389e6f7225d28fddde6a14b6716ab
     public static JPanel mainPanel = new JPanel(null);
 
     public static String getUserInput(){
@@ -194,21 +192,11 @@ public class UI {
 
         rollDiceButton.addActionListener(new ActionListener()
         {
-<<<<<<< HEAD
         	public void actionPerformed(ActionEvent e)
         	{
         		Dice.rollDice();
         	}
         	    
-=======
-            public void actionPerformed(ActionEvent e)
-            {
-                Dice.rollDice();
-                //**** TEST ANSWERS
-                System.out.println(Dice.getDie1Value() + " " + Dice.getDie2Value());
-            }
-
->>>>>>> 42e2c52ada4389e6f7225d28fddde6a14b6716ab
         });
 
         JButton doublingCubeButton = new JButton("Double");
@@ -267,6 +255,8 @@ public class UI {
             });
             mainPanel.add(button);
         }
+        
+        Dice.initialDiceRoll();
 
         frame.setContentPane(mainPanel);
 
