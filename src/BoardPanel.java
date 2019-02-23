@@ -24,7 +24,8 @@ public class BoardPanel extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) 
+    {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters
@@ -33,5 +34,7 @@ public class BoardPanel extends JPanel {
         for(int i = 0; i<=27; i++){
             Backgammon.counterMap[i].draw(g2);
         }
+        
+        Dice.draw(g2);
     }
 }

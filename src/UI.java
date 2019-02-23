@@ -13,10 +13,12 @@ public class UI {
     public static String userResponse = new String();
     public static JFrame frame = new JFrame();
     public static JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
+    public static JPanel mainPanel = new JPanel(null);
 
     public static String getUserInput(){
         return userResponse;
     }
+    
 
     public static void inputCommands(String userResponse){
 
@@ -184,14 +186,11 @@ public class UI {
         rollDiceButton.setFocusPainted(false);
         commandPanelContainer.add(rollDiceButton);
 
-        //DICE ROLL METHOD TO BE IMPLEMENTED IN LATER SPRINTS
         rollDiceButton.addActionListener(new ActionListener()
         {
         	public void actionPerformed(ActionEvent e)
         	{
         		Dice.rollDice();
-        		//**** TEST ANSWERS
-        		System.out.println(Dice.getDie1Value() + " " + Dice.getDie2Value());
         	}
         	    
         });

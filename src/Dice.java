@@ -5,6 +5,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 import java.util.Random;
 
 
@@ -17,11 +18,26 @@ public class Dice
 	private static boolean equalDice = false;
 	private static Random rand = new Random();
 	
+	private static final int DIE_1_X_CO = 953;
+	private static final int DIE_2_X_CO = 773;
+	private static final int DIE_3_X_CO = 343;
+	private static final int DIE_4_X_CO = 163;
+	private static final int DICE_Y_CO = 308;
+	private static final int DICE_SIZE = 100;
+	private static final int DICE_CORNER_RADIUS = 40;
+	private static final int SPOT_RADIUS = 20;
+	
 
 	public static void rollDice()
 	{
+		// reset the equalDice boolean to false (in case it was set to true in the previous roll)
+		equalDice = false;
+		// clear the current dice values
+		UI.frame.repaint();
+		
 		dieValue1 = rand.nextInt(6) + 1;
 		dieValue2 = rand.nextInt(6) + 1;
+		
 	}
 	
 	public static int getDie1Value()
@@ -34,16 +50,12 @@ public class Dice
 		return dieValue2;
 	}
 	
-	public boolean diceAreEqual()
+	public static boolean diceAreEqual()
 	{
 		if(dieValue1 == dieValue2)
-		{
 			equalDice = true;
-			// draw 2 additional dice
-			// return dieValue1 4 times some how
-		}
-		
-		return false;
+	
+		return equalDice;
 	}
 	
 	public static void initialDiceRoll()
@@ -51,12 +63,13 @@ public class Dice
 		do
 		{
 			rollDice();
-//			draw(Graphics2D g);
+			// show the dice by calling the paintComponent method on the main panel
+			UI.frame.repaint();
 			
-			System.out.println(getDie1Value() + " " + getDie2Value());
 			
-			if(dieValue1 == dieValue2)
+			if(diceAreEqual())
 			{
+				//***** ADD TIMER - Want the equal dice to show for a second or two before the new roll
 				UI.messagePanelText.append("\n-The 2 dice have the same value. We must roll again!");
 			}
 			
@@ -73,29 +86,208 @@ public class Dice
 			}
 			
 		}
-		while(dieValue1 == dieValue2);
+		while(diceAreEqual());
 	}
 	
-	
-	public void draw(Graphics2D g) // draw must be called by paintComponent of the panel
+	private static GradientPaint makeColor(float x1, float y1, Color c1, float x2, float y2, Color c2)
 	{
-		/*
-		 * Create a new diePanel that reads in a particular die image depending on the values of getDie1Value()
-		 * and getDie2Value(). Create instances of this panel in UI and repaint it on each new turn after the roll dice
-		 * button is clicked
-		 */
-		//draw
+		GradientPaint whiteGradient = new GradientPaint(x1, y1, c1, x2, y2, c2);
 		
-//		UI.frame.repaint();
+		return whiteGradient;
 	}
 	
-//	public static void main(String [] args)
-//	{
-//		
-//		rollDice();
-//		
-//		System.out.println(getDie1Value() + " " + getDie2Value());
-//	}
+	
+	public static void draw(Graphics2D g) // draw must be called by paintComponent of the panel
+	{
+		
+		GradientPaint whiteGradient1 = makeColor(DIE_1_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
+				(DIE_1_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
+		
+		//set die colour
+	    g.setPaint(whiteGradient1);
+		
+		//drawRoundRect defined by a location (x,y), dimension (w h), and the width and height of an arc with which to round the corners.
+		g.fillRoundRect(DIE_1_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
+		
+		
+		GradientPaint whiteGradient2 = makeColor(DIE_2_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
+				(DIE_2_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
+	    g.setPaint(whiteGradient2);
+		g.fillRoundRect(DIE_2_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
+		
+		// set spot color
+		g.setColor(Color.BLACK);
+		
+		switch(dieValue1)
+		{
+			case 1:
+				//fillOval(int x, int y, int width, int height)
+			    g.fillOval((DIE_1_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+			break;	
+			
+			case 2:
+				g.fillOval((DIE_1_X_CO + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
+			    g.fillOval((DIE_1_X_CO + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);	
+			break;
+				
+			case 3:
+				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
+			break;
+			
+			case 4:
+				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
+			break;
+				
+			case 5:
+				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
+			break;
+					
+			case 6:
+				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
+			break;
+		}
+		
+		
+		switch(dieValue2)
+		{
+			case 1:
+				//fillOval(int x, int y, int width, int height)
+			    g.fillOval((DIE_2_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+			break;	
+			
+			case 2:
+				g.fillOval((DIE_2_X_CO + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
+			    g.fillOval((DIE_2_X_CO + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);	
+			break;
+				
+			case 3:
+				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
+			break;
+			
+			case 4:
+				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
+			break;
+				
+			case 5:
+				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
+			break;
+					
+			case 6:
+				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
+			break;
+		}
+		
+		if(diceAreEqual())
+		{
+			GradientPaint whiteGradient3 = makeColor(DIE_3_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
+					(DIE_3_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
+		    g.setPaint(whiteGradient3);
+		    
+			g.fillRoundRect(DIE_3_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
+			
+			
+			GradientPaint whiteGradient4 = makeColor(DIE_4_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
+					(DIE_4_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
+		    g.setPaint(whiteGradient4);
+			
+			g.fillRoundRect(DIE_4_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
+			
+			// set spot color
+			g.setColor(Color.BLACK);
+			
+			switch(dieValue1)
+			{
+				case 1:
+				    g.fillOval((DIE_3_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				    g.fillOval((DIE_4_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				break;	
+				
+				case 2:
+					g.fillOval((DIE_3_X_CO + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
+				    g.fillOval((DIE_3_X_CO + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);
+				    g.fillOval((DIE_4_X_CO + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
+				    g.fillOval((DIE_4_X_CO + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+					
+				case 3:
+					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+				
+				case 4:
+					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
+					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+					
+				case 5:
+					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);	
+					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+						
+				case 6:
+					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
+					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+			}
+		}
+
+	}
 	
 	
 }
