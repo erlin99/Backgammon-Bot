@@ -180,7 +180,6 @@ public class UI {
 
                 //make sure new text is visible, even if there was a selection in message box
                 messagePanelText.setCaretPosition(messagePanelText.getDocument().getLength());
-
             }
 
         });
@@ -277,12 +276,48 @@ public class UI {
 
             JButton startButton = new JButton();
             startButton.setLayout(null);
-            startButton.setBounds(100, 100, 320, 50);
+            startButton.setBounds(589, 576, 342, 101);
+            startButton.setOpaque(false);
+            startButton.setContentAreaFilled(false);
+            startButton.setBorderPainted(false);
 
             startButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+//                    System.exit(0);
+                    initializeUI();
+                }
+            });
 
+            JTextField redPlayer = new JTextField();
+            redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+            redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            redPlayer.setBounds(196,374, 418, 35);
+            mainPanel.add(redPlayer);
+
+            redPlayer.addActionListener(new ActionListener() {
+                String name = new String();
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    name = redPlayer.getText();
+                    Backgammon.player1.setPlayerName(name);
+                }
+            });
+
+            JTextField whitePlayer = new JTextField();
+            whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+            whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            whitePlayer.setBounds(838,374, 457, 35);
+            mainPanel.add(whitePlayer);
+
+            whitePlayer.addActionListener(new ActionListener() {
+                String name = new String();
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    name = whitePlayer.getText();
+                    Backgammon.player2.setPlayerName(name);
                 }
             });
 

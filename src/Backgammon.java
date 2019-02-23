@@ -17,7 +17,8 @@ public class Backgammon
     public static void main(String [] args)
     {
         initializeBoard();
-        UI.initializeUI();
+//        UI.initializeUI();
+        UI.mainMenuUI();
         Dice.initialDiceRoll();
     }
 

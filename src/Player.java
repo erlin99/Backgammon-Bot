@@ -26,11 +26,9 @@ public class Player {
                 if(Backgammon.counterMap[nextPosition].getColor() == Backgammon.currentPlayer.getPlayerColor() || Backgammon.counterMap[nextPosition].getColor() == 'B' || Backgammon.counterMap[nextPosition].getNumCounters() < 2){
                     playerMove(currentPosition, nextPosition);
                     UI.rePaintMainPanel();
-
                 }
             }
         }
-
     }
 
     private void setColorString(){
@@ -57,7 +55,6 @@ public class Player {
         }
     }
 
-
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
@@ -73,8 +70,6 @@ public class Player {
     public void setMoveMade(boolean moveMade) {
         this.moveMade = moveMade;
     }
-
-
 
     public boolean isMoveMade() {
         return moveMade;
