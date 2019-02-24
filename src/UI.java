@@ -68,6 +68,7 @@ public class UI {
                 Backgammon.currentPlayer.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player1;
             }
+            BoardNumbers.changeBoard(Backgammon.currentPlayer);
 
             messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
         }

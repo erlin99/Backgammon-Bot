@@ -79,6 +79,7 @@ public class Dice
 				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
 				//**** NEED TO FIX ISSUE WHERE RED CAN'T GO NEXT
 			}
+			BoardNumbers.changeBoard(Backgammon.currentPlayer);
 		}
 		while(diceAreEqual());
 	}
