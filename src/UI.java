@@ -34,38 +34,44 @@ public class UI {
 
         //If the user types in move followed by the position of the checker they want to
         //move followed by the position they wish it to move to the checker will move
-        if(scanner.next().equalsIgnoreCase("move") && !Backgammon.currentPlayer.isMoveMade())
-        {
-            try
+        if(scanner.hasNext()){
+            if(scanner.next().equalsIgnoreCase("move") && !Backgammon.currentPlayer.isMoveMade())
             {
-                currentPosition = scanner.nextInt();
-                nextPosition = scanner.nextInt();
-                boolean validMove = Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor();
-
-                if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24){
-                    messagePanelText.append("\n-Please enter your move between 1-24");
-                } else if (!validMove)
+                try
                 {
-                    messagePanelText.append("\n-Please enter a valid move");
-                } else {
-                    Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
-                    frame.repaint();
-                    Backgammon.currentPlayer.setMoveMade(true);
+                    currentPosition = scanner.nextInt();
+                    nextPosition = scanner.nextInt();
+                    boolean validMove = Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor();
+
+                    if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24){
+                        messagePanelText.append("\n-Please enter your move between 1-24");
+                    } else if (!validMove)
+                    {
+                        messagePanelText.append("\n-Please enter a valid move");
+                    } else {
+                        Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
+                        frame.repaint();
+                        Backgammon.currentPlayer.setMoveMade(true);
+                    }
+                } catch(java.util.NoSuchElementException ex)
+                {
+                    messagePanelText.append("\n-Please enter your move in the format: move 1 2");
                 }
-            } catch(java.util.NoSuchElementException ex)
-            {
-                messagePanelText.append("\n-Please enter your move in the format: move 1 2");
             }
         }
 
         if(userResponse.equalsIgnoreCase("next")){
             if(Backgammon.currentPlayer == Backgammon.player1){
-                Backgammon.currentPlayer.setMoveMade(false);
-                Backgammon.currentPlayer.currentPosition = -1;
+                Backgammon.player1.setMoveMade(false);
+                Backgammon.player1.currentPosition = -1;
+                Backgammon.player2.setMoveMade(false);
+                Backgammon.player2.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player2;
             } else {
-                Backgammon.currentPlayer.setMoveMade(false);
-                Backgammon.currentPlayer.currentPosition = -1;
+                Backgammon.player1.setMoveMade(false);
+                Backgammon.player1.currentPosition = -1;
+                Backgammon.player2.setMoveMade(false);
+                Backgammon.player2.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player1;
             }
             BoardNumbers.changeBoard(Backgammon.currentPlayer);
