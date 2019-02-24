@@ -20,6 +20,12 @@ public class Backgammon
         UI.mainMenuUI();
     }
 
+    public static void deSelect(){
+        for(int i=0; i<counterMap.length; i++){
+            counterMap[i].setSelected(false);
+        }
+    }
+
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
     public static void sendCounterToBar(int counterPosition)
     {

@@ -271,6 +271,7 @@ public class UI {
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
+
                     Backgammon.currentPlayer.clickMove(position);
                 }
             });

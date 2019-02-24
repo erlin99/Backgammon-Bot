@@ -9,6 +9,7 @@ public class CounterPositions {
     char color;
     boolean isTopRow;
     boolean isBearoff = false;
+    boolean selected = false;
     final int DIAMETER = 55;
     final int HEIGHT = 10;
 
@@ -33,7 +34,39 @@ public class CounterPositions {
         /*If the counters are on the top row their yCo are increased to be drawn towards the bottom of the board
         but if they are not the top row their yCos are negated so they are drawn towards the top
          */
-        if(isTopRow && !isBearoff)
+        if(selected && isTopRow){
+            for(int i=0; i<getNumCounters(); i++)
+            {
+                g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
+                if(i == getNumCounters()-1){
+                    g.setColor(Color.green);
+                    g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
+                    if(color == 'R'){
+                        g.setColor(Color.red);
+                    } else {
+                        g.setColor(Color.white);
+                    }
+                    g.fillOval(xCo + 5, (yCo + ((DIAMETER + 2) * i) + 5), DIAMETER - 10, DIAMETER - 10);
+                }
+            }
+        }
+        else if(selected && !isTopRow){
+            for(int i=0; i<getNumCounters(); i++)
+            {
+                g.fillOval(xCo, (yCo - ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
+                if(i == getNumCounters()-1){
+                    g.setColor(Color.green);
+                    g.fillOval(xCo, (yCo - ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
+                    if(color == 'R'){
+                        g.setColor(Color.red);
+                    } else {
+                        g.setColor(Color.white);
+                    }
+                    g.fillOval(xCo + 5, (yCo - ((DIAMETER + 2) * i) + 5), DIAMETER - 10, DIAMETER - 10);
+                }
+            }
+        }
+        else if(isTopRow && !isBearoff)
         {
             for(int i=0; i<getNumCounters(); i++)
             {
@@ -97,6 +130,14 @@ public class CounterPositions {
 
     public void setBearoff(boolean bearoff) {
         isBearoff = bearoff;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 
     public int getxCo() {

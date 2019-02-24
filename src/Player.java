@@ -15,20 +15,33 @@ public class Player {
         setColorString();
     }
 
+
+    /*
+    Method which allows player to click to move pieces. This is called from the action listener
+    of each button on the board
+     */
     public void clickMove(int position){
 
         if(!moveMade){
             if(currentPosition == -1){
                 currentPosition = position;
-                if(Backgammon.counterMap[currentPosition].getColor() != Backgammon.currentPlayer.getPlayerColor()) currentPosition = -1;
-            } else {
+                if(Backgammon.counterMap[currentPosition].getColor() != Backgammon.currentPlayer.getPlayerColor()){
+                    currentPosition = -1;
+                } else {
+                    Backgammon.counterMap[currentPosition].setSelected(true);
+                }
+            } else if(position == currentPosition) {
+                currentPosition = -1;
+                Backgammon.deSelect();
+            }
+            else {
                 nextPosition = position;
                 if(Backgammon.counterMap[nextPosition].getColor() == Backgammon.currentPlayer.getPlayerColor() || Backgammon.counterMap[nextPosition].getColor() == 'B' || Backgammon.counterMap[nextPosition].getNumCounters() < 2){
                     playerMove(currentPosition, nextPosition);
-                    UI.rePaintMainPanel();
                 }
             }
         }
+        UI.rePaintMainPanel();
     }
 
     private void setColorString(){
@@ -39,9 +52,14 @@ public class Player {
         }
     }
 
+    //Removes a counter from current Position and adds it to next positions
     public void playerMove(int currentPosition, int nextPosition){
+
         boolean CurrentPositionIsPlayerColor = Backgammon.counterMap[currentPosition].getColor() == getPlayerColor();
         boolean NextPositionAvailable = Backgammon.counterMap[nextPosition].getColor() == getPlayerColor() || Backgammon.counterMap[nextPosition].getColor() == 'B';
+
+        Backgammon.deSelect();
+        UI.rePaintMainPanel();
 
         if(CurrentPositionIsPlayerColor && NextPositionAvailable){
             Backgammon.moveCounter(currentPosition, nextPosition);
