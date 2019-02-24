@@ -188,6 +188,7 @@ public class UI {
         JButton rollDiceButton = new JButton("Roll Dice");
         // gets rid of dotted border when the button is clicked
         rollDiceButton.setFocusPainted(false);
+        rollDiceButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         commandPanelContainer.add(rollDiceButton);
 
         rollDiceButton.addActionListener(new ActionListener()
@@ -202,6 +203,7 @@ public class UI {
         JButton doublingCubeButton = new JButton("Double");
         // gets rid of dotted border when the button is clicked
         doublingCubeButton.setFocusPainted(false);
+        doublingCubeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         commandPanelContainer.add(doublingCubeButton);
 
         //DOUBLING CUBE METHOD TO BE IMPLEMENTED IN LATER SPRINTS
@@ -224,6 +226,7 @@ public class UI {
         for (int i = 0; i <= 27; i++) {
             JButton button = new JButton();
             button.setLayout(null);
+            
             if (i == 0) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() - 140, 50, 180);
             } else if (i == 25) {
@@ -237,6 +240,7 @@ public class UI {
             } else if (i == 27) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 20, 50, 320);
             }
+            
 
             //Sets each button to be invisible
             button.setOpaque(false);
@@ -244,12 +248,12 @@ public class UI {
             button.setBorderPainted(false);
 
             final int position = i;
-            button.addActionListener(new ActionListener() {
-                int buttonPressed = position;
+            button.addActionListener(new ActionListener() 
+            {
 
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    messagePanelText.append("\n-You pressed: " + buttonPressed);
+                public void actionPerformed(ActionEvent e)
+                {
                     Backgammon.currentPlayer.clickMove(position);
                 }
             });
@@ -263,7 +267,8 @@ public class UI {
         frame.setVisible(true);
     }
 
-        public static void mainMenuUI () {
+        public static void mainMenuUI () 
+        {
             //initialize the frame
             frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
             frame.setTitle("Backgammon Menu");
