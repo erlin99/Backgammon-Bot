@@ -30,7 +30,6 @@ public class BoardPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters
 
-
         for(int i = 0; i<=27; i++){
             Backgammon.counterMap[i].draw(g2);
         }

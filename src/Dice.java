@@ -63,7 +63,6 @@ public class Dice
 		
 		if(hasOrHasNot == false)
 			hasRolledDice = false;
-		
 	}
 	
 	public static boolean hasPlayerRolledDice()
@@ -107,6 +106,49 @@ public class Dice
 		return whiteGradient;
 	}
 
+	public static void drawDice(Graphics2D g, int xCoordinate, int diceNumber) {
+		switch (diceNumber) {
+			case 1:
+				g.fillOval(xCoordinate + 40, DICE_Y_CO + 40, SPOT_RADIUS, SPOT_RADIUS);
+				break;
+
+			case 2:
+				g.fillOval((xCoordinate + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+
+			case 3:
+				g.fillOval((xCoordinate + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+
+			case 4:
+				g.fillOval((xCoordinate + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+
+			case 5:
+				g.fillOval((xCoordinate + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+
+			case 6:
+				g.fillOval((xCoordinate + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				g.fillOval((xCoordinate + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
+				break;
+		}
+	}
+
 	public static void draw(Graphics2D g) // draw must be called by paintComponent of the panel
 	{
 		GradientPaint whiteGradient1 = makeColor(DIE_1_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
@@ -117,8 +159,7 @@ public class Dice
 		
 		//drawRoundRect defined by a location (x,y), dimension (w h), and the width and height of an arc with which to round the corners.
 		g.fillRoundRect(DIE_1_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
-		
-		
+
 		GradientPaint whiteGradient2 = makeColor(DIE_2_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
 				(DIE_2_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
 	    g.setPaint(whiteGradient2);
@@ -126,92 +167,9 @@ public class Dice
 		
 		// set spot color
 		g.setColor(Color.BLACK);
-		
-		switch(dieValue1)
-		{
-			case 1:
-				//fillOval(int x, int y, int width, int height)
-			    g.fillOval((DIE_1_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-			break;	
-			
-			case 2:
-				g.fillOval((DIE_1_X_CO + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
-			    g.fillOval((DIE_1_X_CO + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);	
-			break;
-				
-			case 3:
-				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
-			break;
-			
-			case 4:
-				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
-			break;
-				
-			case 5:
-				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
-			break;
-					
-			case 6:
-				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
-			break;
-		}
-		
-		switch(dieValue2)
-		{
-			case 1:
-				//fillOval(int x, int y, int width, int height)
-			    g.fillOval((DIE_2_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-			break;	
-			
-			case 2:
-				g.fillOval((DIE_2_X_CO + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
-			    g.fillOval((DIE_2_X_CO + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);	
-			break;
-				
-			case 3:
-				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
-			break;
-			
-			case 4:
-				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
-			break;
-				
-			case 5:
-				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
-			break;
-					
-			case 6:
-				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-				g.fillOval((DIE_2_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
-			break;
-		}
+
+		Dice.drawDice(g, DIE_1_X_CO, dieValue1);
+		Dice.drawDice(g, DIE_2_X_CO, dieValue2);
 		
 		if(diceAreEqual())
 		{
@@ -220,8 +178,7 @@ public class Dice
 		    g.setPaint(whiteGradient3);
 		    
 			g.fillRoundRect(DIE_3_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
-			
-			
+
 			GradientPaint whiteGradient4 = makeColor(DIE_4_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
 					(DIE_4_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
 		    g.setPaint(whiteGradient4);
@@ -230,69 +187,9 @@ public class Dice
 			
 			// set spot color
 			g.setColor(Color.BLACK);
-			
-			switch(dieValue1)
-			{
-				case 1:
-				    g.fillOval((DIE_3_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-				    g.fillOval((DIE_4_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-				break;	
-				
-				case 2:
-					g.fillOval((DIE_3_X_CO + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
-				    g.fillOval((DIE_3_X_CO + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);
-				    g.fillOval((DIE_4_X_CO + 20), (DICE_Y_CO + 20), SPOT_RADIUS, SPOT_RADIUS);
-				    g.fillOval((DIE_4_X_CO + 60), (DICE_Y_CO + 60), SPOT_RADIUS, SPOT_RADIUS);
-				break;
-					
-				case 3:
-					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				break;
-				
-				case 4:
-					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);	
-					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-				break;
-					
-				case 5:
-					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);	
-					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 40), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-				break;
-						
-				case 6:
-					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_3_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
-					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 15), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 65), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 15), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-					g.fillOval((DIE_4_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);
-				break;
-			}
+
+			Dice.drawDice(g, DIE_3_X_CO, dieValue1);
+			Dice.drawDice(g, DIE_4_X_CO, dieValue1);
 		}
 	}
 }
