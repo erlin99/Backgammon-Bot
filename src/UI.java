@@ -41,6 +41,12 @@ public class UI {
                 {
                     currentPosition = scanner.nextInt();
                     nextPosition = scanner.nextInt();
+
+                    if(Backgammon.currentPlayer.playerColor == 'W'){
+                        currentPosition = 25 - currentPosition;
+                        nextPosition = 25 - nextPosition;
+                    }
+
                     boolean validMove = Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor();
 
                     if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24){
@@ -180,12 +186,14 @@ public class UI {
 
             public void actionPerformed(ActionEvent e) {
                 userResponse = userCmd.getText();
-                inputCommands(userResponse);
 
                 if (!userResponse.equalsIgnoreCase("next")){
                     //append the text on to the message box
                     messagePanelText.append("\n" + "-" + userResponse);
                 }
+
+                inputCommands(userResponse);
+
                 // clears text when user clicks enter
                 userCmd.setText("");
 
