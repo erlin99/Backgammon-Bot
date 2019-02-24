@@ -13,10 +13,10 @@ public class BoardPanel extends JPanel {
  
 	private BufferedImage image;
     
-    public BoardPanel() 
+    public BoardPanel()
     {
         try {
-            image = ImageIO.read(getClass().getResource("boards/boardRed.png"));
+            image = ImageIO.read(getClass().getResource("boards/board.png"));
         } catch (IOException ex) {
             // handle exception...
             System.out.println(ex);
@@ -36,5 +36,6 @@ public class BoardPanel extends JPanel {
         }
         
         Dice.draw(g2);
+        BoardNumbers.draw(g2);
     }
 }

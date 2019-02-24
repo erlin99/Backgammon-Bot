@@ -20,7 +20,6 @@ public class UI {
     public static String getUserInput(){
         return userResponse;
     }
-    
 
     public static void inputCommands(String userResponse){
 
@@ -35,41 +34,47 @@ public class UI {
 
         //If the user types in move followed by the position of the checker they want to
         //move followed by the position they wish it to move to the checker will move
-        if(scanner.next().equalsIgnoreCase("move") && !Backgammon.currentPlayer.isMoveMade())
-        {
-            try
+        if(scanner.hasNext()){
+            if(scanner.next().equalsIgnoreCase("move") && !Backgammon.currentPlayer.isMoveMade())
             {
-                currentPosition = scanner.nextInt();
-                nextPosition = scanner.nextInt();
-                boolean validMove = Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor();
-
-                if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24){
-                    messagePanelText.append("\n-Please enter your move between 1-24");
-                } else if (!validMove)
+                try
                 {
-                    messagePanelText.append("\n-Please enter a valid move");
-                } else {
-                    Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
-                    frame.repaint();
-                    Backgammon.currentPlayer.setMoveMade(true);
-                }
-            } catch(java.util.NoSuchElementException ex)
-            {
-                messagePanelText.append("\n-Please enter your move in the format: move 1 2");
-            }
+                    currentPosition = scanner.nextInt();
+                    nextPosition = scanner.nextInt();
+                    boolean validMove = Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor();
 
+                    if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24){
+                        messagePanelText.append("\n-Please enter your move between 1-24");
+                    } else if (!validMove)
+                    {
+                        messagePanelText.append("\n-Please enter a valid move");
+                    } else {
+                        Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
+                        frame.repaint();
+                        Backgammon.currentPlayer.setMoveMade(true);
+                    }
+                } catch(java.util.NoSuchElementException ex)
+                {
+                    messagePanelText.append("\n-Please enter your move in the format: move 1 2");
+                }
+            }
         }
 
         if(userResponse.equalsIgnoreCase("next")){
             if(Backgammon.currentPlayer == Backgammon.player1){
-                Backgammon.currentPlayer.setMoveMade(false);
-                Backgammon.currentPlayer.currentPosition = -1;
+                Backgammon.player1.setMoveMade(false);
+                Backgammon.player1.currentPosition = -1;
+                Backgammon.player2.setMoveMade(false);
+                Backgammon.player2.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player2;
             } else {
-                Backgammon.currentPlayer.setMoveMade(false);
-                Backgammon.currentPlayer.currentPosition = -1;
+                Backgammon.player1.setMoveMade(false);
+                Backgammon.player1.currentPosition = -1;
+                Backgammon.player2.setMoveMade(false);
+                Backgammon.player2.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player1;
             }
+            BoardNumbers.changeBoard(Backgammon.currentPlayer);
 
             messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
         }
@@ -175,8 +180,10 @@ public class UI {
                 userResponse = userCmd.getText();
                 inputCommands(userResponse);
 
-                //append the text on to the message box
-                messagePanelText.append("\n" + "-" + userResponse);
+                if (!userResponse.equalsIgnoreCase("next")){
+                    //append the text on to the message box
+                    messagePanelText.append("\n" + "-" + userResponse);
+                }
                 // clears text when user clicks enter
                 userCmd.setText("");
 
@@ -197,7 +204,6 @@ public class UI {
         	{
         		Dice.rollDice();
         	}
-        	    
         });
 
         JButton doublingCubeButton = new JButton("Double");
@@ -267,58 +273,59 @@ public class UI {
         frame.setVisible(true);
     }
 
-        public static void mainMenuUI () 
-        {
-            //initialize the frame
-            frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
-            frame.setTitle("Backgammon Menu");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            JPanel mainPanel = new JPanel(null);
+    public static void mainMenuUI () {
+        //initialize the frame
+        frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
+        frame.setTitle("Backgammon Menu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            MainMenuPanel menuPanel = new MainMenuPanel();
-            menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+        JPanel mainPanel = new JPanel(null);
 
-            //Setting up text field to enter name of the red checker player
-            JTextField redPlayer = new JTextField();
-            redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
-            redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            redPlayer.setBounds(196,374, 418, 35);
-            mainPanel.add(redPlayer);
+        MainMenuPanel menuPanel = new MainMenuPanel();
+        menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
-            //Setting up text field to enter name of the white checker player
-            JTextField whitePlayer = new JTextField();
-            whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
-            whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            whitePlayer.setBounds(838,374, 457, 35);
-            mainPanel.add(whitePlayer);
+        //Setting up text field to enter name of the red checker player
+        JTextField redPlayer = new JTextField();
+        redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+        redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        redPlayer.setBounds(196,374, 418, 35);
+        mainPanel.add(redPlayer);
 
-            //Start button
-            JButton startButton = new JButton();
-            startButton.setLayout(null);
-            startButton.setBounds(589, 576, 342, 101);
-            startButton.setOpaque(false);
-            startButton.setContentAreaFilled(false);
-            startButton.setBorderPainted(false);
+        //Setting up text field to enter name of the white checker player
+        JTextField whitePlayer = new JTextField();
+        whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+        whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        whitePlayer.setBounds(838,374, 457, 35);
+        mainPanel.add(whitePlayer);
 
-            //When start button is pressed assign the names and initialize game
-            startButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String red = redPlayer.getText();
-                    Backgammon.player1.setPlayerName(red);
+        //Start button
+        JButton startButton = new JButton();
+        startButton.setLayout(null);
+        startButton.setBounds(589, 576, 342, 101);
+        startButton.setOpaque(false);
+        startButton.setContentAreaFilled(false);
+        startButton.setBorderPainted(false);
 
-                    String white = whitePlayer.getText();
-                    Backgammon.player2.setPlayerName(white);
+        //When start button is pressed assign the names and initialize game
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String red = redPlayer.getText();
+                Backgammon.player1.setPlayerName(red);
 
-                    initializeUI();
-                }
-            });
+                String white = whitePlayer.getText();
+                Backgammon.player2.setPlayerName(white);
 
-            mainPanel.add(menuPanel);
-            mainPanel.add(startButton);
+                initializeUI();
+            }
+        });
 
-            frame.setContentPane(mainPanel);
-            frame.setVisible(true);
-        }
+        mainPanel.add(menuPanel);
+        mainPanel.add(startButton);
+
+        frame.setContentPane(mainPanel);
+        frame.setVisible(true);
     }
+}
+            
