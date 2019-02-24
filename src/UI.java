@@ -75,6 +75,8 @@ public class UI {
                 Backgammon.currentPlayer = Backgammon.player1;
             }
             BoardNumbers.changeBoard(Backgammon.currentPlayer);
+            
+            Dice.playerHasRolledDice(false);
 
             messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
         }
@@ -202,7 +204,16 @@ public class UI {
         {
         	public void actionPerformed(ActionEvent e)
         	{
-        		Dice.rollDice();
+        		if(!(Dice.hasPlayerRolledDice()))
+        		{
+        			Dice.rollDice();
+        			Dice.playerHasRolledDice(true);
+        		}
+        		else
+        		{
+        			UI.messagePanelText.append("\n-You have already rolled this turn.");
+        		}
+        		
         	}
         });
 

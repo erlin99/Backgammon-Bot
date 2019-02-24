@@ -14,6 +14,7 @@ public class Dice
 	private static int dieValue1;
 	private static int dieValue2;
 	private static boolean equalDice = false;
+	private static boolean hasRolledDice = false;
 	private static Random rand = new Random();
 	
 	private static final int DIE_1_X_CO = 953;
@@ -54,6 +55,22 @@ public class Dice
 		return equalDice;
 	}
 	
+	
+	public static void playerHasRolledDice(boolean hasOrHasNot)
+	{
+		if(hasOrHasNot == true)
+			hasRolledDice = true;
+		
+		if(hasOrHasNot == false)
+			hasRolledDice = false;
+		
+	}
+	
+	public static boolean hasPlayerRolledDice()
+	{
+		return hasRolledDice;
+	}
+	
 	public static void initialDiceRoll()
 	{
 		do
@@ -77,7 +94,6 @@ public class Dice
 				Backgammon.player1.setMoveMade(true);
 				Backgammon.currentPlayer = Backgammon.player2;
 				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
-				//**** NEED TO FIX ISSUE WHERE RED CAN'T GO NEXT
 			}
 			BoardNumbers.changeBoard(Backgammon.currentPlayer);
 		}
