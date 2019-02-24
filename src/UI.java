@@ -20,7 +20,6 @@ public class UI {
     public static String getUserInput(){
         return userResponse;
     }
-    
 
     public static void inputCommands(String userResponse){
 
@@ -57,7 +56,6 @@ public class UI {
             {
                 messagePanelText.append("\n-Please enter your move in the format: move 1 2");
             }
-
         }
 
         if(userResponse.equalsIgnoreCase("next")){
@@ -175,8 +173,10 @@ public class UI {
                 userResponse = userCmd.getText();
                 inputCommands(userResponse);
 
-                //append the text on to the message box
-                messagePanelText.append("\n" + "-" + userResponse);
+                if (!userResponse.equalsIgnoreCase("next")){
+                    //append the text on to the message box
+                    messagePanelText.append("\n" + "-" + userResponse);
+                }
                 // clears text when user clicks enter
                 userCmd.setText("");
 
@@ -196,7 +196,6 @@ public class UI {
         	{
         		Dice.rollDice();
         	}
-        	    
         });
 
         JButton doublingCubeButton = new JButton("Double");
@@ -263,57 +262,57 @@ public class UI {
         frame.setVisible(true);
     }
 
-        public static void mainMenuUI () {
-            //initialize the frame
-            frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
-            frame.setTitle("Backgammon Menu");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public static void mainMenuUI () {
+        //initialize the frame
+        frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
+        frame.setTitle("Backgammon Menu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            JPanel mainPanel = new JPanel(null);
+        JPanel mainPanel = new JPanel(null);
 
-            MainMenuPanel menuPanel = new MainMenuPanel();
-            menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+        MainMenuPanel menuPanel = new MainMenuPanel();
+        menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
-            //Setting up text field to enter name of the red checker player
-            JTextField redPlayer = new JTextField();
-            redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
-            redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            redPlayer.setBounds(196,374, 418, 35);
-            mainPanel.add(redPlayer);
+        //Setting up text field to enter name of the red checker player
+        JTextField redPlayer = new JTextField();
+        redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+        redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        redPlayer.setBounds(196,374, 418, 35);
+        mainPanel.add(redPlayer);
 
-            //Setting up text field to enter name of the white checker player
-            JTextField whitePlayer = new JTextField();
-            whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
-            whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            whitePlayer.setBounds(838,374, 457, 35);
-            mainPanel.add(whitePlayer);
+        //Setting up text field to enter name of the white checker player
+        JTextField whitePlayer = new JTextField();
+        whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
+        whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        whitePlayer.setBounds(838,374, 457, 35);
+        mainPanel.add(whitePlayer);
 
-            //Start button
-            JButton startButton = new JButton();
-            startButton.setLayout(null);
-            startButton.setBounds(589, 576, 342, 101);
-            startButton.setOpaque(false);
-            startButton.setContentAreaFilled(false);
-            startButton.setBorderPainted(false);
+        //Start button
+        JButton startButton = new JButton();
+        startButton.setLayout(null);
+        startButton.setBounds(589, 576, 342, 101);
+        startButton.setOpaque(false);
+        startButton.setContentAreaFilled(false);
+        startButton.setBorderPainted(false);
 
-            //When start button is pressed assign the names and initialize game
-            startButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String red = redPlayer.getText();
-                    Backgammon.player1.setPlayerName(red);
+        //When start button is pressed assign the names and initialize game
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String red = redPlayer.getText();
+                Backgammon.player1.setPlayerName(red);
 
-                    String white = whitePlayer.getText();
-                    Backgammon.player2.setPlayerName(white);
+                String white = whitePlayer.getText();
+                Backgammon.player2.setPlayerName(white);
 
-                    initializeUI();
-                }
-            });
+                initializeUI();
+            }
+        });
 
-            mainPanel.add(menuPanel);
-            mainPanel.add(startButton);
+        mainPanel.add(menuPanel);
+        mainPanel.add(startButton);
 
-            frame.setContentPane(mainPanel);
-            frame.setVisible(true);
-        }
+        frame.setContentPane(mainPanel);
+        frame.setVisible(true);
     }
+}

@@ -8,10 +8,8 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Random;
 
-
 //Static Dice class providing static methods, no need to declare a dice class in Backgammon or UI
-
-public class Dice 
+public class Dice
 {
 	private static int dieValue1;
 	private static int dieValue2;
@@ -26,7 +24,6 @@ public class Dice
 	private static final int DICE_SIZE = 100;
 	private static final int DICE_CORNER_RADIUS = 40;
 	private static final int SPOT_RADIUS = 20;
-	
 
 	public static void rollDice()
 	{
@@ -37,7 +34,6 @@ public class Dice
 		
 		dieValue1 = rand.nextInt(6) + 1;
 		dieValue2 = rand.nextInt(6) + 1;
-		
 	}
 	
 	public static int getDie1Value()
@@ -65,8 +61,7 @@ public class Dice
 			rollDice();
 			// show the dice by calling the paintComponent method on the main panel
 			UI.frame.repaint();
-			
-			
+
 			if(diceAreEqual())
 			{
 				//***** ADD TIMER - Want the equal dice to show for a second or two before the new roll
@@ -84,7 +79,6 @@ public class Dice
 				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
 				//**** NEED TO FIX ISSUE WHERE RED CAN'T GO NEXT
 			}
-			
 		}
 		while(diceAreEqual());
 	}
@@ -95,11 +89,9 @@ public class Dice
 		
 		return whiteGradient;
 	}
-	
-	
+
 	public static void draw(Graphics2D g) // draw must be called by paintComponent of the panel
 	{
-		
 		GradientPaint whiteGradient1 = makeColor(DIE_1_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
 				(DIE_1_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
 		
@@ -160,7 +152,6 @@ public class Dice
 				g.fillOval((DIE_1_X_CO + 65), (DICE_Y_CO + 40), SPOT_RADIUS, SPOT_RADIUS);		
 			break;
 		}
-		
 		
 		switch(dieValue2)
 		{
@@ -286,8 +277,5 @@ public class Dice
 				break;
 			}
 		}
-
 	}
-	
-	
 }

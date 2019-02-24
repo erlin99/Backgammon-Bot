@@ -17,10 +17,8 @@ public class Backgammon
     public static void main(String [] args)
     {
         initializeBoard();
-//        UI.initializeUI();
-        player1.setPlayerName("Enda");
-        player2.setPlayerName("Stephen");
-        UI.mainMenuUI();
+        UI.initializeUI();
+//        UI.mainMenuUI();
     }
 
     //Given a number between one and 24 a counter if there is one will be sent to the respective bar
