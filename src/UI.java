@@ -59,27 +59,24 @@ public class UI {
                         frame.repaint();
                         Backgammon.currentPlayer.setMoveMade(true);
                     }
-                } catch(java.util.NoSuchElementException ex)
-                {
+                } catch(java.util.NoSuchElementException ex) {
                     messagePanelText.append("\n-Please enter your move in the format: move 1 2");
                 }
             }
         }
 
         if(userResponse.equalsIgnoreCase("next")){
+            Backgammon.player1.setMoveMade(false);
+            Backgammon.player1.currentPosition = -1;
+            Backgammon.player2.setMoveMade(false);
+            Backgammon.player2.currentPosition = -1;
+
             if(Backgammon.currentPlayer == Backgammon.player1){
-                Backgammon.player1.setMoveMade(false);
-                Backgammon.player1.currentPosition = -1;
-                Backgammon.player2.setMoveMade(false);
-                Backgammon.player2.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player2;
             } else {
-                Backgammon.player1.setMoveMade(false);
-                Backgammon.player1.currentPosition = -1;
-                Backgammon.player2.setMoveMade(false);
-                Backgammon.player2.currentPosition = -1;
                 Backgammon.currentPlayer = Backgammon.player1;
             }
+
             BoardNumbers.changeBoard(Backgammon.currentPlayer);
             
             Dice.playerHasRolledDice(false);
@@ -265,7 +262,6 @@ public class UI {
             } else if (i == 27) {
                 button.setBounds(Backgammon.counterMap[i].getxCo(), Backgammon.counterMap[i].getyCo() + 20, 50, 320);
             }
-            
 
             //Sets each button to be invisible
             button.setOpaque(false);
@@ -275,7 +271,6 @@ public class UI {
             final int position = i;
             button.addActionListener(new ActionListener() 
             {
-
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
