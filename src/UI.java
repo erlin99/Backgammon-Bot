@@ -32,6 +32,11 @@ public class UI {
         if(userResponse.equalsIgnoreCase("quit"))
             System.exit(0);
 
+        
+        if(userResponse.equalsIgnoreCase("cheat"))
+        	Backgammon.setCheatBoard();
+        
+
         //If the user types in move followed by the position of the checker they want to
         //move followed by the position they wish it to move to the checker will move
         if(scanner.hasNext()){

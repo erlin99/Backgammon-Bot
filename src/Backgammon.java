@@ -18,6 +18,7 @@ public class Backgammon
     {
         initializeBoard();
         UI.mainMenuUI();
+          
     }
 
     public static void deSelect(){
@@ -149,4 +150,68 @@ public class Backgammon
         //Red bar
         counterMap[27] = new CounterPositions(580, 370, 'R', 0, true);
     }
+    
+    
+    
+    
+    
+    
+    
+    public static void setCheatBoard()
+    {    	
+        final int[] CHEAT_SET = {2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,3};
+        final char[] CHEAT_SET_COLORS = {'W', 'W', 'W', 'W', 'W', 'W', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'R', 'B', 'R', 'R'};
+
+
+        int x_Co = 1107;
+        int y_Co = 625;
+        final int TOP_Y_CO = 40;
+        final int TRIANGLE_BASE = 88;
+        final int BAR = 80;
+        boolean topRow = false;
+        
+        for(int i=1; i<=24; i++) 
+        {
+            if (i >= 1 && i <= 12) 
+            {
+                counterMap[i] = new CounterPositions(x_Co, y_Co, CHEAT_SET_COLORS[i], CHEAT_SET[i], topRow);
+                x_Co -= TRIANGLE_BASE;
+
+                if (i == 6) x_Co -=  BAR;
+
+                if (i == 12)
+                {
+                    y_Co = TOP_Y_CO;
+                    topRow = true;
+                    x_Co += TRIANGLE_BASE;
+                }
+            } 
+            else if (i >= 13 && i <= 24)
+            {
+                counterMap[i] = new CounterPositions(x_Co, y_Co, CHEAT_SET_COLORS[i], CHEAT_SET[i], topRow);
+                x_Co += TRIANGLE_BASE;
+
+                if (i == 18) x_Co += BAR;
+            }
+        }
+        
+      //White bear off
+        counterMap[0] = new CounterPositions(1220, 615, 'W', 2, false);
+        counterMap[0].setBearoff(true);
+
+        //Red bear off
+        counterMap[25] = new CounterPositions(1220, 90, 'R', 3, true);
+        counterMap[25].setBearoff(true);
+
+        //White bar
+        counterMap[26] = new CounterPositions(580, 305, 'W', 3, false);
+
+        //Red bar
+        counterMap[27] = new CounterPositions(580, 370, 'R', 3, true);
+        
+        UI.rePaintMainPanel();
+   }
+    
+    
+    
 }
