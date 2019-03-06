@@ -15,6 +15,7 @@ public class Dice
 	private static int dieValue2;
 	private static boolean equalDice = false;
 	private static boolean hasRolledDice = false;
+	private static boolean initialRollComplete = false;
 	private static Random rand = new Random();
 	
 	private static final int DIE_1_X_CO = 953;
@@ -35,6 +36,11 @@ public class Dice
 		
 		dieValue1 = rand.nextInt(6) + 1;
 		dieValue2 = rand.nextInt(6) + 1;
+		
+		
+		if(initialRollComplete)
+			Moves.getMoves();
+		
 	}
 	
 	public static int getDie1Value()
@@ -94,7 +100,15 @@ public class Dice
 				Backgammon.currentPlayer = Backgammon.player2;
 				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
 			}
+			
 			BoardNumbers.changeBoard(Backgammon.currentPlayer);
+			
+			// deals with printing of moves to the message box during the initial roll, ensures no redundancy
+			if(!(diceAreEqual()))
+			{
+				Moves.getMoves();
+				initialRollComplete = true;
+			}
 		}
 		while(diceAreEqual());
 	}

@@ -1,3 +1,4 @@
+
 public class Player {
 
     public String playerName;
@@ -7,6 +8,7 @@ public class Player {
     public boolean moveMade = false;
     public int currentPosition = -1;
     public int nextPosition;
+    
 
     public Player(String playerName, char playerColor, int pipCount) {
         this.playerName = playerName;
