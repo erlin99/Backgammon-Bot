@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Team name: Arrays start at 1
  * Team members: 17328173, 17768231, 17419914
@@ -18,11 +20,14 @@ public class Backgammon
     {
         initializeBoard();
         UI.mainMenuUI();
-          
+        
     }
 
-    public static void deSelect(){
-        for(int i=0; i<counterMap.length; i++){
+    // deSelects the green circle around the checker
+    public static void deSelect()
+    {
+        for(int i=0; i<counterMap.length; i++)
+        {
             counterMap[i].setSelected(false);
         }
     }
@@ -152,11 +157,6 @@ public class Backgammon
     }
     
     
-    
-    
-    
-    
-    
     public static void setCheatBoard()
     {    	
         final int[] CHEAT_SET = {2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,3};
@@ -210,7 +210,32 @@ public class Backgammon
         counterMap[27] = new CounterPositions(580, 370, 'R', 3, true);
         
         UI.rePaintMainPanel();
-   }
+    }
+    
+    // called in UI.java at bottom of inputCommands (as this function is used after every iteration of game play/ every move)
+    public static void finishGame(Player player)
+    {
+    	UI.messagePanelText.append("\nCongratulations " + player.playerName + ", You Win!!!");
+    	
+    	UI.messagePanelText.append("\nWould you like to play again?");
+    	UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
+    		
+    	// NEEDS TO BE FIXED
+    	// also need something to freeze the board once the game is over
+    	String userResponse = UI.getUserInput();
+    	
+    	if(userResponse.equalsIgnoreCase("yes"))
+    	{
+    		initializeBoard();
+            UI.mainMenuUI();
+    	}
+    	else if(userResponse.equalsIgnoreCase("no"))
+    	{
+    		System.exit(0);
+    	}
+    	
+    	
+    }
     
     
     

@@ -70,7 +70,8 @@ public class UI {
             }
         }
 
-        if(userResponse.equalsIgnoreCase("next")){
+        if(userResponse.equalsIgnoreCase("next"))
+        {
             Backgammon.player1.setMoveMade(false);
             Backgammon.player1.currentPosition = -1;
             Backgammon.player2.setMoveMade(false);
@@ -87,6 +88,22 @@ public class UI {
             Dice.playerHasRolledDice(false);
 
             messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
+     
+            
+            //**** FOR TESTING
+//            Backgammon.counterMap[25].setNumCounters(15);
+        
+            // game ending conditions
+            if(Backgammon.counterMap[0].getNumCounters() == 15)
+            {
+            	Backgammon.finishGame(Backgammon.player2);
+            }
+            else if(Backgammon.counterMap[25].getNumCounters() == 15)
+            {
+            	Backgammon.finishGame(Backgammon.player1);
+            }
+        
+        
         }
     }
 
