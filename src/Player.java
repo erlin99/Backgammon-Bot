@@ -17,7 +17,6 @@ public class Player {
         setColorString();
     }
 
-
     /*
     Method which allows player to click to move pieces. This is called from the action listener
     of each button on the board

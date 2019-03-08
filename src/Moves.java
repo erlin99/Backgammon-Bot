@@ -11,8 +11,7 @@ public class Moves
 		char currentColor = Backgammon.currentPlayer.getPlayerColor(); 
 		int dieValue1 = Dice.getDie1Value();
 		int dieValue2 = Dice.getDie2Value();
-		
-		
+
 		// clear the array of acceptable moves each time the function is called
 		for(int row=0; row<28; row++)
 		{
@@ -21,8 +20,7 @@ public class Moves
 				arrayOfAcceptableMoves[row][column] = false;
 			}
 		}
-		
-	
+
 		for(int i=1; i<=24; i++)
 		{
 			if(Backgammon.counterMap[i].getColor() == currentColor)
@@ -58,7 +56,6 @@ public class Moves
 							arrayOfAcceptableMoves[i][i+dieValue1+dieValue2] = true;
 						}
 					}
-					
 				}
 				
 				else if(Dice.diceAreEqual())
@@ -94,10 +91,7 @@ public class Moves
 							arrayOfAcceptableMoves[i][i+(dieValue1*3)] = true;
 						}
 					}
-					
 				}
-				
-				
 			}
 		}
 		

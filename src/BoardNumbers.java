@@ -1,11 +1,10 @@
-import javax.swing.*;
-import javax.swing.text.StyledEditorKit;
-import java.awt.*;
-
 /**
  * Team name: Arrays start at 1
  * Team members: 17328173, 17768231, 17419914
  */
+
+import javax.swing.*;
+import java.awt.*;
 
 public class BoardNumbers extends JPanel {
 
@@ -25,22 +24,22 @@ public class BoardNumbers extends JPanel {
         g.setFont(new Font("default", Font.BOLD, 16));
 
         if (currentPlayer == 'R') {
-            for (int i = 1; i <= 24; i++) {
-                if (i <= 12) {
-                    g.drawString(Integer.toString(i), XCOORDINATES[24 - i], BOTTOMY);
+            for (int i = 24; i > 0; i--) {
+                if (i <= 13) {
+                    g.drawString(Integer.toString(i), XCOORDINATES[i - 1], BOTTOMY);
                 }
                 else {
-                    g.drawString(Integer.toString(i), XCOORDINATES[24 - i], TOPY);
+                    g.drawString(Integer.toString(i), XCOORDINATES[i - 1], TOPY);
                 }
             }
         }
         else if (currentPlayer == 'W') {
-            for (int i = 1; i <= 24; i++) {
-                if (i <= 12) {
-                    g.drawString(Integer.toString(i), XCOORDINATES[i-1], TOPY);
+            for (int i = 24; i > 0; i--) {
+                if (i >= 13) {
+                    g.drawString(Integer.toString(i), XCOORDINATES[24-i], TOPY);
                 }
                 else {
-                    g.drawString(Integer.toString(i), XCOORDINATES[i-1], BOTTOMY);
+                    g.drawString(Integer.toString(i), XCOORDINATES[24-i], BOTTOMY);
                 }
             }
         }
