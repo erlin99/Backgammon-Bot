@@ -5,7 +5,7 @@
 import java.awt.*;
 
 public class CounterPositions {
-    int xCo, yCo, numCounters;
+    int xCo, yCo, numCounters, pipNumber;
     char color;
     boolean isTopRow;
     boolean isBearoff = false;
@@ -13,12 +13,13 @@ public class CounterPositions {
     final int DIAMETER = 55;
     final int HEIGHT = 10;
 
-    CounterPositions(int xCo, int yCo, char color, int numCounters, boolean isTopRow) {
+    CounterPositions(int xCo, int yCo, char color, int numCounters, boolean isTopRow, int pipNumber) {
         this.xCo = xCo;
         this.yCo = yCo;
         this.color = color;
         this.numCounters = numCounters;
         this.isTopRow = isTopRow;
+        this.pipNumber = pipNumber;
     }
 
     //Draw is called in BoardPanel to draw counters
@@ -49,6 +50,8 @@ public class CounterPositions {
                     g.fillOval(xCo + 5, (yCo + ((DIAMETER + 2) * i) + 5), DIAMETER - 10, DIAMETER - 10);
                 }
             }
+
+            drawAllMoves(g);
         }
         else if(selected && !isTopRow){
             for(int i=0; i<getNumCounters(); i++)
@@ -65,6 +68,7 @@ public class CounterPositions {
                     g.fillOval(xCo + 5, (yCo - ((DIAMETER + 2) * i) + 5), DIAMETER - 10, DIAMETER - 10);
                 }
             }
+            drawAllMoves(g);
         }
         else if(isTopRow && !isBearoff)
         {
@@ -100,6 +104,38 @@ public class CounterPositions {
         setNumCounters(getNumCounters() - 1);
         if (getNumCounters() == 0) {
             setColor('B');
+        }
+    }
+
+    //Draws a green circle to symbolise that it is a possible move
+    public void drawPossibleMove(Graphics2D g){
+        if(isTopRow){
+            for(int i=0; i<=getNumCounters(); i++)
+            {
+                if(i == getNumCounters()){
+                    g.setColor(Color.green);
+                    g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
+                }
+            }
+        } else if(!isTopRow){
+            for(int i=0; i<=getNumCounters(); i++)
+            {
+                if(i == getNumCounters()){
+                    g.setColor(Color.green);
+                    g.fillOval(xCo, (yCo - ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
+                }
+            }
+        }
+    }
+
+    //Calls the drawPossibleMove function on each move that is returned to be a valid move from possibleMoves
+    public void drawAllMoves(Graphics2D g){
+        boolean[][] possibleMoves = Moves.getMoves();
+
+        for(int i=0; i<28; i++){
+            if(possibleMoves[pipNumber][i]){
+                Backgammon.counterMap[i].drawPossibleMove(g);
+            }
         }
     }
 

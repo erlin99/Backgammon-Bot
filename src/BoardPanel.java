@@ -33,8 +33,11 @@ public class BoardPanel extends JPanel {
         for(int i = 0; i<=27; i++){
             Backgammon.counterMap[i].draw(g2);
         }
-        
+
+
         Dice.draw(g2);
         BoardNumbers.draw(g2);
     }
+
+
 }

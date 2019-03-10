@@ -6,7 +6,7 @@ public class Moves
 	private static boolean[][] arrayOfAcceptableMoves = new boolean[28][28];
 	
 	// fills the 'arrayOfAcceptableMoves' with acceptable moves
-	public static void getMoves()
+	public static boolean[][] getMoves()
 	{
 		char currentColor = Backgammon.currentPlayer.getPlayerColor(); 
 		int dieValue1 = Dice.getDie1Value();
@@ -96,8 +96,9 @@ public class Moves
 		}
 		
 		printMoves();
+		return arrayOfAcceptableMoves;
 	}
-	
+
 	// writes list of moves to the message box in the format specified on the Trello board
 	public static void printMoves()
 	{
@@ -120,6 +121,10 @@ public class Moves
 	private static boolean acceptableMove(CounterPositions position)
 	{
 //		TODO
-		return true;
+		boolean sameColor = position.getColor() == Backgammon.currentPlayer.getPlayerColor();
+		boolean oneCounterOrEmpty = position.getNumCounters() <= 1;
+
+
+		return sameColor || oneCounterOrEmpty;
 	}
 }
