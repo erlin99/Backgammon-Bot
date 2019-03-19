@@ -47,19 +47,19 @@ public class UI {
                     currentPosition = scanner.nextInt();
                     nextPosition = scanner.nextInt();
 
-                    if(Backgammon.currentPlayer.playerColor == 'W'){
+/*                    if(Backgammon.currentPlayer.playerColor == 'W'){
                         currentPosition = 25 - currentPosition;
                         nextPosition = 25 - nextPosition;
-                    }
-
-                    boolean validMove = Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor();
+                    }*/
 
                     if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24){
                         messagePanelText.append("\n-Please enter your move between 1-24");
-                    } else if (!validMove)
+                    }
+                    else if (!Moves.getMoves()[currentPosition][nextPosition])
                     {
                         messagePanelText.append("\n-Please enter a valid move");
-                    } else {
+                    }
+                    else {
                         Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
                         frame.repaint();
                         Backgammon.currentPlayer.setMoveMade(true);
@@ -72,38 +72,40 @@ public class UI {
 
         if(userResponse.equalsIgnoreCase("next"))
         {
-            Backgammon.player1.setMoveMade(false);
-            Backgammon.player1.currentPosition = -1;
-            Backgammon.player2.setMoveMade(false);
-            Backgammon.player2.currentPosition = -1;
+            next();
+        }
+    }
 
-            if(Backgammon.currentPlayer == Backgammon.player1){
-                Backgammon.currentPlayer = Backgammon.player2;
-            } else {
-                Backgammon.currentPlayer = Backgammon.player1;
-            }
+    public static void next(){
+        Backgammon.player1.setMoveMade(false);
+        Backgammon.player1.currentPosition = -1;
+        Backgammon.player2.setMoveMade(false);
+        Backgammon.player2.currentPosition = -1;
 
-            BoardNumbers.changeBoard(Backgammon.currentPlayer);
-            
-            Dice.playerHasRolledDice(false);
+        if(Backgammon.currentPlayer == Backgammon.player1){
+            Backgammon.currentPlayer = Backgammon.player2;
+        } else {
+            Backgammon.currentPlayer = Backgammon.player1;
+        }
 
-            messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
-     
-            
-            //**** FOR TESTING
+        BoardNumbers.changeBoard(Backgammon.currentPlayer);
+
+        Dice.playerHasRolledDice(false);
+
+        messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
+
+
+        //**** FOR TESTING
 //            Backgammon.counterMap[25].setNumCounters(15);
-        
-            // game ending conditions
-            if(Backgammon.counterMap[0].getNumCounters() == 15)
-            {
-            	Backgammon.finishGame(Backgammon.player2);
-            }
-            else if(Backgammon.counterMap[25].getNumCounters() == 15)
-            {
-            	Backgammon.finishGame(Backgammon.player1);
-            }
-        
-        
+
+        // game ending conditions
+        if(Backgammon.counterMap[0].getNumCounters() == 15)
+        {
+            Backgammon.finishGame(Backgammon.player2);
+        }
+        else if(Backgammon.counterMap[25].getNumCounters() == 15)
+        {
+            Backgammon.finishGame(Backgammon.player1);
         }
     }
 
@@ -244,6 +246,20 @@ public class UI {
         	}
         });
 
+        JButton nextButton = new JButton("Next Turn");
+        // gets rid of dotted border when the button is clicked
+        nextButton.setFocusPainted(false);
+        nextButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        commandPanelContainer.add(nextButton);
+
+        nextButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                next();
+            }
+        });
+
         JButton doublingCubeButton = new JButton("Double");
         // gets rid of dotted border when the button is clicked
         doublingCubeButton.setFocusPainted(false);
@@ -304,6 +320,7 @@ public class UI {
         }
         
         Dice.initialDiceRoll();
+        Moves.printMoves();
 
         frame.setContentPane(mainPanel);
 

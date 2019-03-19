@@ -20,7 +20,7 @@ public class Backgammon
     {
         initializeBoard();
         UI.mainMenuUI();
-        
+
     }
 
     // deSelects the green circle around the checker

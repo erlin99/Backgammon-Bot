@@ -56,18 +56,20 @@ public class Player {
     //Removes a counter from current Position and adds it to next positions
     public void playerMove(int currentPosition, int nextPosition){
 
-        boolean CurrentPositionIsPlayerColor = Backgammon.counterMap[currentPosition].getColor() == getPlayerColor();
-        boolean NextPositionAvailable = Backgammon.counterMap[nextPosition].getColor() == getPlayerColor() || Backgammon.counterMap[nextPosition].getColor() == 'B';
-
+        //Resets the visual of the board
         Backgammon.deSelect();
         UI.rePaintMainPanel();
 
-        if(CurrentPositionIsPlayerColor && NextPositionAvailable){
-            Backgammon.moveCounter(currentPosition, nextPosition);
-            moveMade = true;
-        } else if(Backgammon.counterMap[nextPosition].getNumCounters() < 2) {
-            Backgammon.takeCounter(currentPosition, nextPosition);
-            moveMade = true;
+        //If the move is valid move it there. If there is only one counter take that counter
+        if(Moves.getMoves()[currentPosition][nextPosition]){
+            if(Backgammon.counterMap[nextPosition].getNumCounters() < 2 && Backgammon.counterMap[nextPosition].getColor() != Backgammon.currentPlayer.getPlayerColor()){
+                Backgammon.takeCounter(currentPosition, nextPosition);
+                moveMade = true;
+            }
+            else {
+                Backgammon.moveCounter(currentPosition, nextPosition);
+                moveMade = true;
+            }
         }
         else {
             UI.messagePanelText.append("\nLooks like that is not a valid move!");

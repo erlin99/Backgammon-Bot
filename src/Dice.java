@@ -40,6 +40,7 @@ public class Dice
 		
 		if(initialRollComplete)
 			Moves.getMoves();
+			Moves.printMoves();
 		
 	}
 	

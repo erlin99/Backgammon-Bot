@@ -109,7 +109,26 @@ public class CounterPositions {
 
     //Draws a green circle to symbolise that it is a possible move
     public void drawPossibleMove(Graphics2D g){
-        if(isTopRow){
+
+        if(isTopRow && isBearoff){
+            for(int i=0; i<=getNumCounters(); i++)
+            {
+                if(i == getNumCounters()){
+                    g.setColor(Color.green);
+                    g.fillRect(xCo, (yCo + ((HEIGHT + 2) * i)), DIAMETER, HEIGHT);;
+                }
+            }
+        }
+        else if(!isTopRow && isBearoff){
+            for(int i=0; i<=getNumCounters(); i++)
+            {
+                if(i == getNumCounters()){
+                    g.setColor(Color.green);
+                    g.fillRect(xCo, (yCo - ((HEIGHT + 2) * i)), DIAMETER, HEIGHT);;
+                }
+            }
+        }
+        else if(isTopRow){
             for(int i=0; i<=getNumCounters(); i++)
             {
                 if(i == getNumCounters()){
@@ -117,7 +136,8 @@ public class CounterPositions {
                     g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
                 }
             }
-        } else if(!isTopRow){
+        }
+        else if(!isTopRow){
             for(int i=0; i<=getNumCounters(); i++)
             {
                 if(i == getNumCounters()){
