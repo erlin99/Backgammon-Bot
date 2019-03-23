@@ -23,6 +23,14 @@ public class Backgammon
 
     }
 
+    public static boolean isBarred(){
+        if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
+            return Backgammon.counterMap[26].getNumCounters() > 0;
+        } else {
+            return Backgammon.counterMap[27].getNumCounters() > 0;
+        }
+    }
+
     // deSelects the green circle around the checker
     public static void deSelect()
     {
