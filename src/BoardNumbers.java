@@ -2,7 +2,6 @@
  * Team name: Arrays start at 1
  * Team members: 17328173, 17768231, 17419914
  */
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,7 +18,7 @@ public class BoardNumbers extends JPanel {
         UI.frame.repaint();
     }
 
-    public static void draw(Graphics2D g){
+    public static void draw(Graphics2D g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("default", Font.BOLD, 16));
 

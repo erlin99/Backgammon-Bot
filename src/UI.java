@@ -1,3 +1,7 @@
+/**
+ * Team name: Arrays start at 1
+ * Team members: 17328173, 17768231, 17419914
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +25,7 @@ public class UI {
         return userResponse;
     }
 
-    public static void inputCommands(String userResponse){
+    public static void inputCommands(String userResponse) {
 
         int currentPosition;
         int nextPosition;
@@ -31,7 +35,6 @@ public class UI {
         //if user types quit exit the program
         if(userResponse.equalsIgnoreCase("quit"))
             System.exit(0);
-
         
         if(userResponse.equalsIgnoreCase("cheat"))
         	Backgammon.setCheatBoard();
@@ -41,22 +44,21 @@ public class UI {
                 try {
                     nextPosition = scanner.nextInt();
 
-                    if(Backgammon.currentPlayer.playerColor == 'W'){
+                    if(Backgammon.currentPlayer.playerColor == 'W') {
                         currentPosition = 26;
                     } else {
                         currentPosition = 27;
                     }
 
-                    if(Moves.getMoves()[currentPosition][nextPosition]){
+                    if(Moves.getMoves()[currentPosition][nextPosition]) {
                         Backgammon.moveCounter(currentPosition, nextPosition);
 
-                        if(Dice.diceAreEqual()){
+                        if(Dice.diceAreEqual()) {
                             Player.setDiceIfDoubles(currentPosition, nextPosition, false);
                         } else {
                             Player.setDice(currentPosition, nextPosition, false);
                         }
                     }
-
                 } catch(java.util.NoSuchElementException ex) {
                     messagePanelText.append("\n-Please enter your move in the format: bar 2");
                 }
@@ -71,20 +73,19 @@ public class UI {
                 try {
                     currentPosition = scanner.nextInt();
 
-                    if(Backgammon.currentPlayer.playerColor == 'W'){
+                    if(Backgammon.currentPlayer.playerColor == 'W') {
                         nextPosition = 0;
                     } else {
                         nextPosition = 25;
                     }
 
-                    if(Moves.getMoves()[currentPosition][nextPosition]){
+                    if(Moves.getMoves()[currentPosition][nextPosition]) {
                         Backgammon.bearCounterOff(currentPosition);
-                        if(Dice.diceAreEqual()){
+                        if(Dice.diceAreEqual()) {
                             Player.setDiceIfDoubles(currentPosition, nextPosition, false);
                         } else {
                             Player.setDice(currentPosition, nextPosition, false);
                         }
-
                     }
                 } catch(java.util.NoSuchElementException ex) {
                     messagePanelText.append("\n-Please enter your move in the format: bar 2");
@@ -96,25 +97,22 @@ public class UI {
 
         //If the user types in move followed by the position of the checker they want to
         //move followed by the position they wish it to move to the checker will move
-        if(scanner.hasNext()){
-            if(scanner.next().equalsIgnoreCase("move") && !Backgammon.currentPlayer.isMoveMade())
-            {
-                try
-                {
+        if(scanner.hasNext()) {
+            if(scanner.next().equalsIgnoreCase("move") && !Backgammon.currentPlayer.isMoveMade()) {
+                try {
                     currentPosition = scanner.nextInt();
                     nextPosition = scanner.nextInt();
 
-                    if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24){
+                    if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24) {
                         messagePanelText.append("\n-Please enter your move between 1-24");
                     }
-                    else if (!Moves.getMoves()[currentPosition][nextPosition])
-                    {
+                    else if (!Moves.getMoves()[currentPosition][nextPosition]) {
                         messagePanelText.append("\n-Please enter a valid move");
                     }
                     else {
                         Boolean bar = Backgammon.isBarred();
                         Player.playerMove(currentPosition, nextPosition);
-                        if(Dice.diceAreEqual()){
+                        if(Dice.diceAreEqual()) {
                             Player.setDiceIfDoubles(currentPosition, nextPosition, bar);
                         } else {
                             Player.setDice(currentPosition, nextPosition, bar);
@@ -122,7 +120,6 @@ public class UI {
 
                         Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
                         frame.repaint();
-
                     }
                 } catch(java.util.NoSuchElementException ex) {
                     messagePanelText.append("\n-Please enter your move in the format: move 1 2");
@@ -130,8 +127,7 @@ public class UI {
             }
         }
 
-        if(userResponse.equalsIgnoreCase("next"))
-        {
+        if(userResponse.equalsIgnoreCase("next")) {
             next();
         }
 
@@ -146,7 +142,7 @@ public class UI {
 
         Backgammon.deSelect();
 
-        if(Backgammon.currentPlayer == Backgammon.player1){
+        if(Backgammon.currentPlayer == Backgammon.player1) {
             Backgammon.currentPlayer = Backgammon.player2;
         } else {
             Backgammon.currentPlayer = Backgammon.player1;
@@ -158,17 +154,14 @@ public class UI {
 
         messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
 
-
         //**** FOR TESTING
 //            Backgammon.counterMap[25].setNumCounters(15);
 
         // game ending conditions
-        if(Backgammon.counterMap[0].getNumCounters() == 15)
-        {
+        if(Backgammon.counterMap[0].getNumCounters() == 15) {
             Backgammon.finishGame(Backgammon.player2);
         }
-        else if(Backgammon.counterMap[25].getNumCounters() == 15)
-        {
+        else if(Backgammon.counterMap[25].getNumCounters() == 15) {
             Backgammon.finishGame(Backgammon.player1);
         }
     }
@@ -272,7 +265,7 @@ public class UI {
             public void actionPerformed(ActionEvent e) {
                 userResponse = userCmd.getText();
 
-                if (!userResponse.equalsIgnoreCase("next")){
+                if (!userResponse.equalsIgnoreCase("next")) {
                     //append the text on to the message box
                     messagePanelText.append("\n" + "-" + userResponse);
                 }
@@ -293,20 +286,15 @@ public class UI {
         rollDiceButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         commandPanelContainer.add(rollDiceButton);
 
-        rollDiceButton.addActionListener(new ActionListener()
-        {
-        	public void actionPerformed(ActionEvent e)
-        	{
-        		if(!(Dice.hasPlayerRolledDice()))
-        		{
+        rollDiceButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(!(Dice.hasPlayerRolledDice())) {
         			Dice.rollDice();
         			Dice.playerHasRolledDice(true);
         		}
-        		else
-        		{
+        		else {
         			UI.messagePanelText.append("\n-You have already rolled this turn.");
         		}
-        		
         	}
         });
 
@@ -316,8 +304,7 @@ public class UI {
         nextButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         commandPanelContainer.add(nextButton);
 
-        nextButton.addActionListener(new ActionListener()
-        {
+        nextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
                 next();
@@ -371,12 +358,9 @@ public class UI {
             button.setBorderPainted(false);
 
             final int position = i;
-            button.addActionListener(new ActionListener() 
-            {
+            button.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e)
-                {
-
+                public void actionPerformed(ActionEvent e) {
                     Backgammon.currentPlayer.clickMove(position);
                 }
             });
