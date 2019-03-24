@@ -131,9 +131,9 @@ public class Moves {
 						}
 					}
 				}
-				if (correctBearOff()) {
+//				if (correctBearOff()) {
 					bearOffMoves(i);
-				}
+//				}
 			}
 		}
 		return arrayOfAcceptableMoves;
@@ -245,8 +245,20 @@ public class Moves {
 		for(int row = 0; row<28; row++) {
 			for(int column=0; column<28; column++) {
 				if(arrayOfAcceptableMoves[row][column]) {
-					move = new MoveNode(row, column);
-					moves.add(move);
+					if (Backgammon.currentPlayer.getPlayerColor() == 'R'){
+						if (row >= 26) {
+							move = new MoveNode(row, 25 - column);
+						} else if (column == 0 || column == 25) {
+							move = new MoveNode(25 - row, column);
+						} else {
+							move = new MoveNode(25 - row, 25 - column);
+						}
+						moves.add(move);
+					}
+					else {
+						move = new MoveNode(row, column);
+						moves.add(0, move);
+					}
 				}
 			}
 		}
@@ -259,7 +271,7 @@ public class Moves {
 			if (m.isHit()) {
 				allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
 			} else {
-				if (m.getFromPip() == 26 || m.getFromPip() == 27) {
+				if (m.getFromPip() >= 26) {
 					allMoves.append("\nBar - " + m.getToPip());
 				} else if (m.getToPip() == 0 || m.getToPip() == 25) {
 					allMoves.append("\n" + m.getFromPip() + " - Off");
@@ -307,22 +319,22 @@ public class Moves {
 		return false;
 	}
 
-	//check if all checkers of the color are in the correct quadrant for bearOff
-	private static boolean correctBearOff() {
-		int count = 0;
-		if (Backgammon.currentPlayer.getPlayerColor() == 'W'){
-			for(int i = 19; i <= 24; i++) {
-				if(Backgammon.counterMap[i].getColor() == 'W')
-					count += Backgammon.counterMap[i].getNumCounters();
-			}
-		} else {
-			for(int i = 1; i <= 6; i++) {
-				if(Backgammon.counterMap[i].getColor() == 'R')
-					count += Backgammon.counterMap[i].getNumCounters();
-			}
-		}
-		return count >= 15;
-	}
+//	//check if all checkers of the color are in the correct quadrant for bearOff
+//	private static boolean correctBearOff() {
+//		int count = 0;
+//		if (Backgammon.currentPlayer.getPlayerColor() == 'W'){
+//			for(int i = 19; i <= 24; i++) {
+//				if(Backgammon.counterMap[i].getColor() == 'W')
+//					count += Backgammon.counterMap[i].getNumCounters();
+//			}
+//		} else if (Backgammon.currentPlayer.getPlayerColor() == 'R'){
+//			for(int i = 1; i <= 6; i++) {
+//				if(Backgammon.counterMap[i].getColor() == 'R')
+//					count += Backgammon.counterMap[i].getNumCounters();
+//			}
+//		}
+//		return count >= 15;
+//	}
 	
 	private static boolean acceptableMove(CounterPositions position, int i) {
 
