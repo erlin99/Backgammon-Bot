@@ -131,6 +131,15 @@ public class UI {
             next();
         }
 
+        if(userResponse.equalsIgnoreCase("yes")) {
+            frame.removeAll();
+            Backgammon.initializeBoard();
+            initializeUI();
+        }
+        else if(userResponse.equalsIgnoreCase("no")) {
+            System.exit(0);
+        }
+
         rePaintMainPanel();
     }
 
@@ -177,13 +186,7 @@ public class UI {
         // also need something to freeze the board once the game is over
         String userResponse = UI.getUserInput();
 
-        if(userResponse.equalsIgnoreCase("yes")) {
-            Backgammon.initializeBoard();
-            mainMenuUI();
-        }
-        else if(userResponse.equalsIgnoreCase("no")) {
-            System.exit(0);
-        }
+        inputCommands(userResponse);
     }
 
     //Method which repaints the main Panel

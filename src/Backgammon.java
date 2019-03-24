@@ -138,7 +138,7 @@ public class Backgammon {
         //Red bar
         counterMap[27] = new CounterPositions(580, 370, 'R', 0, true, 27);
     }
-    
+
     public static void setCheatBoard() {
         final int[] CHEAT_SET = {2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,3};
         final char[] CHEAT_SET_COLORS = {'W', 'W', 'W', 'W', 'W', 'W', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'R', 'B', 'R', 'R'};
@@ -149,7 +149,7 @@ public class Backgammon {
         final int TRIANGLE_BASE = 88;
         final int BAR = 80;
         boolean topRow = false;
-        
+
         for(int i=1; i<=24; i++) {
             if (i >= 1 && i <= 12) {
                 counterMap[i] = new CounterPositions(x_Co, y_Co, CHEAT_SET_COLORS[i], CHEAT_SET[i], topRow, i);
@@ -162,7 +162,7 @@ public class Backgammon {
                     topRow = true;
                     x_Co += TRIANGLE_BASE;
                 }
-            } 
+            }
             else if (i >= 13 && i <= 24) {
                 counterMap[i] = new CounterPositions(x_Co, y_Co, CHEAT_SET_COLORS[i], CHEAT_SET[i], topRow, i);
                 x_Co += TRIANGLE_BASE;
@@ -170,7 +170,7 @@ public class Backgammon {
                 if (i == 18) x_Co += BAR;
             }
         }
-        
+
       //White bear off
         counterMap[0] = new CounterPositions(1220, 615, 'W', 2, false, 0);
         counterMap[0].setBearoff(true);
@@ -184,7 +184,7 @@ public class Backgammon {
 
         //Red bar
         counterMap[27] = new CounterPositions(580, 370, 'R', 3, true, 27);
-        
+
         UI.rePaintMainPanel();
     }
 }
