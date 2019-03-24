@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 /**
  * Team name: Arrays start at 1
  * Team members: 17328173, 17768231, 17419914
@@ -6,6 +8,7 @@
 public class Moves {
 	public static CounterPositions[] counterMap = new CounterPositions[28];
 	private static boolean[][] arrayOfAcceptableMoves = new boolean[28][28];
+	LinkedList<MoveNode> moves = new LinkedList<>();
 
 	public static int dieValue1;
 	public static int dieValue2;
