@@ -87,9 +87,9 @@ public class Backgammon {
     number of counters and whether it is on the top row or not
     CounterMap[0] is the white bear off location
     counterMap[1]-[24] is the pip positions
-    counterMap[25] is the white bear off
+    counterMap[25] is the red bear off
     counterMap[26] is the locations for the white bar
-    counterMap[27 is the location for the red bar
+    counterMap[27] is the location for the red bar
      */
     public static void initializeBoard() {
         //Filling counterMap with starting positions and number of checkers in each position

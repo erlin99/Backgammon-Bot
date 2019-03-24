@@ -232,21 +232,27 @@ public class Moves {
 
 	// writes list of moves to the message box in the format specified on the Trello board
 	public static void printMoves() {
-		String result = "\n" + Backgammon.currentPlayer.playerName + ", Here is your list of possible moves:";
-		
+		int numberOfMoves = 0;
+		String result = "\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:";
+
 		for(int row=0; row<28; row++) {
 			for(int column=0; column<28; column++) {
 				if(arrayOfAcceptableMoves[row][column]) {
 					result += "\n" + row + " - " + column;
+					numberOfMoves++;
 				}
 			}
 		}
-		
-		UI.messagePanelText.append(result);
+
+		if(numberOfMoves != 0) {
+			UI.messagePanelText.append(result);
+		} else {
+			UI.messagePanelText.append("\n - No more possible moves!");
+		}
 	}
 	
 	private static boolean acceptableMove(CounterPositions position, int i) {
-//		TODO
+
 		boolean sameColor = position.getColor() == Backgammon.currentPlayer.getPlayerColor();
 		boolean oneCounterOrEmpty = position.getNumCounters() <= 1;
 		boolean bar = position.pipNumber == 26 || position.pipNumber == 27;
