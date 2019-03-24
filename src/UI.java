@@ -159,10 +159,30 @@ public class UI {
 
         // game ending conditions
         if(Backgammon.counterMap[0].getNumCounters() == 15) {
-            Backgammon.finishGame(Backgammon.player2);
+            finishGame(Backgammon.player2);
         }
         else if(Backgammon.counterMap[25].getNumCounters() == 15) {
-            Backgammon.finishGame(Backgammon.player1);
+            finishGame(Backgammon.player1);
+        }
+    }
+
+    // called in UI.java at bottom of inputCommands (as this function is used after every iteration of game play/ every move)
+    public static void finishGame(Player player) {
+        UI.messagePanelText.append("\nCongratulations " + player.playerName + ", You Win!!!");
+
+        UI.messagePanelText.append("\nWould you like to play again?");
+        UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
+
+        // NEEDS TO BE FIXED
+        // also need something to freeze the board once the game is over
+        String userResponse = UI.getUserInput();
+
+        if(userResponse.equalsIgnoreCase("yes")) {
+            Backgammon.initializeBoard();
+            mainMenuUI();
+        }
+        else if(userResponse.equalsIgnoreCase("no")) {
+            System.exit(0);
         }
     }
 
@@ -374,7 +394,6 @@ public class UI {
 
         frame.setVisible(true);
     }
-
 
     public static void mainMenuUI () {
         //initialize the frame
