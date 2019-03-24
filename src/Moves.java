@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public class Moves {
 	public static CounterPositions[] counterMap = new CounterPositions[28];
 	private static boolean[][] arrayOfAcceptableMoves = new boolean[28][28];
-	LinkedList<MoveNode> moves = new LinkedList<>();
+	public static LinkedList<MoveNode> moves = new LinkedList<>();
 
 	public static int dieValue1;
 	public static int dieValue2;
@@ -236,22 +236,85 @@ public class Moves {
 	// writes list of moves to the message box in the format specified on the Trello board
 	public static void printMoves() {
 		int numberOfMoves = 0;
+		MoveNode move;
 		String result = "\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:";
 
-		for(int row=0; row<28; row++) {
+		for(int row = 0; row<28; row++) {
 			for(int column=0; column<28; column++) {
 				if(arrayOfAcceptableMoves[row][column]) {
-					result += "\n" + row + " - " + column;
+					move = new MoveNode(row, column);
+					moves.add(move);
 					numberOfMoves++;
 				}
 			}
 		}
 
+		moves = deleteDuplicateMoves(moves);
+		StringBuilder allMoves = new StringBuilder();
+		allMoves.append(result);
+		for (MoveNode m : moves) {
+			String pip;
+			if (m.getFromPip() == 26 || m.getFromPip() == 27) {
+				pip = "Bar";
+			} else {
+				pip =  Integer.toString(m.getFromPip());
+			}
+
+			if (m.getToPip() == 0 || m.getToPip() == 25) {
+				pip = "Off";
+			} else {
+				pip =  Integer.toString(m.getToPip());
+			}
+
+			if (m.isHit()) {
+				allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
+			} else {
+				if (m.getFromPip() == 26 || m.getFromPip() == 27) {
+					allMoves.append("\nBar - " + m.getToPip());
+				} else if (m.getToPip() == 0 || m.getToPip() == 25) {
+					allMoves.append("\n" + m.getFromPip() + " - Off");
+				} else {
+					allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip());
+				}
+			}
+		}
+
 		if(numberOfMoves != 0) {
-			UI.messagePanelText.append(result);
+			UI.messagePanelText.append(allMoves.toString());
 		} else {
 			UI.messagePanelText.append("\n - No more possible moves!");
 		}
+	}
+
+	//This method deletes the duplicates from the list
+	public static LinkedList<MoveNode> deleteDuplicateMoves(LinkedList<MoveNode> list){
+		//loops through the linked list
+		for (int i = 0; i < list.size() - 1; i++) {
+			//if the getTo pip == to the pip that the next move is from and said move is not a hit
+			if (list.get(i).getToPip() == list.get(i+1).getFromPip() && !isAHit(list.get(i).getToPip())){
+				int temp = list.get(i+1).getToPip();
+				list.get(i).setToPip(temp);
+				list.remove(i+1);
+			} else if (isAHit(list.get(i).getToPip())){
+				list.get(i).setHit(true);
+			}
+		}
+
+		return list;
+	}
+
+	//checks if the pip that in can move to is a hit
+	private static boolean isAHit(int pipToNumber){
+		if (Backgammon.counterMap[pipToNumber].getNumCounters() == 1) {
+			if(Backgammon.currentPlayer.getPlayerColor() == 'R') {
+				if (Backgammon.counterMap[pipToNumber].getColor() == 'W')
+					return true;
+			} else {
+				if (Backgammon.counterMap[pipToNumber].getColor() == 'R')
+					return true;
+			}
+		}
+		return false;
 	}
 	
 	private static boolean acceptableMove(CounterPositions position, int i) {

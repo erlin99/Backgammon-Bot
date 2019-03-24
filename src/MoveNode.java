@@ -6,6 +6,7 @@ public class MoveNode {
 
     private int fromPip;
     private int toPip;
+    private boolean isHit = false;
 
     public MoveNode(int fromPip, int toPip) {
         this.fromPip = fromPip;
@@ -26,5 +27,13 @@ public class MoveNode {
 
     public void setToPip(int toPip) {
         this.toPip = toPip;
+    }
+
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setHit(boolean hit) {
+        isHit = hit;
     }
 }
