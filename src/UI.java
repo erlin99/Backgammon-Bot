@@ -433,10 +433,14 @@ public class UI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String red = redPlayer.getText();
-                Backgammon.player1.setPlayerName(red);
+                if(!red.isEmpty()) {
+                    Backgammon.player1.setPlayerName(red);
+                }
 
                 String white = whitePlayer.getText();
-                Backgammon.player2.setPlayerName(white);
+                if(!white.isEmpty()) {
+                    Backgammon.player2.setPlayerName(white);
+                }
 
                 initializeUI();
             }
