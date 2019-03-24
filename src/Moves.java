@@ -1,7 +1,9 @@
-
+/**
+ * Team name: Arrays start at 1
+ * Team members: 17328173, 17768231, 17419914
+ */
 //static class as no need to create an instantiation of it in any other part of the application
-public class Moves 
-{
+public class Moves {
 	public static CounterPositions[] counterMap = new CounterPositions[28];
 	private static boolean[][] arrayOfAcceptableMoves = new boolean[28][28];
 
@@ -11,8 +13,7 @@ public class Moves
 	public static int dieValue4;
 	
 	// fills the 'arrayOfAcceptableMoves' with acceptable moves
-	public static boolean[][] getMoves()
-	{
+	public static boolean[][] getMoves() {
 		char currentColor = Backgammon.currentPlayer.getPlayerColor();
 		dieValue1 = Dice.getDie1Value();
 		dieValue2 = Dice.getDie2Value();
@@ -20,18 +21,15 @@ public class Moves
 		dieValue4 = Dice.getDie4Value();
 
 		// clear the array of acceptable moves each time the function is called
-		for(int row=0; row<28; row++)
-		{
-			for(int column=0; column<28; column++)
-			{
+		for(int row=0; row<28; row++) {
+			for(int column=0; column<28; column++) {
 				arrayOfAcceptableMoves[row][column] = false;
 			}
 		}
 
-		if(Backgammon.isBarred()){
+		if(Backgammon.isBarred()) {
 			arrayOfAcceptableMoves = barMoves();
 		} else {
-
 			for (int i = 1; i <= 24; i++) {
 				if (Backgammon.counterMap[i].getColor() == currentColor) {
 					// check dieValue1, dieValue2, and dieValue1 + dieValue2 from this location 'i'
@@ -59,7 +57,6 @@ public class Moves
 								arrayOfAcceptableMoves[i][i + dieValue1 + dieValue2] = true;
 							}
 						}
-
 					}
 
 					if (!(Dice.diceAreEqual()) && currentColor == 'W') {
@@ -135,101 +132,95 @@ public class Moves
 			}
 		}
 		return arrayOfAcceptableMoves;
-
 	}
 
 	//Gets the available moves for if a counter is on the bar
-	public static boolean[][] barMoves(){
+	public static boolean[][] barMoves() {
 
 		// clear the array of acceptable moves each time the function is called
-		for(int row=0; row<28; row++)
-		{
-			for(int column=0; column<28; column++)
-			{
+		for(int row=0; row<28; row++) {
+			for(int column=0; column<28; column++) {
 				arrayOfAcceptableMoves[row][column] = false;
 			}
 		}
 
 		char player = Backgammon.currentPlayer.getPlayerColor();
 
-		if(player == 'W'){
-			if(acceptableMove(Backgammon.counterMap[25 - dieValue1], 0)){
+		if(player == 'W') {
+			if(acceptableMove(Backgammon.counterMap[25 - dieValue1], 0)) {
 				arrayOfAcceptableMoves[26][25 - dieValue1] = true;
 			}
 
-			if(acceptableMove(Backgammon.counterMap[25 - dieValue2], 0)){
+			if(acceptableMove(Backgammon.counterMap[25 - dieValue2], 0)) {
 				arrayOfAcceptableMoves[26][25 - dieValue2] = true;
 			}
 
-			if(acceptableMove(Backgammon.counterMap[25 - (dieValue1 + dieValue2)], 0) && (dieValue1 + dieValue2) <= 6){
+			if(acceptableMove(Backgammon.counterMap[25 - (dieValue1 + dieValue2)], 0) && (dieValue1 + dieValue2) <= 6) {
 				arrayOfAcceptableMoves[26][25 - (dieValue1 + dieValue2)] = true;
 			}
 		} else {
-			if(acceptableMove(Backgammon.counterMap[dieValue1], 0)){
+			if(acceptableMove(Backgammon.counterMap[dieValue1], 0)) {
 				arrayOfAcceptableMoves[27][dieValue1] = true;
 			}
 
-			if(acceptableMove(Backgammon.counterMap[dieValue2], 0)){
+			if(acceptableMove(Backgammon.counterMap[dieValue2], 0)) {
 				arrayOfAcceptableMoves[27][dieValue2] = true;
 			}
 
-			if(acceptableMove(Backgammon.counterMap[(dieValue1 + dieValue2)], 0) && (dieValue1 + dieValue2) <= 6){
+			if(acceptableMove(Backgammon.counterMap[(dieValue1 + dieValue2)], 0) && (dieValue1 + dieValue2) <= 6) {
 				arrayOfAcceptableMoves[27][(dieValue1 + dieValue2)] = true;
 			}
 		}
-
 		return arrayOfAcceptableMoves;
 	}
 
-	public static void bearOffMoves(int i){
-
-		if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
-			if(validBearOff(i, Dice.getDie1Value())){
+	public static void bearOffMoves(int i) {
+		if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
+			if(validBearOff(i, Dice.getDie1Value())) {
 				arrayOfAcceptableMoves[i][0] = true;
-			}else if(validBearOff(i, Dice.getDie2Value())){
+			} else if(validBearOff(i, Dice.getDie2Value())) {
 				arrayOfAcceptableMoves[i][0] = true;
-			}else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value())){
+			} else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value())) {
 				arrayOfAcceptableMoves[i][0] = true;
 			}
 
-			if(Dice.diceAreEqual()){
-				if(validBearOff(i, Dice.getDie1Value())){
+			if(Dice.diceAreEqual()) {
+				if(validBearOff(i, Dice.getDie1Value())) {
 					arrayOfAcceptableMoves[i][0] = true;
-				}else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value())){
+				} else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value())) {
 					arrayOfAcceptableMoves[i][0] = true;
-				}else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value() + Dice.getDie3Value())){
+				} else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value() + Dice.getDie3Value())) {
 					arrayOfAcceptableMoves[i][0] = true;
-				}else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value() + Dice.getDie3Value() + Dice.getDie4Value())){
+				} else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value() + Dice.getDie3Value() + Dice.getDie4Value())) {
 					arrayOfAcceptableMoves[i][0] = true;
 				}
 			}
 		} else {
-			if(validBearOff(i, Dice.getDie1Value())){
+			if(validBearOff(i, Dice.getDie1Value())) {
 				arrayOfAcceptableMoves[i][25] = true;
-			}else if(validBearOff(i, Dice.getDie2Value())){
+			} else if(validBearOff(i, Dice.getDie2Value())) {
 				arrayOfAcceptableMoves[i][25] = true;
-			} if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value())){
+			} if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value())) {
 				arrayOfAcceptableMoves[i][25] = true;
 			}
 
-			if(Dice.diceAreEqual()){
-				if(validBearOff(i, Dice.getDie1Value())){
+			if(Dice.diceAreEqual()) {
+				if(validBearOff(i, Dice.getDie1Value())) {
 					arrayOfAcceptableMoves[i][25] = true;
-				}else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value())){
+				} else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value())) {
 					arrayOfAcceptableMoves[i][25] = true;
-				}else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value() + Dice.getDie3Value())){
+				} else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value() + Dice.getDie3Value())) {
 					arrayOfAcceptableMoves[i][25] = true;
-				}else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value() + Dice.getDie3Value() + Dice.getDie4Value())){
+				} else if(validBearOff(i, Dice.getDie1Value() + Dice.getDie2Value() + Dice.getDie3Value() + Dice.getDie4Value())) {
 					arrayOfAcceptableMoves[i][25] = true;
 				}
 			}
 		}
-
 	}
 
-	public static boolean validBearOff(int currentPosition, int dieValue){
-		if(Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor()){
-			if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
+	public static boolean validBearOff(int currentPosition, int dieValue) {
+		if(Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor()) {
+			if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
 				return currentPosition - dieValue <= 0;
 			} else {
 				return currentPosition + dieValue >= 25;
@@ -237,20 +228,15 @@ public class Moves
 		} else {
 			return  false;
 		}
-
 	}
 
 	// writes list of moves to the message box in the format specified on the Trello board
-	public static void printMoves()
-	{
+	public static void printMoves() {
 		String result = "\n" + Backgammon.currentPlayer.playerName + ", Here is your list of possible moves:";
 		
-		for(int row=0; row<28; row++)
-		{
-			for(int column=0; column<28; column++)
-			{
-				if(arrayOfAcceptableMoves[row][column])
-				{
+		for(int row=0; row<28; row++) {
+			for(int column=0; column<28; column++) {
+				if(arrayOfAcceptableMoves[row][column]) {
 					result += "\n" + row + " - " + column;
 				}
 			}
@@ -259,8 +245,7 @@ public class Moves
 		UI.messagePanelText.append(result);
 	}
 	
-	private static boolean acceptableMove(CounterPositions position, int i)
-	{
+	private static boolean acceptableMove(CounterPositions position, int i) {
 //		TODO
 		boolean sameColor = position.getColor() == Backgammon.currentPlayer.getPlayerColor();
 		boolean oneCounterOrEmpty = position.getNumCounters() <= 1;

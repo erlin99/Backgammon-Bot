@@ -2,15 +2,11 @@
  * Team name: Arrays start at 1
  * Team members: 17328173, 17768231, 17419914
  */
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 import java.util.Random;
 
 //Static Dice class providing static methods, no need to declare a dice class in Backgammon or UI
-public class Dice
-{
+public class Dice {
 	private static int dieValue1;
 	private static int dieValue2;
 	private static int dieValue3 = 0;
@@ -29,8 +25,7 @@ public class Dice
 	private static final int DICE_CORNER_RADIUS = 40;
 	private static final int SPOT_RADIUS = 20;
 
-	public static void rollDice()
-	{
+	public static void rollDice() {
 		// reset the equalDice boolean to false (in case it was set to true in the previous roll)
 		equalDice = false;
 		// clear the current dice values
@@ -39,12 +34,12 @@ public class Dice
 		dieValue1 = rand.nextInt(6) + 1;
 		dieValue2 = rand.nextInt(6) + 1;
 
-		if(diceAreEqual() && dieValue1 !=0 && dieValue2 != 0){
+		if(diceAreEqual() && dieValue1 !=0 && dieValue2 != 0) {
 			dieValue3 = dieValue1;
 			dieValue4 = dieValue1;
 		}
 
-		if(initialRollComplete){
+		if(initialRollComplete) {
 			Moves.getMoves();
 			Moves.printMoves();
 		}
@@ -68,8 +63,7 @@ public class Dice
 		return dieValue4;
 	}
 
-	public static boolean diceAreEqual()
-	{
+	public static boolean diceAreEqual() {
 		if(dieValue1 == dieValue2)
 			equalDice = true;
 
@@ -77,8 +71,7 @@ public class Dice
 	}
 	
 	
-	public static void playerHasRolledDice(boolean hasOrHasNot)
-	{
+	public static void playerHasRolledDice(boolean hasOrHasNot) {
 		if(hasOrHasNot == true)
 			hasRolledDice = true;
 		
@@ -91,26 +84,20 @@ public class Dice
 		return hasRolledDice;
 	}
 	
-	public static void initialDiceRoll()
-	{
-		do
-		{
+	public static void initialDiceRoll() {
+		do {
 			rollDice();
 			// show the dice by calling the paintComponent method on the main panel
 			UI.frame.repaint();
 
-			if(diceAreEqual())
-			{
+			if(diceAreEqual()) {
 				//***** ADD TIMER - Want the equal dice to show for a second or two before the new roll
 				UI.messagePanelText.append("\n-The 2 dice have the same value. We must roll again!");
 			}
-			
-			else if(dieValue1 > dieValue2)
-			{
+			else if(dieValue1 > dieValue2) {
 				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
 			}
-			else 
-			{
+			else {
 				Backgammon.player1.setMoveMade(true);
 				Backgammon.currentPlayer = Backgammon.player2;
 				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
@@ -119,20 +106,17 @@ public class Dice
 			BoardNumbers.changeBoard(Backgammon.currentPlayer);
 			
 			// deals with printing of moves to the message box during the initial roll, ensures no redundancy
-			if(!(diceAreEqual()))
-			{
+			if(!(diceAreEqual())) {
 				Moves.getMoves();
 				initialRollComplete = true;
 			}
-		}
-		while(diceAreEqual());
+		} while(diceAreEqual());
 
 		//Stops player rolling again on the first turn
 		playerHasRolledDice(true);
 	}
 	
-	private static GradientPaint makeColor(float x1, float y1, Color c1, float x2, float y2, Color c2)
-	{
+	private static GradientPaint makeColor(float x1, float y1, Color c1, float x2, float y2, Color c2) {
 		GradientPaint whiteGradient = new GradientPaint(x1, y1, c1, x2, y2, c2);
 		
 		return whiteGradient;
@@ -181,8 +165,8 @@ public class Dice
 		}
 	}
 
-	public static void draw(Graphics2D g) // draw must be called by paintComponent of the panel
-	{
+	// draw must be called by paintComponent of the panel
+	public static void draw(Graphics2D g) {
 
 		GradientPaint whiteGradient1 = makeColor(DIE_1_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
 				(DIE_1_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
@@ -190,20 +174,18 @@ public class Dice
 		//set die colour
 	    g.setPaint(whiteGradient1);
 
-	    if(dieValue1 != 0){
+	    if(dieValue1 != 0) {
 			//drawRoundRect defined by a location (x,y), dimension (w h), and the width and height of an arc with which to round the corners.
 			g.fillRoundRect(DIE_1_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
 		}
-
 
 		GradientPaint whiteGradient2 = makeColor(DIE_2_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
 				(DIE_2_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
 	    g.setPaint(whiteGradient2);
 
-	    if(dieValue2 != 0){
+	    if(dieValue2 != 0) {
 			g.fillRoundRect(DIE_2_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
 		}
-
 		
 		// set spot color
 		g.setColor(Color.BLACK);
@@ -211,14 +193,13 @@ public class Dice
 		Dice.drawDice(g, DIE_1_X_CO, dieValue1);
 		Dice.drawDice(g, DIE_2_X_CO, dieValue2);
 		
-		if(diceAreEqual())
-		{
+		if(diceAreEqual()) {
 			GradientPaint whiteGradient3 = makeColor(DIE_3_X_CO, DICE_Y_CO, Color.LIGHT_GRAY,
 					(DIE_3_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
 		    g.setPaint(whiteGradient3);
 
 		    //Makes dice 3 disappear is equal to 0
-		    if(dieValue3 != 0){
+		    if(dieValue3 != 0) {
 				g.fillRoundRect(DIE_3_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
 			}
 
@@ -226,7 +207,7 @@ public class Dice
 					(DIE_4_X_CO + DICE_SIZE), (DICE_Y_CO + DICE_SIZE), Color.WHITE);
 		    g.setPaint(whiteGradient4);
 
-		    if(dieValue4 != 0){
+		    if(dieValue4 != 0) {
 				g.fillRoundRect(DIE_4_X_CO, DICE_Y_CO, DICE_SIZE, DICE_SIZE, DICE_CORNER_RADIUS, DICE_CORNER_RADIUS);
 			}
 

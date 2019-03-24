@@ -1,4 +1,7 @@
-
+/**
+ * Team name: Arrays start at 1
+ * Team members: 17328173, 17768231, 17419914
+ */
 public class Player {
 
     public String playerName;
@@ -8,7 +11,6 @@ public class Player {
     public boolean moveMade = false;
     public static int currentPosition = -1;
     public static int nextPosition;
-    
 
     public Player(String playerName, char playerColor, int pipCount) {
         this.playerName = playerName;
@@ -21,12 +23,12 @@ public class Player {
     Method which allows player to click to move pieces. This is called from the action listener
     of each button on the board
      */
-    public void clickMove(int position){
+    public void clickMove(int position) {
 
-        if(!moveMade){
-            if(currentPosition == -1){
+        if(!moveMade) {
+            if(currentPosition == -1) {
                 currentPosition = position;
-                if(Backgammon.counterMap[currentPosition].getColor() != Backgammon.currentPlayer.getPlayerColor()){
+                if(Backgammon.counterMap[currentPosition].getColor() != Backgammon.currentPlayer.getPlayerColor()) {
                     currentPosition = -1;
                 } else {
                     Backgammon.counterMap[currentPosition].setSelected(true);
@@ -37,7 +39,7 @@ public class Player {
             }
             else {
                 nextPosition = position;
-                if(Backgammon.counterMap[nextPosition].getColor() == Backgammon.currentPlayer.getPlayerColor() || Backgammon.counterMap[nextPosition].getColor() == 'B' || Backgammon.counterMap[nextPosition].getNumCounters() < 2){
+                if(Backgammon.counterMap[nextPosition].getColor() == Backgammon.currentPlayer.getPlayerColor() || Backgammon.counterMap[nextPosition].getColor() == 'B' || Backgammon.counterMap[nextPosition].getNumCounters() < 2) {
                     playerMove(currentPosition, nextPosition);
                 }
             }
@@ -45,21 +47,21 @@ public class Player {
         UI.rePaintMainPanel();
     }
 
-    private void setColorString(){
-        if(playerColor == 'W'){
+    private void setColorString() {
+        if(playerColor == 'W') {
             playerColorString = "White";
-        } else if ( playerColor == 'R'){
+        } else if ( playerColor == 'R') {
             playerColorString = "Red";
         }
     }
 
     //Sets the dice so that if any dice are used they disappear and cant be used again
-    public static void setDice(int selectedPosition, int movePosition, boolean bar){
+    public static void setDice(int selectedPosition, int movePosition, boolean bar) {
 
         //Creating a variable distance moved and seeing which dice have been used in this move
         int distanceMoved = 0;
 
-        if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
+        if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
             distanceMoved = selectedPosition - movePosition;
         } else {
             distanceMoved = movePosition - selectedPosition;
@@ -67,8 +69,8 @@ public class Player {
 
         //if there is a counter on the bar then barMove is given the value of the dice used
         int barMove = 0;
-        if(bar){
-            if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
+        if(bar) {
+            if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
                 barMove = 25 - movePosition;
             } else {
                 barMove = movePosition;
@@ -77,8 +79,8 @@ public class Player {
 
         //If the player bears off the die or dice that is used is then set to 0
         //The two dice are compared to see if the smaller one can be used or if its the bigger one used or if its a combination of both
-        if(movePosition == 25 || movePosition == 0){
-            if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
+        if(movePosition == 25 || movePosition == 0) {
+            if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
                 distanceMoved = selectedPosition;
             } else {
                 distanceMoved = 25 - selectedPosition;
@@ -87,7 +89,7 @@ public class Player {
             int greaterDice;
             int smallerDice;
 
-            if(Dice.getDie1Value() > Dice.getDie2Value()){
+            if(Dice.getDie1Value() > Dice.getDie2Value()) {
                 greaterDice = Dice.getDie1Value();
                 smallerDice = Dice.getDie2Value();
             } else {
@@ -95,56 +97,52 @@ public class Player {
                 smallerDice = Dice.getDie1Value();
             }
 
-            if(distanceMoved < smallerDice){
-                if(smallerDice == Dice.getDie1Value()){
+            if(distanceMoved < smallerDice) {
+                if(smallerDice == Dice.getDie1Value()) {
                     Dice.setDieValue1(0);
                 } else {
                     Dice.setDieValue2(0);
                 }
-            } else if(distanceMoved < greaterDice){
-                if(greaterDice == Dice.getDie1Value()){
+            } else if(distanceMoved < greaterDice) {
+                if(greaterDice == Dice.getDie1Value()) {
                     Dice.setDieValue1(0);
                 } else {
                     Dice.setDieValue2(0);
                 }
-            } else if(distanceMoved < smallerDice + greaterDice){
+            } else if(distanceMoved < smallerDice + greaterDice) {
                 Dice.setDieValue1(0);
                 Dice.setDieValue2(0);
             }
-
         }
 
         //These if statements check which dice has been used in the move and then sets that dice to 0
-        if(bar && barMove == Dice.getDie1Value()){
+        if(bar && barMove == Dice.getDie1Value()) {
             Dice.setDieValue1(0);
             Moves.getMoves();
             Moves.printMoves();
         }
-        else if(bar && barMove == Dice.getDie2Value()){
+        else if(bar && barMove == Dice.getDie2Value()) {
             Dice.setDieValue2(0);
             Moves.getMoves();
             Moves.printMoves();
         }
-        else if(bar && (barMove == Dice.getDie1Value() + Dice.getDie2Value())){
+        else if(bar && (barMove == Dice.getDie1Value() + Dice.getDie2Value())) {
             Dice.setDieValue1(0);
             Dice.setDieValue2(0);
             Dice.setDieValue3(0);
             Dice.setDieValue4(0);
         }
-        else if(distanceMoved == Dice.getDie1Value()){
-
+        else if(distanceMoved == Dice.getDie1Value()) {
             Dice.setDieValue1(0);
             Moves.getMoves();
             Moves.printMoves();
         }
-        else if(distanceMoved == Dice.getDie2Value()){
-
+        else if(distanceMoved == Dice.getDie2Value()) {
             Dice.setDieValue2(0);
             Moves.getMoves();
             Moves.printMoves();
         }
-        else if(distanceMoved == Dice.getDie2Value() + Dice.getDie1Value()){
-
+        else if(distanceMoved == Dice.getDie2Value() + Dice.getDie1Value()) {
             Dice.setDieValue1(0);
             Dice.setDieValue2(0);
             Moves.getMoves();
@@ -154,18 +152,16 @@ public class Player {
         //Resets currentPosition and nextPosition so another move can be made
         /*currentPosition = -1;
         nextPosition = 0;*/
-
     }
 
-    public static void setDiceIfDoubles(int selectedPosition, int movePosition, boolean bar){
-
+    public static void setDiceIfDoubles(int selectedPosition, int movePosition, boolean bar) {
         //Resets currentPosition and nextPosition so another move can be made
         currentPosition = -1;
         nextPosition = 0;
 
         //Creating a variable distance moved and seeing which dice have been used in this move
         int distanceMoved = 0;
-        if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
+        if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
             distanceMoved = selectedPosition - movePosition;
         } else {
             distanceMoved = movePosition - selectedPosition;
@@ -173,8 +169,8 @@ public class Player {
 
         //if there is a counter on the bar then barMove is given the value of the dice used
         int barMove = 0;
-        if(bar){
-            if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
+        if(bar) {
+            if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
                 barMove = 25 - movePosition;
             } else {
                 barMove = movePosition;
@@ -206,7 +202,6 @@ public class Player {
                     Dice.setDieValue1(0);
                 }
             } else if (barMove == Dice.getDie1Value() * 3) {
-
                 if (Dice.getDie4Value() != 0 && Dice.getDie3Value() != 0 && Dice.getDie2Value() != 0) {
                     Dice.setDieValue4(0);
                     Dice.setDieValue3(0);
@@ -226,7 +221,7 @@ public class Player {
         //This sets the players dice for sending a counter to bear off with doubles
         //The if statement also catches to see if the values are a multiple of the dice and if so use the next if statement
         else if(movePosition == 25 || movePosition == 0 && (distanceMoved != Dice.getDie1Value() || distanceMoved != Dice.getDie1Value()*2) || distanceMoved != Dice.getDie1Value()*3 || distanceMoved != Dice.getDie1Value()*4){
-            if(distanceMoved < Dice.getDie1Value()){
+            if(distanceMoved < Dice.getDie1Value()) {
                 if (Dice.getDie4Value() != 0) {
                     Dice.setDieValue4(0);
                 } else if (Dice.getDie3Value() != 0) {
@@ -237,7 +232,7 @@ public class Player {
                     Dice.setDieValue1(0);
                 }
             }
-            else if(distanceMoved < Dice.getDie1Value()*2){
+            else if(distanceMoved < Dice.getDie1Value()*2) {
                 if (Dice.getDie4Value() != 0 && Dice.getDie3Value() != 0) {
                     Dice.setDieValue4(0);
                     Dice.setDieValue3(0);
@@ -249,7 +244,7 @@ public class Player {
                     Dice.setDieValue1(0);
                 }
             }
-            else if(distanceMoved < Dice.getDie1Value()*3){
+            else if(distanceMoved < Dice.getDie1Value()*3) {
                 if (Dice.getDie4Value() != 0 && Dice.getDie3Value() != 0 && Dice.getDie2Value() != 0) {
                     Dice.setDieValue4(0);
                     Dice.setDieValue3(0);
@@ -260,7 +255,7 @@ public class Player {
                     Dice.setDieValue2(0);
                 }
             }
-            else if(distanceMoved < Dice.getDie1Value()*4){
+            else if(distanceMoved < Dice.getDie1Value()*4) {
                 Dice.setDieValue1(0);
                 Dice.setDieValue2(0);
                 Dice.setDieValue3(0);
@@ -292,7 +287,6 @@ public class Player {
                     Dice.setDieValue1(0);
                 }
             } else if (distanceMoved == Dice.getDie1Value() * 3) {
-
                 if (Dice.getDie4Value() != 0 && Dice.getDie3Value() != 0 && Dice.getDie2Value() != 0) {
                     Dice.setDieValue4(0);
                     Dice.setDieValue3(0);
@@ -309,23 +303,22 @@ public class Player {
                 Dice.setDieValue1(0);
             }
         }
-
         Moves.getMoves();
         Moves.printMoves();
     }
 
     //Removes a counter from current Position and adds it to next positions
-    public static void playerMove(int selectedPosition, int movePosition){
+    public static void playerMove(int selectedPosition, int movePosition) {
         //Resets the visual of the board
         Backgammon.deSelect();
         UI.rePaintMainPanel();
 
         Boolean bar = Backgammon.isBarred();
 
-        if(Backgammon.isBarred()){
+        if(Backgammon.isBarred()) {
             //If the move is valid move it there. If there is only one counter take that counter
-            if(Moves.getMoves()[selectedPosition][movePosition]){
-                if(Backgammon.counterMap[movePosition].getNumCounters() < 2 && Backgammon.counterMap[movePosition].getColor() != Backgammon.currentPlayer.getPlayerColor()){
+            if(Moves.getMoves()[selectedPosition][movePosition]) {
+                if(Backgammon.counterMap[movePosition].getNumCounters() < 2 && Backgammon.counterMap[movePosition].getColor() != Backgammon.currentPlayer.getPlayerColor()) {
                     Backgammon.takeCounter(selectedPosition, movePosition);
                 }
                 else {
@@ -337,8 +330,8 @@ public class Player {
                 System.out.println("S: " + selectedPosition + "\nM: " + movePosition);
             }
         }
-        else if(Moves.getMoves()[selectedPosition][movePosition] && !Backgammon.isBarred()){
-            if(Backgammon.counterMap[movePosition].getNumCounters() < 2 && Backgammon.counterMap[movePosition].getColor() != Backgammon.currentPlayer.getPlayerColor()){
+        else if(Moves.getMoves()[selectedPosition][movePosition] && !Backgammon.isBarred()) {
+            if(Backgammon.counterMap[movePosition].getNumCounters() < 2 && Backgammon.counterMap[movePosition].getColor() != Backgammon.currentPlayer.getPlayerColor()) {
                 Backgammon.takeCounter(selectedPosition, movePosition);
             }
             else {
@@ -348,12 +341,11 @@ public class Player {
         else {
             UI.messagePanelText.append("\nLooks like that is not a valid move!");
         }
-        if(Dice.diceAreEqual()){
+        if(Dice.diceAreEqual()) {
             setDiceIfDoubles(currentPosition, nextPosition, bar);
         } else {
             setDice(currentPosition, nextPosition, bar);
         }
-
     }
 
     public void setPlayerName(String playerName) {

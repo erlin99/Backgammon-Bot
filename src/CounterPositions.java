@@ -23,26 +23,25 @@ public class CounterPositions {
     }
 
     //Draw is called in BoardPanel to draw counters
-    public void draw(Graphics2D g) // draw must be called by paintComponent of the panel
-    {
+    // draw must be called by paintComponent of the panel
+    public void draw(Graphics2D g) {
         //Sets the color of the to be drawn counters
-        if(color == 'R'){
+        if(color == 'R') {
             g.setColor(Color.red);
-        } else if(color == 'W'){
+        } else if(color == 'W') {
             g.setColor(Color.WHITE);
         }
 
         /*If the counters are on the top row their yCo are increased to be drawn towards the bottom of the board
         but if they are not the top row their yCos are negated so they are drawn towards the top
          */
-        if(selected && isTopRow){
-            for(int i=0; i<getNumCounters(); i++)
-            {
+        if(selected && isTopRow) {
+            for(int i=0; i<getNumCounters(); i++) {
                 g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
-                if(i == getNumCounters()-1){
+                if(i == getNumCounters()-1) {
                     g.setColor(Color.green);
                     g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
-                    if(color == 'R'){
+                    if(color == 'R') {
                         g.setColor(Color.red);
                     } else {
                         g.setColor(Color.white);
@@ -50,17 +49,15 @@ public class CounterPositions {
                     g.fillOval(xCo + 5, (yCo + ((DIAMETER + 2) * i) + 5), DIAMETER - 10, DIAMETER - 10);
                 }
             }
-
             drawAllMoves(g);
         }
-        else if(selected && !isTopRow){
-            for(int i=0; i<getNumCounters(); i++)
-            {
+        else if(selected && !isTopRow) {
+            for(int i=0; i<getNumCounters(); i++) {
                 g.fillOval(xCo, (yCo - ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
-                if(i == getNumCounters()-1){
+                if(i == getNumCounters()-1) {
                     g.setColor(Color.green);
                     g.fillOval(xCo, (yCo - ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
-                    if(color == 'R'){
+                    if(color == 'R') {
                         g.setColor(Color.red);
                     } else {
                         g.setColor(Color.white);
@@ -70,37 +67,29 @@ public class CounterPositions {
             }
             drawAllMoves(g);
         }
-        else if(isTopRow && !isBearoff)
-        {
-            for(int i=0; i<getNumCounters(); i++)
-            {
+        else if(isTopRow && !isBearoff) {
+            for(int i=0; i<getNumCounters(); i++) {
                 g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
             }
         } 
-        else if(!isTopRow && !isBearoff)
-        {
-            for(int i=0; i<getNumCounters(); i++)
-            {
+        else if(!isTopRow && !isBearoff) {
+            for(int i=0; i<getNumCounters(); i++) {
                 g.fillOval(xCo, (yCo - ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
             }
         } 
-        else if(!isTopRow && isBearoff)
-        {
-            for(int i=0; i<getNumCounters(); i++)
-            {
+        else if(!isTopRow && isBearoff) {
+            for(int i=0; i<getNumCounters(); i++) {
                 g.fillRect(xCo, (yCo - ((HEIGHT + 2) * i)), DIAMETER, HEIGHT);
             }
         } 
-        else if(isTopRow && isBearoff)
-        {
-            for(int i=0; i<getNumCounters(); i++)
-            {
+        else if(isTopRow && isBearoff) {
+            for(int i=0; i<getNumCounters(); i++) {
                 g.fillRect(xCo, (yCo + ((HEIGHT + 2) * i)), DIAMETER, HEIGHT);
             }
         }
     }
 
-    public void removeCounter(){
+    public void removeCounter() {
         setNumCounters(getNumCounters() - 1);
         if (getNumCounters() == 0) {
             setColor('B');
@@ -108,39 +97,34 @@ public class CounterPositions {
     }
 
     //Draws a green circle to symbolise that it is a possible move
-    public void drawPossibleMove(Graphics2D g){
-
-        if(isTopRow && isBearoff){
-            for(int i=0; i<=getNumCounters(); i++)
-            {
-                if(i == getNumCounters()){
+    public void drawPossibleMove(Graphics2D g) {
+        if(isTopRow && isBearoff) {
+            for(int i=0; i<=getNumCounters(); i++) {
+                if(i == getNumCounters()) {
                     g.setColor(Color.green);
                     g.fillRect(xCo, (yCo + ((HEIGHT + 2) * i)), DIAMETER, HEIGHT);;
                 }
             }
         }
-        else if(!isTopRow && isBearoff){
-            for(int i=0; i<=getNumCounters(); i++)
-            {
-                if(i == getNumCounters()){
+        else if(!isTopRow && isBearoff) {
+            for(int i=0; i<=getNumCounters(); i++) {
+                if(i == getNumCounters()) {
                     g.setColor(Color.green);
                     g.fillRect(xCo, (yCo - ((HEIGHT + 2) * i)), DIAMETER, HEIGHT);;
                 }
             }
         }
-        else if(isTopRow){
-            for(int i=0; i<=getNumCounters(); i++)
-            {
-                if(i == getNumCounters()){
+        else if(isTopRow) {
+            for(int i=0; i<=getNumCounters(); i++) {
+                if(i == getNumCounters()) {
                     g.setColor(Color.green);
                     g.fillOval(xCo, (yCo + ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
                 }
             }
         }
-        else if(!isTopRow){
-            for(int i=0; i<=getNumCounters(); i++)
-            {
-                if(i == getNumCounters()){
+        else if(!isTopRow) {
+            for(int i=0; i<=getNumCounters(); i++) {
+                if(i == getNumCounters()) {
                     g.setColor(Color.green);
                     g.fillOval(xCo, (yCo - ((DIAMETER + 2) * i)), DIAMETER, DIAMETER);
                 }
@@ -149,11 +133,11 @@ public class CounterPositions {
     }
 
     //Calls the drawPossibleMove function on each move that is returned to be a valid move from possibleMoves
-    public void drawAllMoves(Graphics2D g){
+    public void drawAllMoves(Graphics2D g) {
         boolean[][] possibleMoves = Moves.getMoves();
 
-        for(int i=0; i<28; i++){
-            if(possibleMoves[pipNumber][i]){
+        for(int i=0; i<28; i++) {
+            if(possibleMoves[pipNumber][i]) {
                 Backgammon.counterMap[i].drawPossibleMove(g);
             }
         }
@@ -224,4 +208,3 @@ public class CounterPositions {
         return isBearoff;
     }
 }
-
