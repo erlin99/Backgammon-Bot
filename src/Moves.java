@@ -131,7 +131,9 @@ public class Moves {
 						}
 					}
 				}
-				bearOffMoves(i);
+				if (correctBearOff()) {
+					bearOffMoves(i);
+				}
 			}
 		}
 		return arrayOfAcceptableMoves;
@@ -303,6 +305,23 @@ public class Moves {
 			}
 		}
 		return false;
+	}
+
+	//check if all checkers of the color are in the correct quadrant for bearOff
+	private static boolean correctBearOff() {
+		int count = 0;
+		if (Backgammon.currentPlayer.getPlayerColor() == 'W'){
+			for(int i = 19; i <= 24; i++) {
+				if(Backgammon.counterMap[i].getColor() == 'W')
+					count += Backgammon.counterMap[i].getNumCounters();
+			}
+		} else {
+			for(int i = 1; i <= 6; i++) {
+				if(Backgammon.counterMap[i].getColor() == 'R')
+					count += Backgammon.counterMap[i].getNumCounters();
+			}
+		}
+		return count >= 15;
 	}
 	
 	private static boolean acceptableMove(CounterPositions position, int i) {
