@@ -236,7 +236,6 @@ public class Moves {
 	// writes list of moves to the message box in the format specified on the Trello board
 	public static void printMoves() {
 		moves.clear();
-		int numberOfMoves = 0;
 		MoveNode move;
 		String result = "\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:";
 
@@ -246,7 +245,6 @@ public class Moves {
 				if(arrayOfAcceptableMoves[row][column]) {
 					move = new MoveNode(row, column);
 					moves.add(move);
-					numberOfMoves++;
 				}
 			}
 		}
@@ -269,7 +267,7 @@ public class Moves {
 			}
 		}
 
-		if(numberOfMoves != 0) {
+		if(allMoves.length() != 0) {
 			UI.messagePanelText.append(allMoves.toString());
 		} else {
 			UI.messagePanelText.append("\n - No more possible moves!");

@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UI {
@@ -35,12 +36,21 @@ public class UI {
         //if user types quit exit the program
         if(userResponse.equalsIgnoreCase("quit"))
             System.exit(0);
-        
-        if(userResponse.equalsIgnoreCase("cheat"))
-        	Backgammon.setCheatBoard();
-
-        if(scanner.hasNext()) {
-            if (scanner.next().equalsIgnoreCase("bar") && !Backgammon.currentPlayer.isMoveMade()) {
+        else if(userResponse.equalsIgnoreCase("cheat"))
+            Backgammon.setCheatBoard();
+        if(userResponse.equalsIgnoreCase("next")) {
+            next();
+        } else if(userResponse.equalsIgnoreCase("yes")) {
+            frame.removeAll();
+            Backgammon.initializeBoard();
+            initializeUI();
+        }
+        else if(userResponse.equalsIgnoreCase("no")) {
+            System.exit(0);
+        }
+        else if(scanner.hasNext()) {
+            String response = scanner.next();
+            if (response.equalsIgnoreCase("bar") && !Backgammon.currentPlayer.isMoveMade()) {
                 try {
                     nextPosition = scanner.nextInt();
 
@@ -62,14 +72,7 @@ public class UI {
                 } catch(java.util.NoSuchElementException ex) {
                     messagePanelText.append("\n-Please enter your move in the format: bar 2");
                 }
-            }
-        }
-
-        //resets the scanner to be used again in next input command
-        scanner = new Scanner(userResponse).useDelimiter("\\s* \\s*");
-
-        if(scanner.hasNext()) {
-            if (scanner.next().equalsIgnoreCase("off") && !Backgammon.currentPlayer.isMoveMade()) {
+            } else if (response.equalsIgnoreCase("off") && !Backgammon.currentPlayer.isMoveMade()) {
                 try {
                     currentPosition = scanner.nextInt();
 
@@ -91,55 +94,60 @@ public class UI {
                     messagePanelText.append("\n-Please enter your move in the format: bar 2");
                 }
             }
-        }
+            //If the user types in move followed by the position of the checker they want to
+            //move followed by the position they wish it to move to the checker will move
+            if(scanner.hasNext()) {
+                if(response.equalsIgnoreCase("move") && !Backgammon.currentPlayer.isMoveMade()) {
+                    try {
+                        currentPosition = scanner.nextInt();
+                        nextPosition = scanner.nextInt();
 
-        scanner = new Scanner(userResponse).useDelimiter("\\s* \\s*");
-
-        //If the user types in move followed by the position of the checker they want to
-        //move followed by the position they wish it to move to the checker will move
-        if(scanner.hasNext()) {
-            if(scanner.next().equalsIgnoreCase("move") && !Backgammon.currentPlayer.isMoveMade()) {
-                try {
-                    currentPosition = scanner.nextInt();
-                    nextPosition = scanner.nextInt();
-
-                    if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24) {
-                        messagePanelText.append("\n-Please enter your move between 1-24");
-                    }
-                    else if (!Moves.getMoves()[currentPosition][nextPosition]) {
-                        messagePanelText.append("\n-Please enter a valid move");
-                    }
-                    else {
-                        Boolean bar = Backgammon.isBarred();
-                        Player.playerMove(currentPosition, nextPosition);
-                        if(Dice.diceAreEqual()) {
-                            Player.setDiceIfDoubles(currentPosition, nextPosition, bar);
-                        } else {
-                            Player.setDice(currentPosition, nextPosition, bar);
+                        if(currentPosition < 1 || currentPosition > 24 || nextPosition < 1 || nextPosition > 24) {
+                            messagePanelText.append("\n-Please enter your move between 1-24");
                         }
+                        else if (!Moves.getMoves()[currentPosition][nextPosition]) {
+                            messagePanelText.append("\n-Please enter a valid move");
+                        }
+                        else {
+                            Boolean bar = Backgammon.isBarred();
+                            Player.playerMove(currentPosition, nextPosition);
+                            if(Dice.diceAreEqual()) {
+                                Player.setDiceIfDoubles(currentPosition, nextPosition, bar);
+                            } else {
+                                Player.setDice(currentPosition, nextPosition, bar);
+                            }
 
+                            Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
+                            frame.repaint();
+                        }
+                    } catch(java.util.NoSuchElementException ex) {
+                        messagePanelText.append("\n-Please enter your move in the format: move 1 2");
+                    }
+                }
+            } else { //Letting user select their legal play by typing the corresponding letter A - Z
+                try {
+                    response = response.toUpperCase();
+                    int moveNumber = 0;
+                    if (response.length() > 1) {
+                        moveNumber = 26 * response.length();
+                    }
+                    //converting last character to ascii code
+                    int ascii = (int) response.charAt(response.length()-1);
+                    moveNumber += ascii - 64;
+
+                    if (moveNumber > Moves.moves.size()) {
+                        messagePanelText.append("\n-Please enter a valid move");
+                    } else {
+                        currentPosition = Moves.moves.get(moveNumber - 1).getFromPip();
+                        nextPosition = Moves.moves.get(moveNumber - 1).getToPip();
                         Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
                         frame.repaint();
                     }
-                } catch(java.util.NoSuchElementException ex) {
-                    messagePanelText.append("\n-Please enter your move in the format: move 1 2");
+                } catch (NoSuchElementException e) {
+                    messagePanelText.append("\n-Please enter move in the proper format.");
                 }
             }
         }
-
-        if(userResponse.equalsIgnoreCase("next")) {
-            next();
-        }
-
-        if(userResponse.equalsIgnoreCase("yes")) {
-            frame.removeAll();
-            Backgammon.initializeBoard();
-            initializeUI();
-        }
-        else if(userResponse.equalsIgnoreCase("no")) {
-            System.exit(0);
-        }
-
         rePaintMainPanel();
     }
 
@@ -439,12 +447,10 @@ public class UI {
                 if(!red.isEmpty()) {
                     Backgammon.player1.setPlayerName(red);
                 }
-
                 String white = whitePlayer.getText();
                 if(!white.isEmpty()) {
                     Backgammon.player2.setPlayerName(white);
                 }
-
                 initializeUI();
             }
         });
