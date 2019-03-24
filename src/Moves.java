@@ -235,10 +235,12 @@ public class Moves {
 
 	// writes list of moves to the message box in the format specified on the Trello board
 	public static void printMoves() {
+		moves.clear();
 		int numberOfMoves = 0;
 		MoveNode move;
 		String result = "\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:";
 
+		//add the possible moves to the linkedlist
 		for(int row = 0; row<28; row++) {
 			for(int column=0; column<28; column++) {
 				if(arrayOfAcceptableMoves[row][column]) {
@@ -249,22 +251,10 @@ public class Moves {
 			}
 		}
 
-		moves = deleteDuplicateMoves(moves);
+		moves = deleteDuplicateMoves(moves); //deleting duplicates in the moves
 		StringBuilder allMoves = new StringBuilder();
 		allMoves.append(result);
 		for (MoveNode m : moves) {
-			String pip;
-			if (m.getFromPip() == 26 || m.getFromPip() == 27) {
-				pip = "Bar";
-			} else {
-				pip =  Integer.toString(m.getFromPip());
-			}
-
-			if (m.getToPip() == 0 || m.getToPip() == 25) {
-				pip = "Off";
-			} else {
-				pip =  Integer.toString(m.getToPip());
-			}
 
 			if (m.isHit()) {
 				allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
