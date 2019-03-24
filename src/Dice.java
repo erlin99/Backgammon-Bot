@@ -70,7 +70,7 @@ public class Dice
 
 	public static boolean diceAreEqual()
 	{
-		if(dieValue1 == dieValue2)
+		if(dieValue1 == dieValue2 && dieValue1 != 0 && dieValue2 != 0)
 			equalDice = true;
 
 		return equalDice;
