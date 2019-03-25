@@ -235,57 +235,69 @@ public class Moves {
 		}
 	}
 
-	// writes list of moves to the message box in the format specified on the Trello board
-	public static void printMoves() {
-		moves.clear();
-		MoveNode move;
-		String result = "\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:";
+    // writes list of moves to the message box in the format specified on the Trello board
+    public static void printMoves() {
+        moves.clear();
+        MoveNode move;
 
-		//add the possible moves to the linkedlist
-		for(int row = 0; row<28; row++) {
-			for(int column=0; column<28; column++) {
-				if(arrayOfAcceptableMoves[row][column]) {
-					if (Backgammon.currentPlayer.getPlayerColor() == 'R'){
-						if (row >= 26) {
-							move = new MoveNode(row, 25 - column);
-						} else if (column == 0 || column == 25) {
-							move = new MoveNode(25 - row, column);
-						} else {
-							move = new MoveNode(25 - row, 25 - column);
-						}
-						moves.add(move);
-					}
-					else {
-						move = new MoveNode(row, column);
-						moves.add(0, move);
-					}
-				}
-			}
-		}
+        //add the possible moves to the linkedlist
+        for(int row = 0; row<28; row++) {
+            for(int column=0; column<28; column++) {
+                if(arrayOfAcceptableMoves[row][column]) {
+                        move = new MoveNode(row, column);
+                        moves.add(0, move);
+                }
+            }
+        }
+        moves = deleteDuplicateMoves(moves); //deleting duplicates in the moves
 
-		moves = deleteDuplicateMoves(moves); //deleting duplicates in the moves
-		StringBuilder allMoves = new StringBuilder();
-		allMoves.append(result);
-		for (MoveNode m : moves) {
+        if (moves.size() == 0){
+            UI.messagePanelText.append("\n - No more possible moves!");
+        } else {
+            if (moves.size() == 1){
+                UI.messagePanelText.append("\n - Only one legal move, it has been made automatically.");
+            } else {
+                UI.messagePanelText.append("\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:");
+            }
 
-			if (m.isHit()) {
-				allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
-			} else {
-				if (m.getFromPip() >= 26) {
-					allMoves.append("\nBar - " + m.getToPip());
-				} else if (m.getToPip() == 0 || m.getToPip() == 25) {
-					allMoves.append("\n" + m.getFromPip() + " - Off");
-				} else {
-					allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip());
-				}
-			}
-		}
+            StringBuilder allMoves = new StringBuilder();
+            if (Backgammon.currentPlayer.getPlayerColor() == 'R') {
+                for (int i = moves.size()-1; i >= 0; i--) {
+                    int nextPosition = 25 - moves.get(i).getToPip();
+                    int currentPosition = 25 - moves.get(i).getFromPip();
+                    if (moves.get(i).getFromPip() >= 26) {
+                        if (moves.get(i).isHit()) {
+                            allMoves.append("\nBar - " + nextPosition + "*");
+                        } else {
+                            allMoves.append("\nBar - " + nextPosition );
+                        }
+                    } else if (moves.get(i).getToPip() == 0 || moves.get(i).getToPip() == 25) {
+                        allMoves.append("\n" + currentPosition + " - Off");
+                    } else {
 
-		if(allMoves.length() != 0) {
-			UI.messagePanelText.append(allMoves.toString());
-		} else {
-			UI.messagePanelText.append("\n - No more possible moves!");
-		}
+                        if (moves.get(i).isHit()) {
+                            allMoves.append("\n" + currentPosition + " - " + nextPosition + "*");
+                        } else {
+                            allMoves.append("\n" + currentPosition + " - " + nextPosition);
+                        }
+                    }
+                }
+            } else {
+                for (MoveNode m : moves) {
+                    if (m.isHit()) {
+                        allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
+                    } else {
+                        if (m.getFromPip() >= 26) {
+                            allMoves.append("\nBar - " + m.getToPip());
+                        } else if (m.getToPip() == 0 || m.getToPip() == 25) {
+                            allMoves.append("\n" + m.getFromPip() + " - Off");
+                        } else {
+                            allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip()); }
+                    }
+                }
+            }
+            UI.messagePanelText.append(allMoves.toString());
+        }
 	}
 
 	//This method deletes the duplicates from the list
@@ -306,13 +318,13 @@ public class Moves {
 	}
 
 	//checks if the pip that in can move to is a hit
-	private static boolean isAHit(int pipToNumber){
-		if (Backgammon.counterMap[pipToNumber].getNumCounters() == 1) {
+	private static boolean isAHit(int pipToGo){
+		if (Backgammon.counterMap[pipToGo].getNumCounters() == 1) {
 			if(Backgammon.currentPlayer.getPlayerColor() == 'R') {
-				if (Backgammon.counterMap[pipToNumber].getColor() == 'W')
+				if (Backgammon.counterMap[pipToGo].getColor() == 'W')
 					return true;
 			} else {
-				if (Backgammon.counterMap[pipToNumber].getColor() == 'R')
+				if (Backgammon.counterMap[pipToGo].getColor() == 'R')
 					return true;
 			}
 		}

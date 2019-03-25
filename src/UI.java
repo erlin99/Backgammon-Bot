@@ -140,6 +140,17 @@ public class UI {
                     } else {
                         currentPosition = Moves.moves.get(moveNumber - 1).getFromPip();
                         nextPosition = Moves.moves.get(moveNumber - 1).getToPip();
+
+//                        Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
+//                        frame.repaint();
+                        Boolean bar = Backgammon.isBarred();
+                        Player.playerMove(currentPosition, nextPosition);
+                        if(Dice.diceAreEqual()) {
+                            Player.setDiceIfDoubles(currentPosition, nextPosition, bar);
+                        } else {
+                            Player.setDice(currentPosition, nextPosition, bar);
+                        }
+
                         Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
                         frame.repaint();
                     }
@@ -174,7 +185,7 @@ public class UI {
         //**** FOR TESTING
 //            Backgammon.counterMap[25].setNumCounters(15);
 
-        // game ending conditions
+        // check if the game has ended
         if(Backgammon.counterMap[0].getNumCounters() == 15) {
             finishGame(Backgammon.player2);
         }
