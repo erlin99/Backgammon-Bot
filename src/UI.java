@@ -141,16 +141,6 @@ public class UI {
                         currentPosition = Moves.moves.get(moveNumber - 1).getFromPip();
                         nextPosition = Moves.moves.get(moveNumber - 1).getToPip();
 
-//                        Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
-//                        frame.repaint();
-                        Boolean bar = Backgammon.isBarred();
-                        Player.playerMove(currentPosition, nextPosition);
-                        if(Dice.diceAreEqual()) {
-                            Player.setDiceIfDoubles(currentPosition, nextPosition, bar);
-                        } else {
-                            Player.setDice(currentPosition, nextPosition, bar);
-                        }
-
                         Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
                         frame.repaint();
                     }

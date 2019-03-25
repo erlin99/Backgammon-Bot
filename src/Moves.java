@@ -253,17 +253,21 @@ public class Moves {
 
         if (moves.size() == 0){
             UI.messagePanelText.append("\n - No more possible moves!");
+            //missing the pause function, i think is not very good though.
+//            pause(time);
             UI.next();
         } else {
             if (moves.size() == 1){
                 UI.messagePanelText.append("\n - Only one legal move, it has been made automatically.");
+
             } else {
                 UI.messagePanelText.append("\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:");
             }
 
+            //Er Lin: I have to change this code, it is working but it could be better
             StringBuilder allMoves = new StringBuilder();
             if (Backgammon.currentPlayer.getPlayerColor() == 'R') {
-                for (int i = moves.size()-1; i >= 0; i--) {
+                for (int i = 0; i < moves.size(); i++) {
                     int nextPosition = 25 - moves.get(i).getToPip();
                     int currentPosition = 25 - moves.get(i).getFromPip();
                     if (moves.get(i).getFromPip() >= 26) {
