@@ -58,10 +58,6 @@ public class Player {
     //Sets the dice so that if any dice are used they disappear and cant be used again
     public static void setDice(int selectedPosition, int movePosition, boolean bar) {
 
-        //Resets currentPosition and nextPosition so another move can be made
-        currentPosition = -1;
-        nextPosition = 0;
-
         //Creating a variable distance moved and seeing which dice have been used in this move
         int distanceMoved = 0;
 
@@ -83,12 +79,7 @@ public class Player {
 
         //If the player bears off the die or dice that is used is then set to 0
         //The two dice are compared to see if the smaller one can be used or if its the bigger one used or if its a combination of both
-        if((movePosition == 25 || movePosition == 0) && (distanceMoved != Dice.getDie1Value() && distanceMoved != Dice.getDie1Value()*2 && distanceMoved != Dice.getDie1Value()*3 && distanceMoved != Dice.getDie1Value()*4)){
-
-            //Resets currentPosition and nextPosition so another move can be made
-            currentPosition = -1;
-            nextPosition = 0;
-
+        if((movePosition == 25 || movePosition == 0) && (distanceMoved != Dice.getDie1Value() && distanceMoved != Dice.getDie2Value() && distanceMoved != (Dice.getDie1Value() + Dice.getDie2Value()))){
             if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
 
                 distanceMoved = selectedPosition;
@@ -159,12 +150,13 @@ public class Player {
             Moves.printMoves();
         }
 
-    }
-
-    public static void setDiceIfDoubles(int selectedPosition, int movePosition, boolean bar) {
         //Resets currentPosition and nextPosition so another move can be made
         currentPosition = -1;
         nextPosition = 0;
+
+    }
+
+    public static void setDiceIfDoubles(int selectedPosition, int movePosition, boolean bar) {
 
         //Creating a variable distance moved and seeing which dice have been used in this move
         int distanceMoved = 0;
@@ -228,8 +220,6 @@ public class Player {
         //This sets the players dice for sending a counter to bear off with doubles
         //The if statement also catches to see if the values are a multiple of the dice and if so use the next if statement
         else if((movePosition == 25 || movePosition == 0) && (distanceMoved != Dice.getDie1Value() && distanceMoved != Dice.getDie1Value()*2 && distanceMoved != Dice.getDie1Value()*3 && distanceMoved != Dice.getDie1Value()*4)){
-            System.out.println("doubles off");
-            System.out.println("S: " + selectedPosition + " M: " + movePosition);
             if(distanceMoved < Dice.getDie1Value()){
                 if (Dice.getDie4Value() != 0) {
                     Dice.setDieValue4(0);
@@ -312,6 +302,11 @@ public class Player {
                 Dice.setDieValue1(0);
             }
         }
+
+        //Resets currentPosition and nextPosition so another move can be made
+        currentPosition = -1;
+        nextPosition = 0;
+
         Moves.getMoves();
         Moves.printMoves();
     }
@@ -336,10 +331,9 @@ public class Player {
             }
             else {
                 UI.messagePanelText.append("\nLooks like that is not a valid move bar!");
-                System.out.println("S: " + selectedPosition + "\nM: " + movePosition);
             }
         }
-        else if(Moves.getMoves()[selectedPosition][movePosition] && !Backgammon.isBarred()) {
+        else if(Moves.getMoves()[selectedPosition][movePosition]) {
             if(Backgammon.counterMap[movePosition].getNumCounters() < 2 && Backgammon.counterMap[movePosition].getColor() != Backgammon.currentPlayer.getPlayerColor()) {
                 Backgammon.takeCounter(selectedPosition, movePosition);
             }
@@ -349,13 +343,11 @@ public class Player {
         }
         else {
             UI.messagePanelText.append("\nLooks like that is not a valid move!");
-            System.out.println("not bar S: " + selectedPosition + "\nM: " + movePosition);
         }
-
         if(Dice.diceAreEqual()) {
-            setDiceIfDoubles(currentPosition, nextPosition, bar);
+            setDiceIfDoubles(selectedPosition, movePosition, bar);
         } else {
-            setDice(currentPosition, nextPosition, bar);
+            setDice(selectedPosition, movePosition, bar);
         }
     }
 
