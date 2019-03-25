@@ -17,6 +17,14 @@ public class Moves {
 	
 	// fills the 'arrayOfAcceptableMoves' with acceptable moves
 	public static boolean[][] getMoves() {
+		// check if the game has ended
+		if(Backgammon.counterMap[0].getNumCounters() == 15) {
+			UI.finishGame(Backgammon.player2);
+		}
+		else if(Backgammon.counterMap[25].getNumCounters() == 15) {
+			UI.finishGame(Backgammon.player1);
+		}
+
 		char currentColor = Backgammon.currentPlayer.getPlayerColor();
 		dieValue1 = Dice.getDie1Value();
 		dieValue2 = Dice.getDie2Value();

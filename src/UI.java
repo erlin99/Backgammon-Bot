@@ -193,9 +193,9 @@ public class UI {
 
         // NEEDS TO BE FIXED
         // also need something to freeze the board once the game is over
-        String userResponse = UI.getUserInput();
-
-        inputCommands(userResponse);
+//        String userResponse = UI.getUserInput();
+//
+//        inputCommands(userResponse);
     }
 
     //Method which repaints the main Panel
