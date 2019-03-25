@@ -253,6 +253,7 @@ public class Moves {
 
         if (moves.size() == 0){
             UI.messagePanelText.append("\n - No more possible moves!");
+            UI.next();
         } else {
             if (moves.size() == 1){
                 UI.messagePanelText.append("\n - Only one legal move, it has been made automatically.");
@@ -330,6 +331,12 @@ public class Moves {
 		}
 		return false;
 	}
+
+	private static void pause(int time) {
+	    try {
+            Thread.sleep(time);
+        } catch (Exception e) { }
+    }
 
 //	//check if all checkers of the color are in the correct quadrant for bearOff
 //	private static boolean correctBearOff() {
