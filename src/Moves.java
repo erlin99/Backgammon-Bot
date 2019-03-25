@@ -254,55 +254,68 @@ public class Moves {
         if (moves.size() == 0){
             UI.messagePanelText.append("\n - No more possible moves!");
             //missing the pause function, i think is not very good though.
-//            pause(time);
+//            pause(2000);
             UI.next();
-        } else {
-            if (moves.size() == 1){
-                UI.messagePanelText.append("\n - Only one legal move, it has been made automatically.");
+        } else if (moves.size() == 1) {
+			UI.messagePanelText.append("\n - Only one legal move, it has been made automatically.");
+			int currentPosition = Moves.moves.get(0).getFromPip();
+			int nextPosition = Moves.moves.get(0).getToPip();
 
-            } else {
-                UI.messagePanelText.append("\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:");
-            }
+			UI.messagePanelText.append(allMoves(moves).toString());
 
-            //Er Lin: I have to change this code, it is working but it could be better
-            StringBuilder allMoves = new StringBuilder();
-            if (Backgammon.currentPlayer.getPlayerColor() == 'R') {
-                for (int i = 0; i < moves.size(); i++) {
-                    int nextPosition = 25 - moves.get(i).getToPip();
-                    int currentPosition = 25 - moves.get(i).getFromPip();
-                    if (moves.get(i).getFromPip() >= 26) {
-                        if (moves.get(i).isHit()) {
-                            allMoves.append("\nBar - " + nextPosition + "*");
-                        } else {
-                            allMoves.append("\nBar - " + nextPosition );
-                        }
-                    } else if (moves.get(i).getToPip() == 0 || moves.get(i).getToPip() == 25) {
-                        allMoves.append("\n" + currentPosition + " - Off");
-                    } else {
+			Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
+			UI.frame.repaint();
 
-                        if (moves.get(i).isHit()) {
-                            allMoves.append("\n" + currentPosition + " - " + nextPosition + "*");
-                        } else {
-                            allMoves.append("\n" + currentPosition + " - " + nextPosition);
-                        }
-                    }
-                }
-            } else {
-                for (MoveNode m : moves) {
-                    if (m.isHit()) {
-                        allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
-                    } else {
-                        if (m.getFromPip() >= 26) {
-                            allMoves.append("\nBar - " + m.getToPip());
-                        } else if (m.getToPip() == 0 || m.getToPip() == 25) {
-                            allMoves.append("\n" + m.getFromPip() + " - Off");
-                        } else {
-                            allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip()); }
-                    }
-                }
-            }
-            UI.messagePanelText.append(allMoves.toString());
-        }
+//			pause(2000); //pause game for 2 seconds
+
+			UI.next();
+		} else {
+        	UI.messagePanelText.append("\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:");
+			UI.messagePanelText.append(allMoves(moves).toString());
+		}
+	}
+
+	//creates a string of all the moves
+	public static StringBuilder allMoves(LinkedList<MoveNode> moves){
+		//Er Lin: I have to change this code, it is working but it could be better
+		StringBuilder allMoves = new StringBuilder();
+		if (Backgammon.currentPlayer.getPlayerColor() == 'R') {
+			for (int i = 0; i < moves.size(); i++) {
+				int nextPosition = 25 - moves.get(i).getToPip();
+				int currentPosition = 25 - moves.get(i).getFromPip();
+				if (moves.get(i).getFromPip() >= 26) {
+					if (moves.get(i).isHit()) {
+						allMoves.append("\nBar - " + nextPosition + "*");
+					} else {
+						allMoves.append("\nBar - " + nextPosition );
+					}
+				} else if (moves.get(i).getToPip() == 0 || moves.get(i).getToPip() == 25) {
+					allMoves.append("\n" + currentPosition + " - Off");
+				} else {
+
+					if (moves.get(i).isHit()) {
+						allMoves.append("\n" + currentPosition + " - " + nextPosition + "*");
+					} else {
+						allMoves.append("\n" + currentPosition + " - " + nextPosition);
+					}
+				}
+			}
+		} else {
+			for (MoveNode m : moves) {
+				if (m.isHit()) {
+					allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
+				} else {
+					if (m.getFromPip() >= 26) {
+						allMoves.append("\nBar - " + m.getToPip());
+					} else if (m.getToPip() == 0 || m.getToPip() == 25) {
+						allMoves.append("\n" + m.getFromPip() + " - Off");
+					} else {
+						allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip()); }
+				}
+			}
+		}
+
+		return allMoves;
 	}
 
 	//This method deletes the duplicates from the list
