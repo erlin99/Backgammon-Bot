@@ -18,13 +18,15 @@ public class BoardNumbers extends JPanel {
         UI.frame.repaint();
     }
 
+
     public static void draw(Graphics2D g) {
+
         g.setColor(Color.WHITE);
         g.setFont(new Font("default", Font.BOLD, 16));
 
         if (currentPlayer == 'R') {
             for (int i = 24; i > 0; i--) {
-                if (i <= 13) {
+                if (i >= 13) {
                     g.drawString(Integer.toString(i), XCOORDINATES[i - 1], BOTTOMY);
                 }
                 else {
