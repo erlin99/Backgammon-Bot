@@ -18,6 +18,8 @@ public class UI {
     public static String userResponse = new String();
     public static JFrame frame = new JFrame();
     public static JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
+
+   public static boolean gameOver = false;
     
     // the 'null' means the Panel doesn't follow a specific layout manager
     public static JPanel mainPanel = new JPanel(null);
@@ -40,12 +42,12 @@ public class UI {
             Backgammon.setCheatBoard();
         if(userResponse.equalsIgnoreCase("next")) {
             next();
-        } else if(userResponse.equalsIgnoreCase("yes")) {
-            frame.removeAll();
+        } else if(userResponse.equalsIgnoreCase("yes") && gameOver) {
+            //frame.removeAll();
             Backgammon.initializeBoard();
             initializeUI();
         }
-        else if(userResponse.equalsIgnoreCase("no")) {
+        else if(userResponse.equalsIgnoreCase("no") && gameOver) {
             System.exit(0);
         }
         else if(scanner.hasNext()) {
@@ -191,6 +193,7 @@ public class UI {
         UI.messagePanelText.append("\nWould you like to play again?");
         UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
 
+        gameOver = true;
         // NEEDS TO BE FIXED
         // also need something to freeze the board once the game is over
 //        String userResponse = UI.getUserInput();

@@ -119,13 +119,9 @@ public class Player {
         //These if statements check which dice has been used in the move and then sets that dice to 0
         if(bar && barMove == Dice.getDie1Value()) {
             Dice.setDieValue1(0);
-            Moves.getMoves();
-            Moves.printMoves();
         }
         else if(bar && barMove == Dice.getDie2Value()) {
             Dice.setDieValue2(0);
-            Moves.getMoves();
-            Moves.printMoves();
         }
         else if(bar && (barMove == Dice.getDie1Value() + Dice.getDie2Value())) {
             Dice.setDieValue1(0);
@@ -135,25 +131,20 @@ public class Player {
         }
         else if(distanceMoved == Dice.getDie1Value()) {
             Dice.setDieValue1(0);
-            Moves.getMoves();
-            Moves.printMoves();
         }
         else if(distanceMoved == Dice.getDie2Value()) {
             Dice.setDieValue2(0);
-            Moves.getMoves();
-            Moves.printMoves();
         }
         else if(distanceMoved == Dice.getDie2Value() + Dice.getDie1Value()) {
             Dice.setDieValue1(0);
             Dice.setDieValue2(0);
-            Moves.getMoves();
-            Moves.printMoves();
         }
+
+        postMoves();
 
         //Resets currentPosition and nextPosition so another move can be made
         currentPosition = -1;
         nextPosition = 0;
-
     }
 
     public static void setDiceIfDoubles(int selectedPosition, int movePosition, boolean bar) {
@@ -307,8 +298,14 @@ public class Player {
         currentPosition = -1;
         nextPosition = 0;
 
-        Moves.getMoves();
-        Moves.printMoves();
+        postMoves();
+    }
+
+    public static void postMoves(){
+        if(!UI.gameOver){
+            Moves.getMoves();
+            Moves.printMoves();
+        }
     }
 
     //Removes a counter from current Position and adds it to next positions
