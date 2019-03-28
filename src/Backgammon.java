@@ -16,6 +16,7 @@ public class Backgammon {
         UI.mainMenuUI();
     }
 
+    // checking if the current players checker is on the bar
     public static boolean isBarred() {
         if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
             return Backgammon.counterMap[26].getNumCounters() > 0;

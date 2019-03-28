@@ -55,7 +55,7 @@ public class Player {
         }
     }
 
-    //Sets the dice so that if any dice are used they disappear and cant be used again
+    //Sets the dice so that if any dice are used they disappear and can't be used again
     public static void setDice(int selectedPosition, int movePosition, boolean bar) {
 
         //Creating a variable distance moved and seeing which dice have been used in this move
@@ -117,6 +117,7 @@ public class Player {
         }
 
         //These if statements check which dice has been used in the move and then sets that dice to 0
+        // this makes the correct die disappear from the board once used
         if(bar && barMove == Dice.getDie1Value()) {
             Dice.setDieValue1(0);
         }
@@ -140,6 +141,8 @@ public class Player {
             Dice.setDieValue2(0);
         }
 
+        // this checks to see if the game is finished
+        // if game isn't over, it will post/print the moves
         postMoves();
 
         //Resets currentPosition and nextPosition so another move can be made
@@ -147,6 +150,7 @@ public class Player {
         nextPosition = 0;
     }
 
+    // same as the setDice function only it deals with the edge case of when the 2 die values are equal
     public static void setDiceIfDoubles(int selectedPosition, int movePosition, boolean bar) {
 
         //Creating a variable distance moved and seeing which dice have been used in this move

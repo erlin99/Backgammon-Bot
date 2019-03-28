@@ -6,6 +6,7 @@ public class MoveNode {
 
     private int fromPip;
     private int toPip;
+    // checks if we need to place a '*' beside the list as you're sending someone elses checker to the bar
     private boolean isHit = false;
 
     public MoveNode(int fromPip, int toPip) {

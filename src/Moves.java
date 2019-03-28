@@ -4,9 +4,10 @@ import java.util.LinkedList;
  * Team name: Arrays start at 1
  * Team members: 17328173, 17768231, 17419914
  */
+
 //static class as no need to create an instantiation of it in any other part of the application
-public class Moves {
-	public static CounterPositions[] counterMap = new CounterPositions[28];
+public class Moves 
+{
 	private static boolean[][] arrayOfAcceptableMoves = new boolean[28][28];
 	public static LinkedList<MoveNode> moves = new LinkedList<>();
 
@@ -32,23 +33,31 @@ public class Moves {
 		dieValue4 = Dice.getDie4Value();
 
 		// clear the array of acceptable moves each time the function is called
-		for(int row=0; row<28; row++) {
-			for(int column=0; column<28; column++) {
+		for(int row=0; row<28; row++) 
+		{
+			for(int column=0; column<28; column++) 
+			{
 				arrayOfAcceptableMoves[row][column] = false;
 			}
 		}
 
-		if(Backgammon.isBarred()) {
+		if(Backgammon.isBarred()) 
+		{
 			arrayOfAcceptableMoves = barMoves();
-		} else {
-			for (int i = 1; i <= 24; i++) {
-				if (Backgammon.counterMap[i].getColor() == currentColor) {
+		} 
+		else 
+		{
+			for (int i = 1; i <= 24; i++) 
+			{
+				if (Backgammon.counterMap[i].getColor() == currentColor) 
+				{
 					// check dieValue1, dieValue2, and dieValue1 + dieValue2 from this location 'i'
 					// if the move is valid store it in the arrayOfAcceptableMoves array
 					// NOTE: the array is of type boolean, the coordinates of the move itself are stored in the indexing of the array
 
 					// Edge case: the dice are equal - have to check the value of one of the dice *1, 2, 3 & 4
-					if (!(Dice.diceAreEqual()) && currentColor == 'R') {
+					if (!(Dice.diceAreEqual()) && currentColor == 'R') 
+					{
 
 						// this if statement stops an ArrayIndexOutOfBoundsException
 						if (i + dieValue1 < Backgammon.counterMap.length) {
@@ -139,6 +148,7 @@ public class Moves {
 						}
 					}
 				}
+				// correctBearOff() commented below
 //				if (correctBearOff()) {
 					bearOffMoves(i);
 //				}
@@ -148,7 +158,8 @@ public class Moves {
 	}
 
 	//Gets the available moves for if a counter is on the bar
-	public static boolean[][] barMoves() {
+	public static boolean[][] barMoves() 
+	{
 
 		// clear the array of acceptable moves each time the function is called
 		for(int row=0; row<28; row++) {
@@ -180,14 +191,18 @@ public class Moves {
 				arrayOfAcceptableMoves[27][dieValue2] = true;
 			}
 
-			if(acceptableMove(Backgammon.counterMap[(dieValue1 + dieValue2)], 0) && (dieValue1 + dieValue2) <= 6) {
+			if(acceptableMove(Backgammon.counterMap[(dieValue1 + dieValue2)], 0) && (dieValue1 + dieValue2) <= 6)
+			{
 				arrayOfAcceptableMoves[27][(dieValue1 + dieValue2)] = true;
 			}
 		}
 		return arrayOfAcceptableMoves;
 	}
 
-	public static void bearOffMoves(int i) {
+	// allows user to bear off their counter without needing an exact die value that lands on the bear off
+	// i.e. they're 3 positions away and the die value is 5 - they can bear off the counter
+	public static void bearOffMoves(int i) 
+	{
 		if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
 			if(validBearOff(i, Dice.getDie1Value())) {
 				arrayOfAcceptableMoves[i][0] = true;
@@ -231,20 +246,31 @@ public class Moves {
 		}
 	}
 
-	public static boolean validBearOff(int currentPosition, int dieValue) {
-		if(Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor()) {
-			if(Backgammon.currentPlayer.getPlayerColor() == 'W') {
+	// checks that you can only move to the correct bear off and that the dice contain values that enable you to reach the bear off
+	public static boolean validBearOff(int currentPosition, int dieValue) 
+	{
+		if(Backgammon.counterMap[currentPosition].getColor() == Backgammon.currentPlayer.getPlayerColor()) 
+		{
+			if(Backgammon.currentPlayer.getPlayerColor() == 'W') 
+			{
 				return currentPosition - dieValue <= 0;
-			} else {
+			}
+			else
+			{
 				return currentPosition + dieValue >= 25;
 			}
-		} else {
+		} 
+		else 
+		{
 			return  false;
 		}
 	}
 
     // writes list of moves to the message box in the format specified on the Trello board
-    public static void printMoves() {
+    public static void printMoves() 
+    {
+    	// moves is a reference to the linkedlist at the top 
+    	// clear clears the list
         moves.clear();
         MoveNode move;
 
@@ -257,24 +283,23 @@ public class Moves {
                 }
             }
         }
+        
         moves = deleteDuplicateMoves(moves); //deleting duplicates in the moves
 
         if (moves.size() == 0){
             UI.messagePanelText.append("\n - No more possible moves!");
-            //missing the pause function, i think is not very good though.
-//            pause(2000);
+            // sets the currentplayer to the next player (other player)
             UI.next();
         } else if (moves.size() == 1) {
-			UI.messagePanelText.append("\n - Only one legal move, it has been made automatically.");
-			int currentPosition = Moves.moves.get(0).getFromPip();
-			int nextPosition = Moves.moves.get(0).getToPip();
+			UI.messagePanelText.append("\n - Only one legal move, made automatically.");
+			int currentPosition = moves.get(0).getFromPip();
+			int nextPosition = moves.get(0).getToPip();
 
 			UI.messagePanelText.append(allMoves(moves).toString());
 
 			Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
 			UI.frame.repaint();
 
-//			pause(2000); //pause game for 2 seconds
 
 			UI.next();
 		} else {
@@ -285,21 +310,33 @@ public class Moves {
 
 	//creates a string of all the moves
 	public static StringBuilder allMoves(LinkedList<MoveNode> moves){
-		//Er Lin: I have to change this code, it is working but it could be better
+		
 		StringBuilder allMoves = new StringBuilder();
-		if (Backgammon.currentPlayer.getPlayerColor() == 'R') {
-			for (int i = 0; i < moves.size(); i++) {
+		
+		if (Backgammon.currentPlayer.getPlayerColor() == 'R') 
+		{
+			for (int i = 0; i < moves.size(); i++) 
+			{
 				int nextPosition = 25 - moves.get(i).getToPip();
 				int currentPosition = 25 - moves.get(i).getFromPip();
-				if (moves.get(i).getFromPip() >= 26) {
-					if (moves.get(i).isHit()) {
+				
+				if (moves.get(i).getFromPip() >= 26) 
+				{
+					if (moves.get(i).isHit()) 
+					{
 						allMoves.append("\nBar - " + nextPosition + "*");
-					} else {
+					}
+					else 
+					{
 						allMoves.append("\nBar - " + nextPosition );
 					}
-				} else if (moves.get(i).getToPip() == 0 || moves.get(i).getToPip() == 25) {
+				} 
+				else if (moves.get(i).getToPip() == 0 || moves.get(i).getToPip() == 25)
+				{
 					allMoves.append("\n" + currentPosition + " - Off");
-				} else {
+				} 
+				else 
+				{
 
 					if (moves.get(i).isHit()) {
 						allMoves.append("\n" + currentPosition + " - " + nextPosition + "*");
@@ -308,16 +345,27 @@ public class Moves {
 					}
 				}
 			}
-		} else {
-			for (MoveNode m : moves) {
-				if (m.isHit()) {
+		} 
+		else 
+		{
+			for (MoveNode m : moves) 
+			{
+				if (m.isHit()) 
+				{
 					allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
-				} else {
-					if (m.getFromPip() >= 26) {
+				}
+				else 
+				{
+					if (m.getFromPip() >= 26) 
+					{
 						allMoves.append("\nBar - " + m.getToPip());
-					} else if (m.getToPip() == 0 || m.getToPip() == 25) {
+					}
+					else if (m.getToPip() == 0 || m.getToPip() == 25) 
+					{
 						allMoves.append("\n" + m.getFromPip() + " - Off");
-					} else {
+					} 
+					else 
+					{
 						allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip()); }
 				}
 			}
@@ -343,7 +391,7 @@ public class Moves {
 		return list;
 	}
 
-	//checks if the pip that in can move to is a hit
+	//checks if the pip that it can move to is a hit
 	private static boolean isAHit(int pipToGo){
 		if (Backgammon.counterMap[pipToGo].getNumCounters() == 1) {
 			if(Backgammon.currentPlayer.getPlayerColor() == 'R') {
@@ -357,11 +405,6 @@ public class Moves {
 		return false;
 	}
 
-	private static void pause(int time) {
-	    try {
-            Thread.sleep(time);
-        } catch (Exception e) { }
-    }
 
 //	//check if all checkers of the color are in the correct quadrant for bearOff
 //	private static boolean correctBearOff() {
@@ -386,7 +429,7 @@ public class Moves {
 		boolean oneCounterOrEmpty = position.getNumCounters() <= 1;
 		boolean bar = position.pipNumber == 26 || position.pipNumber == 27;
 		boolean sameSpace = position.pipNumber == i;
-
+		
 		return (sameColor || oneCounterOrEmpty) && !bar && !sameSpace;
 	}
 }

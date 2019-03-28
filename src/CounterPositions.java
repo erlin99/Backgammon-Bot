@@ -133,6 +133,7 @@ public class CounterPositions {
     }
 
     //Calls the drawPossibleMove function on each move that is returned to be a valid move from possibleMoves
+    // for drawing the green circle showing the possible allowable moves
     public void drawAllMoves(Graphics2D g) {
         boolean[][] possibleMoves = Moves.getMoves();
 

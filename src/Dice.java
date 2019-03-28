@@ -66,6 +66,8 @@ public class Dice {
 
 	public static boolean diceAreEqual()
 	{
+		// they cannot equal 0 as Enda makes the die equal 0 to make it disappear once the user has moved
+		// the specified amount of moves on that die
 		if(dieValue1 == dieValue2 && dieValue1 != 0 && dieValue2 != 0)
 			equalDice = true;
 
@@ -86,32 +88,40 @@ public class Dice {
 		return hasRolledDice;
 	}
 
-	public static void initialDiceRoll() {
-		do {
+	public static void initialDiceRoll() 
+	{
+		do 
+		{
 			rollDice();
 			// show the dice by calling the paintComponent method on the main panel
 			UI.frame.repaint();
 
-			if(diceAreEqual()) {
+			if(diceAreEqual()) 
+			{
 				//***** ADD TIMER - Want the equal dice to show for a second or two before the new roll
 				UI.messagePanelText.append("\n-The 2 dice have the same value. We must roll again!");
 			}
-			else if(dieValue1 > dieValue2) {
+			else if(dieValue1 > dieValue2) 
+			{
 				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
 			}
-			else {
+			else 
+			{
 				Backgammon.player1.setMoveMade(true);
 				Backgammon.currentPlayer = Backgammon.player2;
 				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
 			}
 
+			// change to the correct board numbers depending on who wins the initial dice roll
 			BoardNumbers.changeBoard(Backgammon.currentPlayer);
 
 			// deals with printing of moves to the message box during the initial roll, ensures no redundancy
-			if(!(diceAreEqual())) {
+			if(!(diceAreEqual())) 
+			{
 				Moves.getMoves();
 				initialRollComplete = true;
 			}
+			
 		} while(diceAreEqual());
 
 		//Stops player rolling again on the first turn

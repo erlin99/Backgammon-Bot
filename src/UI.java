@@ -19,7 +19,8 @@ public class UI {
     public static JFrame frame = new JFrame();
     public static JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
 
-   public static boolean gameOver = false;
+    // when either of the bear offs contain 15 counters this changes to true
+    public static boolean gameOver = false;
     
     // the 'null' means the Panel doesn't follow a specific layout manager
     public static JPanel mainPanel = new JPanel(null);
@@ -28,6 +29,7 @@ public class UI {
         return userResponse;
     }
 
+    // ***** NEEDS TO BE REFACTORED
     public static void inputCommands(String userResponse) {
 
         int currentPosition;
@@ -38,12 +40,14 @@ public class UI {
         //if user types quit exit the program
         if(userResponse.equalsIgnoreCase("quit"))
             System.exit(0);
+        
         else if(userResponse.equalsIgnoreCase("cheat"))
             Backgammon.setCheatBoard();
+        
         if(userResponse.equalsIgnoreCase("next")) {
             next();
-        } else if(userResponse.equalsIgnoreCase("yes") && gameOver) {
-            //frame.removeAll();
+        } 
+        else if(userResponse.equalsIgnoreCase("yes") && gameOver) {
             Backgammon.initializeBoard();
             initializeUI();
         }
@@ -131,7 +135,7 @@ public class UI {
                     response = response.toUpperCase();
                     int moveNumber = 0;
                     if (response.length() > 1) {
-                        moveNumber = 26 * response.length();
+                        moveNumber = 26 * (response.length()-1);
                     }
                     //converting last character to ascii code
                     int ascii = (int) response.charAt(response.length()-1);
@@ -160,6 +164,7 @@ public class UI {
         Backgammon.player2.setMoveMade(false);
         Backgammon.player2.currentPosition = -1;
 
+        // if something is clicked i.e. the green circle is present it clears the green circle once next is clicked
         Backgammon.deSelect();
 
         if(Backgammon.currentPlayer == Backgammon.player1) {
@@ -174,9 +179,6 @@ public class UI {
 
         messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
 
-        //**** FOR TESTING
-//            Backgammon.counterMap[25].setNumCounters(15);
-
         // check if the game has ended
         if(Backgammon.counterMap[0].getNumCounters() == 15) {
             finishGame(Backgammon.player2);
@@ -186,7 +188,7 @@ public class UI {
         }
     }
 
-    // called in UI.java at bottom of inputCommands (as this function is used after every iteration of game play/ every move)
+    // ***** NEEDS TO BE REFACTORED - Would like to print the winner's name over the board instead of in the command window
     public static void finishGame(Player player) {
         UI.messagePanelText.append("\nCongratulations " + player.playerName + ", You Win!!!");
 
@@ -194,11 +196,10 @@ public class UI {
         UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
 
         gameOver = true;
-        // NEEDS TO BE FIXED
-        // also need something to freeze the board once the game is over
-//        String userResponse = UI.getUserInput();
-//
-//        inputCommands(userResponse);
+        
+        //Ensures the user can't roll the dice after the game has finished
+        Dice.playerHasRolledDice(true);
+
     }
 
     //Method which repaints the main Panel
