@@ -286,11 +286,13 @@ public class Moves
         
         moves = deleteDuplicateMoves(moves); //deleting duplicates in the moves
 
-        if (moves.size() == 0){
+        // Sprint 4 fix added - added !UI.gameOver into the conditions to ensure that this code doesn't print to the message panel
+        // when the game has already ended
+        if (moves.size() == 0 && !UI.gameOver){
             UI.messagePanelText.append("\n - No more possible moves!");
             // sets the currentplayer to the next player (other player)
             UI.next();
-        } else if (moves.size() == 1) {
+        } else if (moves.size() == 1 && !UI.gameOver) {
 			UI.messagePanelText.append("\n - Only one legal move, made automatically.");
 			int currentPosition = moves.get(0).getFromPip();
 			int nextPosition = moves.get(0).getToPip();
@@ -302,7 +304,7 @@ public class Moves
 
 
 			UI.next();
-		} else {
+		} else if(!UI.gameOver){
         	UI.messagePanelText.append("\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:");
 			UI.messagePanelText.append(allMoves(moves).toString());
 		}

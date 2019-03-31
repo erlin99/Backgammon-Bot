@@ -51,8 +51,26 @@ public class UI {
         	// added to ensure that if the user replays the game that gameOver is no longer set to true
         	gameOver = false;
         	
-            Backgammon.initializeBoard();
-            initializeUI();
+        	//***** NEED TO FINISH
+//        	UI.messagePanelText.append("\nPlayer 1 - Please enter your name:");
+//        	
+//        	String response = scanner.next();
+//        	
+//        	Backgammon.player1.setPlayerName(response);
+//        	
+//        	UI.messagePanelText.append("\nPlayer 2 - Please enter your name:");
+//        	Backgammon.player2.setPlayerName(getUserInput());
+//        	
+//        	//TESTING
+//        	UI.messagePanelText.append("\n\n Player 1 = " + Backgammon.player1.getPlayerName());
+//        	UI.messagePanelText.append("\n Player 2 = " + Backgammon.player2.getPlayerName() + "\n\n");
+        	
+        	if(Backgammon.player1.getPlayerName() != "" && Backgammon.player2.getPlayerName() != "")
+        	{
+        		Backgammon.initializeBoard();
+                initializeUI();
+        	}
+            
         }
         else if(userResponse.equalsIgnoreCase("no") && gameOver) {
             System.exit(0);
