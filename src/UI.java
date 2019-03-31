@@ -87,6 +87,11 @@ public class UI {
             UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
         }
         	
+        // new sprint 4 code, calls the doubleScore method if the user enters double
+        else if(userResponse.equalsIgnoreCase("double"))
+        {
+        	Backgammon.doubleScore();
+        }
         	
         	
         else if(scanner.hasNext()) {
@@ -222,6 +227,7 @@ public class UI {
             finishGame(Backgammon.player1);
         }
     }
+    
 
     // ***** NEEDS TO BE REFACTORED - Would like to print the winner's name over the board instead of in the command window
     public static void finishGame(Player player) {
@@ -388,12 +394,13 @@ public class UI {
         doublingCubeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         commandPanelContainer.add(doublingCubeButton);
 
-        //DOUBLING CUBE METHOD TO BE IMPLEMENTED IN LATER SPRINTS
-//        doublingCube.addActionListener(new ActionListener(){
-//        	public void actionPerformed(ActionEvent e){
-//
-//        	        }
-//        	    });
+       
+        doublingCubeButton.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		Backgammon.doubleScore();
+        	}
+        });
 
         mainPanel.add(boardPanel);
         mainPanel.add(player1PipPanelContainer);

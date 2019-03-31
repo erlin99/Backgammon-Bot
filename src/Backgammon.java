@@ -6,14 +6,36 @@ public class Backgammon {
 	public static CounterPositions[] counterMap = new CounterPositions[28];
     private static final int[] RESET = {0,2,0,0,0,0,5,0,3,0,0,0,5,5,0,0,0,3,0,5,0,0,0,0,2};
     private static final char[] RESET_COLORS = {'B', 'R', 'B', 'B', 'B', 'B', 'W', 'B', 'W', 'B', 'B', 'B', 'R', 'W', 'B', 'B', 'B', 'R', 'B', 'R', 'B', 'B', 'B', 'B', 'W'};
-
+    private static int doublingCubeValue = 1;
+    
     public static Player player1 = new Player("Player 1", 'R', 167);
     public static Player player2 = new Player("Player 2", 'W', 167);
     public static Player currentPlayer = player1;
+    // could make private static and have a getCubeOwner() method
+    public static Player cubeOwner;
 
     public static void main(String [] args) {
         initializeBoard();
         UI.mainMenuUI();
+    }
+    
+    // method used to when a player clicks or enters Double
+    public static void doubleScore()
+    {	
+    	if(currentPlayer != cubeOwner && !Dice.hasPlayerRolledDice())
+    	{
+    		cubeOwner = currentPlayer;
+    		doublingCubeValue *= 2;
+    	}
+    	else if(currentPlayer == cubeOwner)
+    	{
+    		UI.messagePanelText.append("\nYou cannot call a double as you are the cube owner");
+    	}
+    	else if(Dice.hasPlayerRolledDice())
+    	{
+    		UI.messagePanelText.append("\nYou cannot call a double as you have already rolled the dice");
+    	}
+    		
     }
 
     // checking if the current players checker is on the bar
