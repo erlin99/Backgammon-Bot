@@ -48,12 +48,29 @@ public class UI {
             next();
         } 
         else if(userResponse.equalsIgnoreCase("yes") && gameOver) {
+        	// added to ensure that if the user replays the game that gameOver is no longer set to true
+        	gameOver = false;
+        	
             Backgammon.initializeBoard();
             initializeUI();
         }
         else if(userResponse.equalsIgnoreCase("no") && gameOver) {
             System.exit(0);
         }
+        
+        // new sprint 4 code, ensures the user enters either 'yes' or 'no' when the game is over
+        // if they don't this code runs, asking them to enter a valid input
+        else if(gameOver && !(userResponse.equalsIgnoreCase("yes") || userResponse.equalsIgnoreCase("no")))
+        {
+        	UI.messagePanelText.append("\nYou have entered an invalid input");
+        	UI.messagePanelText.append("\nPlease enter either 'yes' to play again, or 'no' to exit the game");
+        	
+        	UI.messagePanelText.append("\nWould you like to play again?");
+            UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
+        }
+        	
+        	
+        	
         else if(scanner.hasNext()) {
             String response = scanner.next();
             if (response.equalsIgnoreCase("bar") && !Backgammon.currentPlayer.isMoveMade()) {
