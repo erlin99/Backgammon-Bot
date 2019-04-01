@@ -90,7 +90,17 @@ public class UI {
         // new sprint 4 code, calls the doubleScore method if the user enters double
         else if(userResponse.equalsIgnoreCase("double"))
         {
+        	Backgammon.requestDoubleScore();
+        }
+        
+        else if(userResponse.equalsIgnoreCase("accept") && Backgammon.cubeRequest)
+        {
         	Backgammon.doubleScore();
+        }
+        
+        else if(userResponse.equalsIgnoreCase("reject") && Backgammon.cubeRequest)
+        {
+        	System.exit(0);
         }
         	
         	
@@ -398,7 +408,7 @@ public class UI {
         doublingCubeButton.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e)
         	{
-        		Backgammon.doubleScore();
+        		Backgammon.requestDoubleScore();
         	}
         });
 

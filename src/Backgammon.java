@@ -13,6 +13,7 @@ public class Backgammon {
     public static Player currentPlayer = player1;
     // could make private static and have a getCubeOwner() method
     public static Player cubeOwner;
+    public static boolean cubeRequest = false;
 
     public static void main(String [] args) {
         initializeBoard();
@@ -20,12 +21,21 @@ public class Backgammon {
     }
     
     // method used to when a player clicks or enters Double
-    public static void doubleScore()
+    public static void requestDoubleScore()
     {	
     	if(currentPlayer != cubeOwner && !Dice.hasPlayerRolledDice())
     	{
-    		cubeOwner = currentPlayer;
-    		doublingCubeValue *= 2;
+    		cubeRequest = true;
+    		
+    		if(currentPlayer == player1)
+    		{
+    			UI.messagePanelText.append("\n" + player2.getPlayerName() + ", would you like to accept the double?");
+    		}
+    		else
+    		{
+    			UI.messagePanelText.append("\n" + player1.getPlayerName() + ", would you like to accept the double?");
+    		}
+    		
     	}
     	else if(currentPlayer == cubeOwner)
     	{
@@ -36,6 +46,19 @@ public class Backgammon {
     		UI.messagePanelText.append("\nYou cannot call a double as you have already rolled the dice");
     	}
     		
+    }
+    
+    public static void doubleScore()
+    {
+    	cubeOwner = currentPlayer;
+		doublingCubeValue *= 2;
+		
+		UI.messagePanelText.append("\n" + cubeOwner.getPlayerName() + ", you are the cube owner.");
+		
+		//FOR TESTING
+//		UI.messagePanelText.append("\n doublingCubeValue = " + doublingCubeValue + "\n");
+		
+		cubeRequest = false;
     }
 
     // checking if the current players checker is on the bar
