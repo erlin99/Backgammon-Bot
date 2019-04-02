@@ -21,9 +21,10 @@ public class Backgammon {
     }
     
     // method used to when a player clicks or enters Double
+    // it requests a double provided that the user is not the cubeOwner, hasn't already rolled the dice this turn, or the cube isn't its max
     public static void requestDoubleScore()
     {	
-    	if(currentPlayer != cubeOwner && !Dice.hasPlayerRolledDice())
+    	if(currentPlayer != cubeOwner && !Dice.hasPlayerRolledDice() && !(getDoublingCubeValue() >= 64))
     	{
     		cubeRequest = true;
     		
@@ -45,9 +46,15 @@ public class Backgammon {
     	{
     		UI.messagePanelText.append("\nYou cannot call a double as you have already rolled the dice");
     	}
+    	else if(getDoublingCubeValue() >= 64)
+    	{
+    		UI.messagePanelText.append("\nYou cannot call a double as the cube is at its max value of 64");
+    	}
     		
     }
     
+    // this is the actual code that doubles the cube value
+    // it also sets the new cubeowner, and alerts them in the message panel that they now own the cube
     public static void doubleScore()
     {
     	cubeOwner = currentPlayer;
@@ -59,6 +66,12 @@ public class Backgammon {
 //		UI.messagePanelText.append("\n doublingCubeValue = " + doublingCubeValue + "\n");
 		
 		cubeRequest = false;
+    }
+    
+    // method to get the value displayed on the doubling cube
+    public static int getDoublingCubeValue()
+    {
+    	return doublingCubeValue;
     }
 
     // checking if the current players checker is on the bar
