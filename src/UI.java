@@ -50,8 +50,9 @@ public class UI {
         else if(userResponse.equalsIgnoreCase("yes") && gameOver) {
         	// added to ensure that if the user replays the game that gameOver is no longer set to true
         	gameOver = false;
-        	
-        	//***** NEED TO FINISH
+
+            /** Why do we need this?? */
+            //***** NEED TO FINISH
 //        	UI.messagePanelText.append("\nPlayer 1 - Please enter your name:");
 //        	
 //        	String response = scanner.next();
