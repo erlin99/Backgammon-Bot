@@ -489,6 +489,13 @@ public class UI {
         whitePlayer.setBounds(838,374, 457, 35);
         mainPanel.add(whitePlayer);
 
+        //Setting text field to enter number of points to play to
+        JTextField points = new JTextField();
+        points.setFont(new Font("Serif", Font.PLAIN, 27));
+        points.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        points.setBounds(721,476, 209, 35);
+        mainPanel.add(points);
+
         //Start button
         JButton startButton = new JButton();
         startButton.setLayout(null);
