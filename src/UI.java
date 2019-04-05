@@ -508,16 +508,24 @@ public class UI {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String red = redPlayer.getText();
-                if(!red.isEmpty()) {
-                    Backgammon.player1.setPlayerName(red);
+                //if statement that shows pop up window asking users to enter points if they haven't done so
+                if (points.getText().replaceAll("\\s", "").isEmpty())
+                {
+                    JOptionPane.showMessageDialog(null, "Please enter number of points!",
+                            "POINTS!", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    String red = redPlayer.getText();
+                    if(!red.isEmpty()) {
+                        Backgammon.player1.setPlayerName(red);
+                    }
+                    String white = whitePlayer.getText();
+                    if(!white.isEmpty()) {
+                        Backgammon.player2.setPlayerName(white);
+                    }
+                    Backgammon.pointsToWin = Integer.parseInt(points.getText().replaceAll("\\s", ""));
+                    initializeUI();
                 }
-                String white = whitePlayer.getText();
-                if(!white.isEmpty()) {
-                    Backgammon.player2.setPlayerName(white);
-                }
-                Backgammon.pointsToWin = Integer.parseInt(points.getText().replaceAll("\\s", ""));
-                initializeUI();
             }
         });
 
