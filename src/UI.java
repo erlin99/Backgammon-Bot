@@ -516,6 +516,7 @@ public class UI {
                 if(!white.isEmpty()) {
                     Backgammon.player2.setPlayerName(white);
                 }
+                Backgammon.pointsToWin = Integer.parseInt(points.getText().replaceAll("\\s", ""));
                 initializeUI();
             }
         });
