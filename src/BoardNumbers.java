@@ -47,7 +47,11 @@ public class BoardNumbers extends JPanel {
         
         
         // New sprint 4 code to display the doubling cube value
+<<<<<<< HEAD
         g.setFont(new Font("serif", Font.BOLD, 32));
+=======
+        g.setFont(new Font("serif", Font.PLAIN, 32));
+>>>>>>> cbf44d1ce4823a307b2906d3b55b4394adc55cae
         
         // if the value of the doubling cube is 1 you actually display '64' instead of 1
         if(Backgammon.getDoublingCubeValue() == 1)
