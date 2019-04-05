@@ -15,6 +15,9 @@ public class Backgammon {
     public static Player cubeOwner;
     public static boolean cubeRequest = false;
 
+    //number of points that players are going to play up to
+    public static int pointsToWin;
+
     public static void main(String [] args) {
         initializeBoard();
         UI.mainMenuUI();
