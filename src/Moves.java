@@ -19,12 +19,12 @@ public class Moves
 	// fills the 'arrayOfAcceptableMoves' with acceptable moves
 	public static boolean[][] getMoves() {
 		// check if the game has ended
-		if(Backgammon.counterMap[0].getNumCounters() == 15) {
+		/*if(Backgammon.counterMap[0].getNumCounters() == 15) {
 			UI.finishGame(Backgammon.player2);
 		}
 		else if(Backgammon.counterMap[25].getNumCounters() == 15) {
 			UI.finishGame(Backgammon.player1);
-		}
+		}*/
 
 		char currentColor = Backgammon.currentPlayer.getPlayerColor();
 		dieValue1 = Dice.getDie1Value();
@@ -273,6 +273,15 @@ public class Moves
     	// clear clears the list
         moves.clear();
         MoveNode move;
+
+		//Ends the game if one of the two side has bore off all their counters
+		if(Backgammon.counterMap[0].getNumCounters() == 15) {
+			UI.finishGame(Backgammon.player2);
+		}
+		else if(Backgammon.counterMap[25].getNumCounters() == 15) {
+			UI.finishGame(Backgammon.player1);
+		}
+
 
         //add the possible moves to the linkedlist
         for(int row = 0; row<28; row++) {

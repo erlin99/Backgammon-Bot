@@ -351,6 +351,7 @@ public class Player {
         } else {
             setDice(selectedPosition, movePosition, bar);
         }
+
     }
 
     public void setPlayerName(String playerName) {

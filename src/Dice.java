@@ -13,7 +13,7 @@ public class Dice {
 	private static int dieValue4 = 0;
 	private static boolean equalDice = false;
 	private static boolean hasRolledDice = false;
-	private static boolean initialRollComplete = false;
+	public static boolean initialRollComplete = false;
 	private static Random rand = new Random();
 
 	private static final int DIE_1_X_CO = 953;

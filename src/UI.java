@@ -17,13 +17,16 @@ public class UI {
     private static final int SMALL_FONT = 15;
     public static String userResponse = new String();
     public static JFrame frame = new JFrame();
-    public static JTextArea messagePanelText = new JTextArea("Here is where your next move options will appear.",22,16);
+    public static JTextArea messagePanelText = new JTextArea("",22,16);
 
     // when either of the bear offs contain 15 counters this changes to true
     public static boolean gameOver = false;
+
+    //Used to check wether a game has been played and if it has the board won't be reinitialized
+    public static boolean gamePlayed = false;
     
     // the 'null' means the Panel doesn't follow a specific layout manager
-    public static JPanel mainPanel = new JPanel(null);
+    public static JPanel mainPanel = new JPanel(new BorderLayout());
 
     public static String getUserInput(){
         return userResponse;
@@ -65,12 +68,17 @@ public class UI {
 //        	//TESTING
 //        	UI.messagePanelText.append("\n\n Player 1 = " + Backgammon.player1.getPlayerName());
 //        	UI.messagePanelText.append("\n Player 2 = " + Backgammon.player2.getPlayerName() + "\n\n");
-        	
-        	if(Backgammon.player1.getPlayerName() != "" && Backgammon.player2.getPlayerName() != "")
+
+            //When replay is selected the board is reset and the main menu is brough back up
+            gamePlayed = true;
+            Backgammon.initializeBoard();
+            UI.mainMenuUI();
+
+        	/*if(Backgammon.player1.getPlayerName() != "" && Backgammon.player2.getPlayerName() != "")
         	{
         		Backgammon.initializeBoard();
                 initializeUI();
-        	}
+        	}*/
             
         }
         else if(userResponse.equalsIgnoreCase("no") && gameOver) {
@@ -210,6 +218,7 @@ public class UI {
     }
 
     public static void next(){
+
         Backgammon.player1.setMoveMade(false);
         Backgammon.player1.currentPosition = -1;
         Backgammon.player2.setMoveMade(false);
@@ -229,16 +238,8 @@ public class UI {
         Dice.playerHasRolledDice(false);
 
         messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
-
-        // check if the game has ended
-        if(Backgammon.counterMap[0].getNumCounters() == 15) {
-            finishGame(Backgammon.player2);
-        }
-        else if(Backgammon.counterMap[25].getNumCounters() == 15) {
-            finishGame(Backgammon.player1);
-        }
     }
-    
+
 
     // ***** NEEDS TO BE REFACTORED - Would like to print the winner's name over the board instead of in the command window
     public static void finishGame(Player player) {
@@ -260,6 +261,7 @@ public class UI {
     }
 
     public static void initializeUI() {
+
         //initialize the frame
         frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
         frame.setTitle("Backgammon Version 1");
@@ -321,7 +323,6 @@ public class UI {
         messageHeading.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
         messagePanelContainer.add(messageHeading);
 
-        messagePanelText.append(" Enter your option in the command panel below.");
         messagePanelText.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
         messagePanelText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         // wraps the text onto the next line
@@ -456,12 +457,12 @@ public class UI {
             mainPanel.add(button);
         }
         
-        Dice.initialDiceRoll();
-        Moves.printMoves();
+        mainPanelSetUp();
 
         frame.setContentPane(mainPanel);
 
         frame.setVisible(true);
+
     }
 
     public static void mainMenuUI () {
@@ -470,7 +471,7 @@ public class UI {
         frame.setTitle("Backgammon Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel mainPanel = new JPanel(null);
+        JPanel mainPanel2 = new JPanel(null);
 
         MainMenuPanel menuPanel = new MainMenuPanel();
         menuPanel.setBounds(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
@@ -480,21 +481,21 @@ public class UI {
         redPlayer.setFont(new Font("Serif", Font.PLAIN, 27));
         redPlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         redPlayer.setBounds(196,374, 418, 35);
-        mainPanel.add(redPlayer);
+        mainPanel2.add(redPlayer);
 
         //Setting up text field to enter name of the white checker player
         JTextField whitePlayer = new JTextField();
         whitePlayer.setFont(new Font("Serif", Font.PLAIN, 27));
         whitePlayer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         whitePlayer.setBounds(838,374, 457, 35);
-        mainPanel.add(whitePlayer);
+        mainPanel2.add(whitePlayer);
 
         //Setting text field to enter number of points to play to
         JTextField points = new JTextField();
         points.setFont(new Font("Serif", Font.PLAIN, 27));
         points.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         points.setBounds(721,476, 209, 35);
-        mainPanel.add(points);
+        mainPanel2.add(points);
 
         //Start button
         JButton startButton = new JButton();
@@ -524,16 +525,39 @@ public class UI {
                         Backgammon.player2.setPlayerName(white);
                     }
                     Backgammon.pointsToWin = Integer.parseInt(points.getText().replaceAll("\\s", ""));
-                    initializeUI();
+
+                    //If a game has not been played the board is initialized if there has been a game played the mainPanel is reset and displayed
+                    if(!gamePlayed){
+                        initializeUI();
+                    } else {
+                        mainPanelSetUp();
+                    }
+
                 }
             }
         });
 
-        mainPanel.add(menuPanel);
-        mainPanel.add(startButton);
+        mainPanel2.add(menuPanel);
+        mainPanel2.add(startButton);
+
+        frame.setContentPane(mainPanel2);
+        frame.setVisible(true);
+    }
+
+    //This function sets up the panel after it has already been initialized
+    public static void mainPanelSetUp()
+    {
+        //Sets text are to be blank
+        messagePanelText.setText(null);
+
+        messagePanelText.append("Here is where your next move options will appear.");
+        messagePanelText.append(" Enter your option in the command panel below.");
 
         frame.setContentPane(mainPanel);
-        frame.setVisible(true);
+        Dice.initialRollComplete = false;
+        Dice.initialDiceRoll();
+        Moves.printMoves();
+
     }
 }
             
