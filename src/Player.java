@@ -11,7 +11,7 @@ public class Player {
     public boolean moveMade = false;
     public static int currentPosition = -1;
     public static int nextPosition;
-    public static int points = 0;
+    public int points = 0;
 
     public Player(String playerName, char playerColor, int pipCount) {
         this.playerName = playerName;
@@ -384,5 +384,13 @@ public class Player {
 
     public int getPipCount() {
         return pipCount;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

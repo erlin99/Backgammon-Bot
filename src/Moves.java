@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Team name: Arrays start at 1
@@ -267,7 +268,7 @@ public class Moves
 	}
 
     // writes list of moves to the message box in the format specified on the Trello board
-    public static void printMoves() 
+    public static void printMoves()
     {
     	// moves is a reference to the linkedlist at the top 
     	// clear clears the list
@@ -298,11 +299,24 @@ public class Moves
         // Sprint 4 fix added - added !UI.gameOver into the conditions to ensure that this code doesn't print to the message panel
         // when the game has already ended
         if (moves.size() == 0 && !UI.gameOver){
-            UI.messagePanelText.append("\n - No more possible moves!");
+
+        	//This try catch is need for the method to run
+        	try {
+				UI.displayNoMove();
+			} catch(InterruptedException ex){
+
+			}
             // sets the currentplayer to the next player (other player)
             UI.next();
         } else if (moves.size() == 1 && !UI.gameOver) {
-			UI.messagePanelText.append("\n - Only one legal move, made automatically.");
+
+			//This try catch is need for the method to run
+			try {
+				UI.displayForcedMove();
+			} catch(InterruptedException ex){
+
+			}
+
 			int currentPosition = moves.get(0).getFromPip();
 			int nextPosition = moves.get(0).getToPip();
 

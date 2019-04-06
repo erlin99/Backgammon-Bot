@@ -8,11 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class UI {
 
     private static final int BOARD_WIDTH = 1572;
-    private static final int BOARD_HEIGHT = 805;
+    private static final int BOARD_HEIGHT = 825;
     private static final int BIG_FONT = 18;
     private static final int SMALL_FONT = 15;
     public static String userResponse = new String();
@@ -243,15 +244,31 @@ public class UI {
 
     // ***** NEEDS TO BE REFACTORED - Would like to print the winner's name over the board instead of in the command window
     public static void finishGame(Player player) {
-        UI.messagePanelText.append("\nCongratulations " + player.playerName + ", You Win!!!");
 
-        UI.messagePanelText.append("\nWould you like to play again?");
-        UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
+        player.setPoints(player.getPoints() + Backgammon.getDoublingCubeValue());
 
-        gameOver = true;
-        
-        //Ensures the user can't roll the dice after the game has finished
-        Dice.playerHasRolledDice(true);
+        //If the player has more points than points to win the game ends and ask the player if they would like to play again
+        //Otherwise the points are added to the players score and displayed on the board
+        if(player.getPoints() >= Backgammon.pointsToWin){
+            UI.messagePanelText.append("\nCongratulations " + player.playerName + ", You Win!!!");
+
+            UI.messagePanelText.append("\nWould you like to play again?");
+            UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
+
+            gameOver = true;
+            Backgammon.player1.setPoints(0);
+            Backgammon.player2.setPoints(0);
+            Backgammon.resetDoublingCubeValue();
+
+            //Ensures the user can't roll the dice after the game has finished
+            Dice.playerHasRolledDice(true);
+        } else {
+            Backgammon.initializeBoard();
+            Backgammon.resetDoublingCubeValue();
+            messagePanelText.setText("");
+            messagePanelText.append("A new game has started. The scores are \n" + Backgammon.player1.getPlayerName() + ": " + Backgammon.player1.points + "\n " + Backgammon.player2.getPlayerName() + ": " + Backgammon.player2.points + "\n");
+        }
+
 
     }
 
@@ -272,11 +289,11 @@ public class UI {
         // the setBounds method takes 4 args
         // first 2 are the x & y coordinates
         // second 2 are the width & height
-        boardPanel.setBounds(0, 30, 1300, 760);
+        boardPanel.setBounds(0, 30, 1300, 800);
 
         //create a green colour using hex codes close to the board bg green colour
-        Color myGreen = Color.decode("#006600");
         Color myGray = Color.decode("#F2F2F2");
+        Color myGreen = Color.decode("#006600");
 
         // the panel to display player1's pip count
         JPanel player1PipPanelContainer = new JPanel();
@@ -284,7 +301,7 @@ public class UI {
         player1PipPanelContainer.setBounds(0, 0, 650, 30);
 
         // the text showing that it is Player1's pip count
-        JLabel player1PipPanelText = new JLabel("Player 1 - Pip Count:");
+        JLabel player1PipPanelText = new JLabel( "Player 1 - Pip Count: " + Backgammon.player1.pipCount);
         player1PipPanelText.setForeground(Color.WHITE);
         player1PipPanelText.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
         player1PipPanelContainer.add(player1PipPanelText);
@@ -302,7 +319,7 @@ public class UI {
         player2PipPanelContainer.setBackground(myGreen);
         player2PipPanelContainer.setBounds(650, 0, 650, 30);
 
-        JLabel player2PipPanelText = new JLabel("Player 2 - Pip Count:");
+        JLabel player2PipPanelText = new JLabel("Player 2 - Pip Count: " + Backgammon.player2.pipCount);
         player2PipPanelText.setForeground(Color.WHITE);
         player2PipPanelText.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
         player2PipPanelContainer.add(player2PipPanelText);
@@ -329,6 +346,7 @@ public class UI {
         messagePanelText.setLineWrap(true);
         // ensures the full word goes onto the next line
         messagePanelText.setWrapStyleWord(true);
+
         // ensures the user can't type in the text box
         messagePanelText.setEditable(false);
         // the scroll pane ensures scrolling when the text box is full
@@ -559,5 +577,31 @@ public class UI {
         Moves.printMoves();
 
     }
+
+
+    //Both of the methods below force the player to wait a second and also print the appropriate reason for the wait
+    public static void displayNoMove() throws InterruptedException {
+        messagePanelText.append(Backgammon.currentPlayer.playerName + " has no valid moves.");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println("Waiting");
+    }
+
+    public static void displayForcedMove() throws InterruptedException {
+        messagePanelText.append(Backgammon.currentPlayer.getPlayerName() + " has a forced move.");
+        TimeUnit.SECONDS.sleep(1);
+    }
+
+    public static void drawScore(Graphics g){
+        g.setColor(Color.decode("#006600"));
+        g.fillRect(0, 720, BOARD_WIDTH, 30);
+
+        g.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
+        g.setColor(Color.white);
+        g.drawString( Backgammon.player1.getPlayerName() + " Score: " + Backgammon.player1.getPoints(), 250, 740);
+
+        g.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
+        g.setColor(Color.white);
+        g.drawString( Backgammon.player2.getPlayerName() + " Score: " + Backgammon.player2.getPoints(), 850, 740);
+    }
+
 }
-            

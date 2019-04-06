@@ -77,6 +77,8 @@ public class Backgammon {
     	return doublingCubeValue;
     }
 
+    public static void resetDoublingCubeValue() {doublingCubeValue = 0;}
+
     // checking if the current players checker is on the bar
     public static boolean isBarred() {
         if(Backgammon.currentPlayer.getPlayerColor() == 'W') {

@@ -32,5 +32,7 @@ public class BoardPanel extends JPanel {
 
         Dice.draw(g2);
         BoardNumbers.draw(g2);
+
+        UI.drawScore(g);
     }
 }
