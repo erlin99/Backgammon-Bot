@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class Moves 
 {
 	private static boolean[][] arrayOfAcceptableMoves = new boolean[28][28];
-	public static LinkedList<MoveNode> moves = new LinkedList<>();
+	public static LinkedList<MoveNode> possibleMoves = new LinkedList<>();
 
 	public static int dieValue1;
 	public static int dieValue2;
@@ -270,9 +270,9 @@ public class Moves
     // writes list of moves to the message box in the format specified on the Trello board
     public static void printMoves()
     {
-    	// moves is a reference to the linkedlist at the top 
+    	// possibleMoves is a reference to the linkedlist at the top
     	// clear clears the list
-        moves.clear();
+        possibleMoves.clear();
         MoveNode move;
 
 		//Ends the game if one of the two side has bore off all their counters
@@ -283,22 +283,29 @@ public class Moves
 			UI.finishGame(Backgammon.player1);
 		}
 
-
         //add the possible moves to the linkedlist
         for(int row = 0; row<28; row++) {
             for(int column=0; column<28; column++) {
                 if(arrayOfAcceptableMoves[row][column]) {
-                        move = new MoveNode(row, column);
-                        moves.add(0, move);
+                	//if the color is red change the pip numbers so they match the board numbers
+                	if (Backgammon.currentPlayer.getPlayerColor() == 'R')
+                	{
+						move = new MoveNode(25 - row, 25 - column);
+						possibleMoves.add(0, move);
+					}
+                	else {
+                		move = new MoveNode(row, column);
+						possibleMoves.add(0, move);
+					}
                 }
             }
         }
-        
-        moves = deleteDuplicateMoves(moves); //deleting duplicates in the moves
+
+//		possibleMoves = deleteDuplicateMoves(possibleMoves); //deleting duplicates in the moves
 
         // Sprint 4 fix added - added !UI.gameOver into the conditions to ensure that this code doesn't print to the message panel
         // when the game has already ended
-        if (moves.size() == 0 && !UI.gameOver){
+        if (possibleMoves.size() == 0 && !UI.gameOver){
 
         	//This try catch is need for the method to run
         	try {
@@ -308,7 +315,7 @@ public class Moves
 			}
             // sets the currentplayer to the next player (other player)
             UI.next();
-        } else if (moves.size() == 1 && !UI.gameOver) {
+        } else if (possibleMoves.size() == 1 && !UI.gameOver) {
 
 			//This try catch is need for the method to run
 			try {
@@ -317,10 +324,10 @@ public class Moves
 
 			}
 
-			int currentPosition = moves.get(0).getFromPip();
-			int nextPosition = moves.get(0).getToPip();
+			int currentPosition = possibleMoves.get(0).getFromPip();
+			int nextPosition = possibleMoves.get(0).getToPip();
 
-			UI.messagePanelText.append(allMoves(moves).toString());
+			UI.messagePanelText.append(allMoves(possibleMoves).toString());
 
 			Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
 			UI.frame.repaint();
@@ -329,7 +336,7 @@ public class Moves
 			UI.next();
 		} else if(!UI.gameOver){
         	UI.messagePanelText.append("\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:");
-			UI.messagePanelText.append(allMoves(moves).toString());
+			UI.messagePanelText.append(allMoves(possibleMoves).toString());
 		}
 	}
 
@@ -399,22 +406,21 @@ public class Moves
 		return allMoves;
 	}
 
-	//This method deletes the duplicates from the list
-	public static LinkedList<MoveNode> deleteDuplicateMoves(LinkedList<MoveNode> list){
-		//loops through the linked list
-		for (int i = 0; i < list.size() - 1; i++) {
-			//if the getTo pip == to the pip that the next move is from and said move is not a hit
-			if (list.get(i).getToPip() == list.get(i+1).getFromPip() && !isAHit(list.get(i).getToPip())){
-				int temp = list.get(i+1).getToPip();
-				list.get(i).setToPip(temp);
-				list.remove(i+1);
-			} else if (isAHit(list.get(i).getToPip())){
-				list.get(i).setHit(true);
-			}
-		}
-
-		return list;
-	}
+//	//This method deletes the duplicates from the list
+//	public static LinkedList<MoveNode> deleteDuplicateMoves(LinkedList<MoveNode> list){
+//		//loops through the linked list
+//		for (int i = 0; i < list.size() - 1; i++) {
+//			//if the getTo pip == to the pip that the next move is from and said move is not a hit
+//			if (list.get(i).getToPip() == list.get(i+1).getFromPip() && !isAHit(list.get(i).getToPip())){
+//				int temp = list.get(i+1).getToPip();
+//				list.get(i).setToPip(temp);
+//				list.remove(i+1);
+//			} else if (isAHit(list.get(i).getToPip())){
+//				list.get(i).setHit(true);
+//			}
+//		}
+//		return list;
+//	}
 
 	//checks if the pip that it can move to is a hit
 	private static boolean isAHit(int pipToGo){
