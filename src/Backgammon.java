@@ -150,7 +150,7 @@ public class Backgammon {
     CounterMap is a CounterPositions array with 28 spaces That holds a x co-ordinate, a Y co-ordinate, Color,
     number of counters and whether it is on the top row or not
     CounterMap[0] is the white bear off location
-    counterMap[1]-[24] is the pip positions
+    counterMap[1]-[24] is the pip positions starting from bottom right
     counterMap[25] is the red bear off
     counterMap[26] is the locations for the white bar
     counterMap[27] is the location for the red bar

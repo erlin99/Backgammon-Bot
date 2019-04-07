@@ -34,9 +34,9 @@ public class Moves
 		dieValue4 = Dice.getDie4Value();
 
 		// clear the array of acceptable moves each time the function is called
-		for(int row=0; row<28; row++) 
+		for(int row=0; row<28; row++)
 		{
-			for(int column=0; column<28; column++) 
+			for(int column=0; column<28; column++)
 			{
 				arrayOfAcceptableMoves[row][column] = false;
 			}
@@ -150,9 +150,9 @@ public class Moves
 					}
 				}
 				// correctBearOff() commented below
-//				if (correctBearOff()) {
+				if (correctBearOff()) {
 					bearOffMoves(i);
-//				}
+				}
 			}
 		}
 		return arrayOfAcceptableMoves;
@@ -431,22 +431,22 @@ public class Moves
 	}
 
 
-//	//check if all checkers of the color are in the correct quadrant for bearOff
-//	private static boolean correctBearOff() {
-//		int count = 0;
-//		if (Backgammon.currentPlayer.getPlayerColor() == 'W'){
-//			for(int i = 19; i <= 24; i++) {
-//				if(Backgammon.counterMap[i].getColor() == 'W')
-//					count += Backgammon.counterMap[i].getNumCounters();
-//			}
-//		} else if (Backgammon.currentPlayer.getPlayerColor() == 'R'){
-//			for(int i = 1; i <= 6; i++) {
-//				if(Backgammon.counterMap[i].getColor() == 'R')
-//					count += Backgammon.counterMap[i].getNumCounters();
-//			}
-//		}
-//		return count >= 15;
-//	}
+	//check if all checkers of the color are in the correct quadrant for bearOff
+	private static boolean correctBearOff() {
+		int count = 0;
+		if (Backgammon.currentPlayer.getPlayerColor() == 'W'){
+			for(int i = 0; i <= 6; i++) {
+				if(Backgammon.counterMap[i].getColor() == 'W')
+					count += Backgammon.counterMap[i].getNumCounters();
+			}
+		} else if (Backgammon.currentPlayer.getPlayerColor() == 'R'){
+			for(int i = 19; i <= 25; i++) {
+				if(Backgammon.counterMap[i].getColor() == 'R')
+					count += Backgammon.counterMap[i].getNumCounters();
+			}
+		}
+		return count >= 15;
+	}
 	
 	private static boolean acceptableMove(CounterPositions position, int i) {
 
@@ -454,7 +454,8 @@ public class Moves
 		boolean oneCounterOrEmpty = position.getNumCounters() <= 1;
 		boolean bar = position.pipNumber == 26 || position.pipNumber == 27;
 		boolean sameSpace = position.pipNumber == i;
-		
-		return (sameColor || oneCounterOrEmpty) && !bar && !sameSpace;
+		boolean notToBearOff = position.pipNumber == 0 || position.pipNumber == 25;
+
+		return ((sameColor || oneCounterOrEmpty) && !bar && !sameSpace) && !notToBearOff;
 	}
 }
