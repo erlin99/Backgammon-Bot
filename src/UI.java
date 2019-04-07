@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.Timer;
 
 public class UI {
 
@@ -23,6 +25,11 @@ public class UI {
 
     public static JLabel player1PipPanelText = new JLabel( );
     public static JLabel player2PipPanelText = new JLabel();
+    public static JLabel timerPanelText = new JLabel();
+
+    public static Timer timer = new Timer();
+    public static String startTime = "00:00:00";
+    public static int seconds = 0;
 
     // when either of the bear offs contain 15 counters this changes to true
     public static boolean gameOver = false;
@@ -79,6 +86,9 @@ public class UI {
             gamePlayed = true;
             Backgammon.initializeBoard();
             UI.mainMenuUI();
+
+            //resets the timer for the next game
+            seconds = 0;
 
         	/*if(Backgammon.player1.getPlayerName() != "" && Backgammon.player2.getPlayerName() != "")
         	{
@@ -299,6 +309,10 @@ public class UI {
         //If the player has more points than points to win the game ends and ask the player if they would like to play again
         //Otherwise the points are added to the players score and displayed on the board
         if(player.getPoints() >= Backgammon.pointsToWin){
+
+            //Stops the timer
+            timer.cancel();
+
             UI.messagePanelText.append("\nCongratulations " + player.playerName + ", You Win!!!");
 
             UI.messagePanelText.append("\nWould you like to play again?");
@@ -347,7 +361,7 @@ public class UI {
         // the panel to display player1's pip count
         JPanel player1PipPanelContainer = new JPanel();
         player1PipPanelContainer.setBackground(myGreen);
-        player1PipPanelContainer.setBounds(0, 0, 650, 30);
+        player1PipPanelContainer.setBounds(0, 0, 510, 30);
 
         // the text showing that it is Player1's pip count
         player1PipPanelText.setText(Backgammon.player1.playerName + " - Score: " + Backgammon.player1.getPoints());
@@ -366,7 +380,7 @@ public class UI {
 
         JPanel player2PipPanelContainer = new JPanel();
         player2PipPanelContainer.setBackground(myGreen);
-        player2PipPanelContainer.setBounds(650, 0, 650, 30);
+        player2PipPanelContainer.setBounds(700, 0, 600, 30);
 
         player2PipPanelText.setText(Backgammon.player2.playerName + " - Score: " + Backgammon.player2.getPoints());
         player2PipPanelText.setForeground(Color.WHITE);
@@ -380,6 +394,24 @@ public class UI {
         player2PipScoreField.setFont(new Font("Serif", Font.PLAIN, SMALL_FONT));
         player2PipScoreField.setEditable(false);
         player2PipPanelContainer.add(player2PipScoreField);
+
+        //Timer panel
+        JPanel timerContainer = new JPanel();
+        timerContainer.setBackground(myGreen);
+        timerContainer.setBounds(510, 0, 200, 30);
+
+        timerPanelText.setText(startTime);
+        timerPanelText.setForeground(Color.WHITE);
+        timerPanelText.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
+        timerContainer.add(timerPanelText);
+
+        JTextField timerField = new JTextField(3);
+        timerField.setBorder(BorderFactory.createEmptyBorder());
+        timerField.setBackground(myGreen);
+        timerField.setForeground(Color.WHITE);
+        timerField.setFont(new Font("Serif", Font.PLAIN, SMALL_FONT));
+        timerField.setEditable(false);
+        timerContainer.add(timerField);
 
         JPanel messagePanelContainer = new JPanel();
         messagePanelContainer.setBackground(myGray);
@@ -486,6 +518,7 @@ public class UI {
         mainPanel.add(player2PipPanelContainer);
         mainPanel.add(messagePanelContainer);
         mainPanel.add(commandPanelContainer);
+        mainPanel.add(timerContainer);
 
         /*
         Creates a button at each of the pips and gives each one an action listener that allows
@@ -604,6 +637,22 @@ public class UI {
                     }
 
                 }
+
+                //Resets the timer and resets seconds for when a new game is started
+                timer = new Timer();
+                seconds = 0;
+
+                //Timer which records how long the game is running for
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // Your database code here
+                        seconds++;
+                        timerPanelText.setText("Match Length: " + fromSecondsToHHMMSS(seconds));
+
+                    }
+                    //Gives the timer a delay of 0 seconds and repeats every 1 second
+                }, 0, 1000);
             }
         });
 
@@ -612,6 +661,13 @@ public class UI {
 
         frame.setContentPane(mainPanel2);
         frame.setVisible(true);
+    }
+
+    public static String fromSecondsToHHMMSS(int seconds) {
+        long hours = TimeUnit.SECONDS.toHours(Long.valueOf(seconds));
+        long minutes =  TimeUnit.SECONDS.toMinutes(seconds) - hours*60;
+        long remainingSeconds = seconds - ((hours * 3600) + (minutes * 60));
+        return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds);
     }
 
     //This function sets up the panel after it has already been initialized
