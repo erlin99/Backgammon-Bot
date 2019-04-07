@@ -201,11 +201,11 @@ public class UI {
                     int ascii = (int) response.charAt(response.length()-1);
                     moveNumber += ascii - 64;
 
-                    if (moveNumber > Moves.moves.size()) {
+                    if (moveNumber > Moves.possibleMoves.size()) {
                         messagePanelText.append("\n-Please enter a valid move");
                     } else {
-                        currentPosition = Moves.moves.get(moveNumber - 1).getFromPip();
-                        nextPosition = Moves.moves.get(moveNumber - 1).getToPip();
+                        currentPosition = Moves.possibleMoves.get(moveNumber - 1).getFromPip();
+                        nextPosition = Moves.possibleMoves.get(moveNumber - 1).getToPip();
 
                         Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
                         frame.repaint();

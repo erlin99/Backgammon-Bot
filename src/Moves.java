@@ -291,7 +291,8 @@ public class Moves
                 	if (Backgammon.currentPlayer.getPlayerColor() == 'R')
                 	{
 						move = new MoveNode(25 - row, 25 - column);
-						possibleMoves.add(0, move);
+//						possibleMoves.add(0, move);
+						possibleMoves.addLast(move);
 					}
                 	else {
                 		move = new MoveNode(row, column);
@@ -327,6 +328,7 @@ public class Moves
 			int currentPosition = possibleMoves.get(0).getFromPip();
 			int nextPosition = possibleMoves.get(0).getToPip();
 
+			//prints all moves onto text panel
 			UI.messagePanelText.append(allMoves(possibleMoves).toString());
 
 			Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
@@ -344,61 +346,29 @@ public class Moves
 	public static StringBuilder allMoves(LinkedList<MoveNode> moves){
 		
 		StringBuilder allMoves = new StringBuilder();
-		
-		if (Backgammon.currentPlayer.getPlayerColor() == 'R') 
-		{
-			for (int i = 0; i < moves.size(); i++) 
-			{
-				int nextPosition = 25 - moves.get(i).getToPip();
-				int currentPosition = 25 - moves.get(i).getFromPip();
-				
-				if (moves.get(i).getFromPip() >= 26) 
-				{
-					if (moves.get(i).isHit()) 
-					{
-						allMoves.append("\nBar - " + nextPosition + "*");
-					}
-					else 
-					{
-						allMoves.append("\nBar - " + nextPosition );
-					}
-				} 
-				else if (moves.get(i).getToPip() == 0 || moves.get(i).getToPip() == 25)
-				{
-					allMoves.append("\n" + currentPosition + " - Off");
-				} 
-				else 
-				{
 
-					if (moves.get(i).isHit()) {
-						allMoves.append("\n" + currentPosition + " - " + nextPosition + "*");
-					} else {
-						allMoves.append("\n" + currentPosition + " - " + nextPosition);
-					}
+		for (MoveNode m : moves) {
+			//if the move is from the bar print bar instead of the number
+			if (m.getFromPip() >= 26) {
+				if (isAHit(m.getToPip()))
+				{
+					allMoves.append("\nBar - " + m.getToPip() + "*");
+				}
+				else
+				{
+					allMoves.append("\nBar - " + m.getToPip());
 				}
 			}
-		} 
-		else 
-		{
-			for (MoveNode m : moves) 
-			{
-				if (m.isHit()) 
-				{
+			if (m.getToPip() == 0 || m.getToPip() == 25) {
+				allMoves.append("\n" + m.getFromPip() + " - Off");
+			}
+			else {
+				if (isAHit(m.getToPip())) {
 					allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
 				}
-				else 
+				else
 				{
-					if (m.getFromPip() >= 26) 
-					{
-						allMoves.append("\nBar - " + m.getToPip());
-					}
-					else if (m.getToPip() == 0 || m.getToPip() == 25) 
-					{
-						allMoves.append("\n" + m.getFromPip() + " - Off");
-					} 
-					else 
-					{
-						allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip()); }
+					allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip());
 				}
 			}
 		}
