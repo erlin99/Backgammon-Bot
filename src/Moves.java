@@ -278,10 +278,12 @@ public class Moves
 		//Ends the game if one of the two side has bore off all their counters
 		if(Backgammon.counterMap[0].getNumCounters() == 15) {
 			UI.finishGame(Backgammon.player2);
+			UI.player2PipPanelText.setText(Backgammon.player2.playerName + " - Score: " + Backgammon.player2.getPoints());
 			Dice.resetDice();
 		}
 		else if(Backgammon.counterMap[25].getNumCounters() == 15) {
 			UI.finishGame(Backgammon.player1);
+			UI.player1PipPanelText.setText(Backgammon.player1.playerName + " - Score: " + Backgammon.player1.getPoints());
 			Dice.resetDice();
 		}
 
