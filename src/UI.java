@@ -689,8 +689,10 @@ public class UI {
 
     //Both of the methods below force the player to wait a second and also print the appropriate reason for the wait
     public static void displayNoMove() throws InterruptedException {
-        messagePanelText.append("\n-" + Backgammon.currentPlayer.playerName + " has no valid moves.");
-        TimeUnit.SECONDS.sleep(1);
+        if(!Dice.allDiceUsed()){
+            messagePanelText.append("\n-" + Backgammon.currentPlayer.playerName + " has no valid moves.");
+            TimeUnit.SECONDS.sleep(1);
+        }
     }
 
     public static void displayForcedMove() throws InterruptedException {

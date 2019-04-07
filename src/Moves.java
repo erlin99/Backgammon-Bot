@@ -351,7 +351,7 @@ public class Moves
 				UI.next();
 			}
 
-		} else if(!UI.gameOver && !UI.gameFinished){
+		} else if(!UI.gameOver && !UI.gameFinished && !Dice.allDiceUsed()){
         	UI.messagePanelText.append("\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:");
 			UI.messagePanelText.append(allMoves(possibleMoves).toString());
 		}

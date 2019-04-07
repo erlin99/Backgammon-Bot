@@ -94,6 +94,10 @@ public class Dice {
 		return hasRolledDice;
 	}
 
+	public static boolean allDiceUsed(){
+	    return dieValue1 == 0 && dieValue2 == 0 && dieValue3 == 0 && dieValue4 == 0;
+    }
+
 	public static void initialDiceRoll() 
 	{
 		do 
