@@ -192,7 +192,7 @@ public class UI {
                 }
             } else { //Letting user select their legal play by typing the corresponding letter A - Z
                 try {
-                    response = response.toUpperCase();
+                    response = response.toUpperCase().replaceAll("\\s", "");
                     int moveNumber = 0;
                     if (response.length() > 1) {
                         moveNumber = 26 * (response.length()-1);
@@ -204,8 +204,14 @@ public class UI {
                     if (moveNumber > Moves.possibleMoves.size()) {
                         messagePanelText.append("\n-Please enter a valid move");
                     } else {
-                        currentPosition = Moves.possibleMoves.get(moveNumber - 1).getFromPip();
-                        nextPosition = Moves.possibleMoves.get(moveNumber - 1).getToPip();
+                        if (Backgammon.currentPlayer.getPlayerColor() == 'R') {
+                            currentPosition = 25 - Moves.possibleMoves.get(moveNumber - 1).getFromPip();
+                            nextPosition = 25 - Moves.possibleMoves.get(moveNumber - 1).getToPip();
+                        }
+                        else {
+                            currentPosition = Moves.possibleMoves.get(moveNumber - 1).getFromPip();
+                            nextPosition = Moves.possibleMoves.get(moveNumber - 1).getToPip();
+                        }
 
                         Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
                         frame.repaint();
