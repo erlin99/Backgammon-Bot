@@ -344,31 +344,44 @@ public class Moves
 	public static StringBuilder allMoves(LinkedList<MoveNode> moves){
 		
 		StringBuilder allMoves = new StringBuilder();
-
+		allMoves.append("\n");
+		int i = 0;
+		int count = 0;
 		for (MoveNode m : moves) {
+			if (i >= 25) {
+				i = 0;
+			}
+			if (count < 26) {
+				allMoves.append(((char) (65 + i++)) + ". ");
+			}
+			else {
+				allMoves.append("A" + ((char) (65 + i++)) + ". ");
+			}
+
 			//if the move is from the bar print bar instead of the number
 			if (m.getFromPip() >= 26) {
 				if (isAHit(m.getToPip()))
 				{
-					allMoves.append("\nBar - " + m.getToPip() + "*");
+					allMoves.append("Bar - " + m.getToPip() + "*\n");
 				}
 				else
 				{
-					allMoves.append("\nBar - " + m.getToPip());
+					allMoves.append("Bar - " + m.getToPip() + "\n");
 				}
 			}
 			if (m.getToPip() == 0 || m.getToPip() == 25) {
-				allMoves.append("\n" + m.getFromPip() + " - Off");
+				allMoves.append(m.getFromPip() + " - Off\n");
 			}
 			else {
 				if (isAHit(m.getToPip())) {
-					allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip() + "*");
+					allMoves.append(m.getFromPip() + " - " + m.getToPip() + "*\n");
 				}
 				else
 				{
-					allMoves.append("\n" + m.getFromPip() + " - " + m.getToPip());
+					allMoves.append(m.getFromPip() + " - " + m.getToPip() + "\n");
 				}
 			}
+			count++;
 		}
 
 		return allMoves;
