@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class UI {
 
     private static final int BOARD_WIDTH = 1572;
-    private static final int BOARD_HEIGHT = 825;
+    private static final int BOARD_HEIGHT = 835;
     private static final int BIG_FONT = 18;
     private static final int SMALL_FONT = 15;
     public static String userResponse = new String();
@@ -32,7 +32,6 @@ public class UI {
         return userResponse;
     }
 
-    // ***** NEEDS TO BE REFACTORED
     public static void inputCommands(String userResponse) {
 
         int currentPosition;
@@ -339,7 +338,7 @@ public class UI {
 
         JPanel commandPanelContainer = new JPanel();
         commandPanelContainer.setBackground(myGray);
-        commandPanelContainer.setBounds(1300, 620, 250, 130);
+        commandPanelContainer.setBounds(1300, 620, 250, 160);  
 
         JLabel commandPanelHeading = new JLabel("Command Panel");
         commandPanelHeading.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));
