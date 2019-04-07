@@ -23,10 +23,9 @@ public class UI {
     // when either of the bear offs contain 15 counters this changes to true
     public static boolean gameOver = false;
 
-    //Used to check wether a game has been played and if it has the board won't be reinitialized
+    //Used to check whether a game has been played and if it has the board won't be reinitialized
     public static boolean gamePlayed = false;
     
-    // the 'null' means the Panel doesn't follow a specific layout manager
     public static JPanel mainPanel = new JPanel(new BorderLayout());
 
     public static String getUserInput(){
@@ -54,21 +53,6 @@ public class UI {
         else if(userResponse.equalsIgnoreCase("yes") && gameOver) {
         	// added to ensure that if the user replays the game that gameOver is no longer set to true
         	gameOver = false;
-
-            /** Why do we need this?? */
-            //***** NEED TO FINISH
-//        	UI.messagePanelText.append("\nPlayer 1 - Please enter your name:");
-//        	
-//        	String response = scanner.next();
-//        	
-//        	Backgammon.player1.setPlayerName(response);
-//        	
-//        	UI.messagePanelText.append("\nPlayer 2 - Please enter your name:");
-//        	Backgammon.player2.setPlayerName(getUserInput());
-//        	
-//        	//TESTING
-//        	UI.messagePanelText.append("\n\n Player 1 = " + Backgammon.player1.getPlayerName());
-//        	UI.messagePanelText.append("\n Player 2 = " + Backgammon.player2.getPlayerName() + "\n\n");
 
             //When replay is selected the board is reset and the main menu is brough back up
             gamePlayed = true;
@@ -581,13 +565,13 @@ public class UI {
 
     //Both of the methods below force the player to wait a second and also print the appropriate reason for the wait
     public static void displayNoMove() throws InterruptedException {
-        messagePanelText.append(Backgammon.currentPlayer.playerName + " has no valid moves.");
+        messagePanelText.append("\n-" + Backgammon.currentPlayer.playerName + " has no valid moves.");
         TimeUnit.SECONDS.sleep(1);
         System.out.println("Waiting");
     }
 
     public static void displayForcedMove() throws InterruptedException {
-        messagePanelText.append(Backgammon.currentPlayer.getPlayerName() + " has a forced move.");
+        messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " has a forced move.");
         TimeUnit.SECONDS.sleep(1);
     }
 
