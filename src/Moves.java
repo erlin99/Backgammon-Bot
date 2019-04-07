@@ -302,8 +302,6 @@ public class Moves
             }
         }
 
-//		possibleMoves = deleteDuplicateMoves(possibleMoves); //deleting duplicates in the moves
-
         // Sprint 4 fix added - added !UI.gameOver into the conditions to ensure that this code doesn't print to the message panel
         // when the game has already ended
         if (possibleMoves.size() == 0 && !UI.gameOver){
@@ -376,22 +374,6 @@ public class Moves
 		return allMoves;
 	}
 
-//	//This method deletes the duplicates from the list
-//	public static LinkedList<MoveNode> deleteDuplicateMoves(LinkedList<MoveNode> list){
-//		//loops through the linked list
-//		for (int i = 0; i < list.size() - 1; i++) {
-//			//if the getTo pip == to the pip that the next move is from and said move is not a hit
-//			if (list.get(i).getToPip() == list.get(i+1).getFromPip() && !isAHit(list.get(i).getToPip())){
-//				int temp = list.get(i+1).getToPip();
-//				list.get(i).setToPip(temp);
-//				list.remove(i+1);
-//			} else if (isAHit(list.get(i).getToPip())){
-//				list.get(i).setHit(true);
-//			}
-//		}
-//		return list;
-//	}
-
 	//checks if the pip that it can move to is a hit
 	private static boolean isAHit(int pipToGo){
 		if (Backgammon.counterMap[pipToGo].getNumCounters() == 1) {
@@ -405,7 +387,6 @@ public class Moves
 		}
 		return false;
 	}
-
 
 	//check if all checkers of the color are in the correct quadrant for bearOff
 	private static boolean correctBearOff() {
