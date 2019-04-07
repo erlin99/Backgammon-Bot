@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +26,8 @@ public class UI {
 
     //Used to check whether a game has been played and if it has the board won't be reinitialized
     public static boolean gamePlayed = false;
+
+    public static boolean gameFinished = false;
     
     public static JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -38,6 +41,22 @@ public class UI {
         int nextPosition;
 
         Scanner scanner = new Scanner(userResponse).useDelimiter("\\s* \\s*");
+
+        if(gameFinished && scanner.hasNext()){
+
+            Backgammon.resetDoublingCubeValue();
+
+            messagePanelText.setText("");
+            messagePanelText.append("A new game has started. The scores are \n" + Backgammon.player1.getPlayerName()
+                    + ": " + Backgammon.player1.points + "\n " + Backgammon.player2.getPlayerName() + ": " + Backgammon.player2.points + "\n");
+
+            gameFinished = false;
+
+            //method called to set up the board to its original state
+            mainPanelSetUp();
+
+            scanner = new Scanner("");
+        }
 
         //if user types quit exit the program
         if(userResponse.equalsIgnoreCase("quit"))
@@ -93,7 +112,7 @@ public class UI {
         
         else if(userResponse.equalsIgnoreCase("reject") && Backgammon.cubeRequest)
         {
-        	System.exit(0);
+        	finishGame(Backgammon.currentPlayer);
         }
         	
         	
@@ -235,12 +254,14 @@ public class UI {
     //Method used to calculate the points of the winner of a match
     public static int calculatePoints(Player player){
 
-        boolean gammon, backgammon;
+        boolean gammon, backgammon, rejectedDoublingCube;
 
         if(player == Backgammon.player1){
             gammon = Backgammon.counterMap[0].getNumCounters() == 0;
+            rejectedDoublingCube = Backgammon.counterMap[25].getNumCounters() < 15;
         } else {
             gammon = Backgammon.counterMap[25].getNumCounters() == 0;
+            rejectedDoublingCube = Backgammon.counterMap[0].getNumCounters() < 15;
         }
 
         if(player == Backgammon.player1){
@@ -249,11 +270,19 @@ public class UI {
             backgammon = Backgammon.counterMap[27].getNumCounters() > 0;
         }
 
-        if(backgammon){
+
+        if(rejectedDoublingCube){
+            return Backgammon.getDoublingCubeValue();
+        }
+        else if(backgammon)
+        {
             return 3 * Backgammon.getDoublingCubeValue();
-        } else if(gammon){
+        }
+        else if(gammon)
+        {
             return 2 * Backgammon.getDoublingCubeValue();
-        } else {
+        }
+        else {
             return Backgammon.getDoublingCubeValue();
         }
 
@@ -280,11 +309,11 @@ public class UI {
             //Ensures the user can't roll the dice after the game has finished
             Dice.playerHasRolledDice(true);
         } else {
-            Backgammon.initializeBoard();
-            Backgammon.resetDoublingCubeValue();
-            messagePanelText.setText("");
-            messagePanelText.append("A new game has started. The scores are \n" + Backgammon.player1.getPlayerName() + ": " + Backgammon.player1.points + "\n " + Backgammon.player2.getPlayerName() + ": " + Backgammon.player2.points + "\n");
-        }
+            gameFinished = true;
+
+            messagePanelText.append("\nThe game has finished.\n" + player.getPlayerName() + " has won scoring " + calculatePoints(player) + " points\nEnter any key to continue to the next game");
+
+            }
 
 
     }
@@ -491,7 +520,10 @@ public class UI {
             });
             mainPanel.add(button);
         }
-        
+
+        messagePanelText.append("Here is where your next move options will appear.");
+        messagePanelText.append(" Enter your option in the command panel below.");
+
         mainPanelSetUp();
 
         frame.setContentPane(mainPanel);
@@ -582,15 +614,16 @@ public class UI {
     //This function sets up the panel after it has already been initialized
     public static void mainPanelSetUp()
     {
-        //Sets text are to be blank
-        messagePanelText.setText(null);
-
-        messagePanelText.append("Here is where your next move options will appear.");
-        messagePanelText.append(" Enter your option in the command panel below.");
+        Backgammon.initializeBoard();
 
         frame.setContentPane(mainPanel);
+
+        //Resets the dice and redoes the intial dice roll
+        Dice.playerHasRolledDice(false);
         Dice.initialRollComplete = false;
         Dice.initialDiceRoll();
+
+        Moves.getMoves();
         Moves.printMoves();
 
     }
@@ -600,11 +633,10 @@ public class UI {
     public static void displayNoMove() throws InterruptedException {
         messagePanelText.append("\n-" + Backgammon.currentPlayer.playerName + " has no valid moves.");
         TimeUnit.SECONDS.sleep(1);
-        System.out.println("Waiting");
     }
 
     public static void displayForcedMove() throws InterruptedException {
-        messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " has a forced move.");
+        messagePanelText.append("\n-" + Backgammon.currentPlayer.playerName + " has a forced move.");
         TimeUnit.SECONDS.sleep(1);
     }
 
