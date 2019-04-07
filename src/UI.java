@@ -223,6 +223,8 @@ public class UI {
             Backgammon.currentPlayer = Backgammon.player1;
         }
 
+        Dice.resetDice();
+
         BoardNumbers.changeBoard(Backgammon.currentPlayer);
 
         Dice.playerHasRolledDice(false);
@@ -230,11 +232,37 @@ public class UI {
         messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
     }
 
+    //Method used to calculate the points of the winner of a match
+    public static int calculatePoints(Player player){
+
+        boolean gammon, backgammon;
+
+        if(player == Backgammon.player1){
+            gammon = Backgammon.counterMap[0].getNumCounters() == 0;
+        } else {
+            gammon = Backgammon.counterMap[25].getNumCounters() == 0;
+        }
+
+        if(player == Backgammon.player1){
+            backgammon = Backgammon.counterMap[26].getNumCounters() > 0;
+        } else {
+            backgammon = Backgammon.counterMap[27].getNumCounters() > 0;
+        }
+
+        if(backgammon){
+            return 3 * Backgammon.getDoublingCubeValue();
+        } else if(gammon){
+            return 2 * Backgammon.getDoublingCubeValue();
+        } else {
+            return Backgammon.getDoublingCubeValue();
+        }
+
+    }
 
     // ***** NEEDS TO BE REFACTORED - Would like to print the winner's name over the board instead of in the command window
     public static void finishGame(Player player) {
 
-        player.setPoints(player.getPoints() + Backgammon.getDoublingCubeValue());
+        player.setPoints(player.getPoints() + calculatePoints(player));
 
         //If the player has more points than points to win the game ends and ask the player if they would like to play again
         //Otherwise the points are added to the players score and displayed on the board

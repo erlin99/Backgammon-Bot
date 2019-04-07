@@ -63,6 +63,12 @@ public class Dice {
 		return dieValue4;
 	}
 
+	public static void resetDice(){
+		dieValue1 = 0;
+		dieValue2 = 0;
+		dieValue3 = 0;
+		dieValue4 = 0;
+	}
 
 	public static boolean diceAreEqual()
 	{

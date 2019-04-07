@@ -89,7 +89,7 @@ public class Backgammon {
     	return doublingCubeValue;
     }
 
-    public static void resetDoublingCubeValue() {doublingCubeValue = 0;}
+    public static void resetDoublingCubeValue() {doublingCubeValue = 1;}
 
     // checking if the current players checker is on the bar
     public static boolean isBarred() {
