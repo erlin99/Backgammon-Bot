@@ -346,6 +346,7 @@ public class Player {
         else {
             UI.messagePanelText.append("\nLooks like that is not a valid move!");
         }
+
         if(Dice.diceAreEqual()) {
             setDiceIfDoubles(selectedPosition, movePosition, bar);
         } else {

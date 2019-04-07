@@ -278,9 +278,11 @@ public class Moves
 		//Ends the game if one of the two side has bore off all their counters
 		if(Backgammon.counterMap[0].getNumCounters() == 15) {
 			UI.finishGame(Backgammon.player2);
+			Dice.resetDice();
 		}
 		else if(Backgammon.counterMap[25].getNumCounters() == 15) {
 			UI.finishGame(Backgammon.player1);
+			Dice.resetDice();
 		}
 
         //add the possible moves to the linkedlist
@@ -305,7 +307,8 @@ public class Moves
 
         // Sprint 4 fix added - added !UI.gameOver into the conditions to ensure that this code doesn't print to the message panel
         // when the game has already ended
-        if (possibleMoves.size() == 0 && !UI.gameOver){
+		//gameFinished ensures that when a game is over that no moves print while waiting for input
+        if (possibleMoves.size() == 0 && !UI.gameOver && !UI.gameFinished){
 
         	//This try catch is need for the method to run
         	try {
@@ -315,7 +318,10 @@ public class Moves
 			}
             // sets the currentplayer to the next player (other player)
             UI.next();
-        } else if (possibleMoves.size() == 1 && !UI.gameOver) {
+        } else if (possibleMoves.size() == 1 && !UI.gameOver && !UI.gameFinished) {
+
+			int currentPosition;
+			int nextPosition;
 
 			//This try catch is need for the method to run
 			try {
@@ -324,8 +330,14 @@ public class Moves
 
 			}
 
-			int currentPosition = possibleMoves.get(0).getFromPip();
-			int nextPosition = possibleMoves.get(0).getToPip();
+			//Gets the correct current and next Positions for the current player
+			if(Backgammon.currentPlayer.getPlayerColor() == 'W'){
+				currentPosition = possibleMoves.get(0).getFromPip();
+				nextPosition = possibleMoves.get(0).getToPip();
+			} else {
+				currentPosition = 25 - possibleMoves.get(0).getFromPip();
+				nextPosition = 25 - possibleMoves.get(0).getToPip();
+			}
 
 			//prints all moves onto text panel
 			UI.messagePanelText.append(allMoves(possibleMoves).toString());
@@ -333,9 +345,11 @@ public class Moves
 			Backgammon.currentPlayer.playerMove(currentPosition, nextPosition);
 			UI.frame.repaint();
 
+			if(!UI.gameFinished){
+				UI.next();
+			}
 
-			UI.next();
-		} else if(!UI.gameOver){
+		} else if(!UI.gameOver && !UI.gameFinished){
         	UI.messagePanelText.append("\n" + Backgammon.currentPlayer.playerName + ", here are your possible moves:");
 			UI.messagePanelText.append(allMoves(possibleMoves).toString());
 		}
