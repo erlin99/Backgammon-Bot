@@ -14,6 +14,8 @@ public class Backgammon {
     // could make private static and have a getCubeOwner() method
     public static Player cubeOwner;
     public static boolean cubeRequest = false;
+    // a flag as the first time a double request is made neither player is cubeOwner
+    public static boolean firstCubeRequestMade = false;
 
     //number of points that players are going to play up to
     public static int pointsToWin;
@@ -27,23 +29,28 @@ public class Backgammon {
     // it requests a double provided that the user is not the cubeOwner, hasn't already rolled the dice this turn, or the cube isn't its max
     public static void requestDoubleScore()
     {	
-    	if(currentPlayer != cubeOwner && !Dice.hasPlayerRolledDice() && !(getDoublingCubeValue() >= 64))
+    	if(!Dice.hasPlayerRolledDice() && !(getDoublingCubeValue() >= 64))
     	{
-    		cubeRequest = true;
-    		
-    		if(currentPlayer == player1)
+    		if(!firstCubeRequestMade || currentPlayer == cubeOwner)
     		{
-    			UI.messagePanelText.append("\n" + player2.getPlayerName() + ", would you like to accept the double?");
+    			cubeRequest = true;
+    			// here the firstCubeRequest is set to true and remains as is for the duration of the game
+    			firstCubeRequestMade = true;
+        		
+        		if(currentPlayer == player1)
+        		{
+        			UI.messagePanelText.append("\n" + player2.getPlayerName() + ", would you like to accept the double?");
+        		}
+        		else
+        		{
+        			UI.messagePanelText.append("\n" + player1.getPlayerName() + ", would you like to accept the double?");
+        		}
     		}
-    		else
-    		{
-    			UI.messagePanelText.append("\n" + player1.getPlayerName() + ", would you like to accept the double?");
-    		}
+    		else if(currentPlayer != cubeOwner)
+        	{
+        		UI.messagePanelText.append("\nYou cannot call a double as you are not the cube owner");
+        	}
     		
-    	}
-    	else if(currentPlayer == cubeOwner)
-    	{
-    		UI.messagePanelText.append("\nYou cannot call a double as you are the cube owner");
     	}
     	else if(Dice.hasPlayerRolledDice())
     	{
@@ -60,13 +67,18 @@ public class Backgammon {
     // it also sets the new cubeowner, and alerts them in the message panel that they now own the cube
     public static void doubleScore()
     {
-    	cubeOwner = currentPlayer;
+    	if(currentPlayer == player1)
+    	{
+    		cubeOwner = player2;
+    	}
+    	else if(currentPlayer == player2)
+    	{
+    		cubeOwner = player1;
+    	}
+    	
 		doublingCubeValue *= 2;
 		
 		UI.messagePanelText.append("\n" + cubeOwner.getPlayerName() + ", you are the cube owner.");
-		
-		//FOR TESTING
-//		UI.messagePanelText.append("\n doublingCubeValue = " + doublingCubeValue + "\n");
 		
 		cubeRequest = false;
     }
