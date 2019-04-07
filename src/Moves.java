@@ -291,7 +291,6 @@ public class Moves
                 	if (Backgammon.currentPlayer.getPlayerColor() == 'R')
                 	{
 						move = new MoveNode(25 - row, 25 - column);
-//						possibleMoves.add(0, move);
 						possibleMoves.addLast(move);
 					}
                 	else {
@@ -301,6 +300,8 @@ public class Moves
                 }
             }
         }
+
+        assignHits(possibleMoves);
 
         // Sprint 4 fix added - added !UI.gameOver into the conditions to ensure that this code doesn't print to the message panel
         // when the game has already ended
@@ -342,7 +343,7 @@ public class Moves
 
 	//creates a string of all the moves
 	public static StringBuilder allMoves(LinkedList<MoveNode> moves){
-		
+
 		StringBuilder allMoves = new StringBuilder();
 		allMoves.append("\n");
 		int i = 0;
@@ -351,16 +352,18 @@ public class Moves
 			if (i >= 25) {
 				i = 0;
 			}
+			//if the amount of moves is larger the alphabet, starting printing 2 letters
 			if (count < 26) {
 				allMoves.append(((char) (65 + i++)) + ". ");
 			}
+			//else just print one number
 			else {
 				allMoves.append("A" + ((char) (65 + i++)) + ". ");
 			}
 
 			//if the move is from the bar print bar instead of the number
 			if (m.getFromPip() >= 26) {
-				if (isAHit(m.getToPip()))
+				if (m.isHit())
 				{
 					allMoves.append("Bar - " + m.getToPip() + "*\n");
 				}
@@ -373,7 +376,7 @@ public class Moves
 				allMoves.append(m.getFromPip() + " - Off\n");
 			}
 			else {
-				if (isAHit(m.getToPip())) {
+				if (m.isHit()) {
 					allMoves.append(m.getFromPip() + " - " + m.getToPip() + "*\n");
 				}
 				else
@@ -399,6 +402,24 @@ public class Moves
 			}
 		}
 		return false;
+	}
+
+	private static void assignHits(LinkedList<MoveNode> moves) {
+
+		for (int i = 0; i < moves.size(); i++)
+		{
+			int from = moves.get(i).getFromPip();
+			int to = moves.get(i).getToPip();
+
+			if (Backgammon.currentPlayer.getPlayerColor() == 'R') {
+				from = 25 - from;
+				to = 25 - to;
+			}
+
+			boolean differentColor = Backgammon.counterMap[from].getColor() != Backgammon.counterMap[to].getColor();
+			if(differentColor && Backgammon.counterMap[to].getNumCounters() == 1)
+				moves.get(i).setHit(true);
+		}
 	}
 
 	//check if all checkers of the color are in the correct quadrant for bearOff
