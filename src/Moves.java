@@ -390,20 +390,7 @@ public class Moves
 		return allMoves;
 	}
 
-	//checks if the pip that it can move to is a hit
-	private static boolean isAHit(int pipToGo){
-		if (Backgammon.counterMap[pipToGo].getNumCounters() == 1) {
-			if(Backgammon.currentPlayer.getPlayerColor() == 'R') {
-				if (Backgammon.counterMap[pipToGo].getColor() == 'W')
-					return true;
-			} else {
-				if (Backgammon.counterMap[pipToGo].getColor() == 'R')
-					return true;
-			}
-		}
-		return false;
-	}
-
+	//assigns true or false to the isHit variable for each move nodes in the linked list
 	private static void assignHits(LinkedList<MoveNode> moves) {
 
 		for (int i = 0; i < moves.size(); i++)
