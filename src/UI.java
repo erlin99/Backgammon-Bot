@@ -305,7 +305,7 @@ public class UI {
     public static void finishGame(Player player) {
 
         player.setPoints(player.getPoints() + calculatePoints(player));
-
+        
         //If the player has more points than points to win the game ends and ask the player if they would like to play again
         //Otherwise the points are added to the players score and displayed on the board
         if(player.getPoints() >= Backgammon.pointsToWin){
@@ -347,7 +347,12 @@ public class UI {
 
             messagePanelText.append("\nThe game has finished.\n" + player.getPlayerName() + " has won scoring " + calculatePoints(player) + " points" + "\nThe scores are \n" + Backgammon.player1.getPlayerName()
                     + ": " + Backgammon.player1.points + "\n" + Backgammon.player2.getPlayerName() + ": " + Backgammon.player2.points + "\n" + "\nEnter any key to continue to the next game");
+            
+                
+            player2PipPanelText.setText(Backgammon.player2.playerName + " - Score: " + Backgammon.player2.getPoints());
+            player1PipPanelText.setText(Backgammon.player1.playerName + " - Score: " + Backgammon.player1.getPoints());
         }
+        
     }
 
     //Method which repaints the main Panel
