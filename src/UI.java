@@ -313,10 +313,27 @@ public class UI {
             //Stops the timer
             timer.cancel();
 
-            UI.messagePanelText.append("\nCongratulations " + player.playerName + ", You Win!!!");
-
             UI.messagePanelText.append("\nWould you like to play again?");
             UI.messagePanelText.append("\nEnter 'yes' to play again or 'no' to exit the game");
+
+            //pop up window for when one of the players wins.
+            int answer = JOptionPane.showConfirmDialog(mainPanel, "Congratulations " + player.playerName + ", You Win!!! " +
+                            "\nWould you like to play again?","END OF GAME!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (answer == JOptionPane.YES_OPTION) {
+                // added to ensure that if the user replays the game that gameOver is no longer set to true
+                gameOver = false;
+
+                //When replay is selected the board is reset and the main menu is brough back up
+                gamePlayed = true;
+                Backgammon.initializeBoard();
+                UI.mainMenuUI();
+
+                //resets the timer for the next game
+                seconds = 0;
+            } else if (answer == JOptionPane.NO_OPTION) {
+
+                System.exit(0);
+            }
 
             gameOver = true;
             Backgammon.player1.setPoints(0);
@@ -331,8 +348,6 @@ public class UI {
             messagePanelText.append("\nThe game has finished.\n" + player.getPlayerName() + " has won scoring " + calculatePoints(player) + " points" + "\nThe scores are \n" + Backgammon.player1.getPlayerName()
                     + ": " + Backgammon.player1.points + "\n" + Backgammon.player2.getPlayerName() + ": " + Backgammon.player2.points + "\n" + "\nEnter any key to continue to the next game");
         }
-
-
     }
 
     //Method which repaints the main Panel
@@ -635,7 +650,6 @@ public class UI {
                     } else {
                         mainPanelSetUp();
                     }
-
                 }
 
                 //Resets the timer and resets seconds for when a new game is started
