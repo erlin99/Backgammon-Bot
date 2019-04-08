@@ -82,19 +82,13 @@ public class UI {
         	// added to ensure that if the user replays the game that gameOver is no longer set to true
         	gameOver = false;
 
-            //When replay is selected the board is reset and the main menu is brough back up
+            //When replay is selected the board is reset and the main menu is brought back up
             gamePlayed = true;
             Backgammon.initializeBoard();
             UI.mainMenuUI();
 
             //resets the timer for the next game
             seconds = 0;
-
-        	/*if(Backgammon.player1.getPlayerName() != "" && Backgammon.player2.getPlayerName() != "")
-        	{
-        		Backgammon.initializeBoard();
-                initializeUI();
-        	}*/
             
         }
         else if(userResponse.equalsIgnoreCase("no") && gameOver) {
@@ -308,7 +302,6 @@ public class UI {
 
     }
 
-    // ***** NEEDS TO BE REFACTORED - Would like to print the winner's name over the board instead of in the command window
     public static void finishGame(Player player) {
 
         player.setPoints(player.getPoints() + calculatePoints(player));
@@ -458,7 +451,7 @@ public class UI {
 
         JPanel commandPanelContainer = new JPanel();
         commandPanelContainer.setBackground(myGray);
-        commandPanelContainer.setBounds(1300, 620, 250, 160);  
+        commandPanelContainer.setBounds(1300, 620, 250, 130);  
 
         JLabel commandPanelHeading = new JLabel("Command Panel");
         commandPanelHeading.setFont(new Font("Serif", Font.PLAIN, BIG_FONT));

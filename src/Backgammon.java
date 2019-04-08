@@ -40,10 +40,12 @@ public class Backgammon {
         		if(currentPlayer == player1)
         		{
         			UI.messagePanelText.append("\n" + player2.getPlayerName() + ", would you like to accept the double?");
+        			UI.messagePanelText.append("\nEnter 'accept' to accept or 'reject' to forfeit the game.");
         		}
         		else
         		{
         			UI.messagePanelText.append("\n" + player1.getPlayerName() + ", would you like to accept the double?");
+        			UI.messagePanelText.append("\nEnter 'accept' to accept or 'reject' to forfeit the game.");
         		}
     		}
     		else if(currentPlayer != cubeOwner)
