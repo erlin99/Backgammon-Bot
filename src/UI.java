@@ -261,7 +261,8 @@ public class UI {
 
         Dice.playerHasRolledDice(false);
 
-        messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
+//        messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
+        messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + "(" + Backgammon.currentPlayer.playerColorString + ") it is your turn!" );
     }
 
     //Method used to calculate the points of the winner of a match

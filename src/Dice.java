@@ -113,13 +113,16 @@ public class Dice {
 			}
 			else if(dieValue1 > dieValue2) 
 			{
-				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
+//				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
+				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + "(" + Backgammon.currentPlayer.playerColorString + ") it is your turn!" );
+
 			}
 			else 
 			{
 				Backgammon.player1.setMoveMade(true);
 				Backgammon.currentPlayer = Backgammon.player2;
-				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
+//				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + " it is your turn! Your color is " + Backgammon.currentPlayer.playerColorString);
+				UI.messagePanelText.append("\n-" + Backgammon.currentPlayer.getPlayerName() + "(" + Backgammon.currentPlayer.playerColorString + ") it is your turn!" );
 			}
 
 			// change to the correct board numbers depending on who wins the initial dice roll
