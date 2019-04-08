@@ -69,13 +69,13 @@ public class UI {
         }
 
         //if user types quit exit the program
-        if(userResponse.equalsIgnoreCase("quit"))
+        else if(userResponse.equalsIgnoreCase("quit"))
             System.exit(0);
         
         else if(userResponse.equalsIgnoreCase("cheat"))
             Backgammon.setCheatBoard();
         
-        if(userResponse.equalsIgnoreCase("next")) {
+        else if(userResponse.equalsIgnoreCase("next")) {
             next();
         } 
         else if(userResponse.equalsIgnoreCase("yes") && gameOver) {
