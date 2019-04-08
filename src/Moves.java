@@ -362,7 +362,7 @@ public class Moves
 	public static StringBuilder allMoves(LinkedList<MoveNode> moves){
 
 		StringBuilder allMoves = new StringBuilder();
-		allMoves.append("\n");
+//		allMoves.append("\n");
 		int i = 0;
 		int count = 0;
 		for (MoveNode m : moves) {
@@ -371,34 +371,34 @@ public class Moves
 			}
 			//if the amount of moves is larger the alphabet, starting printing 2 letters
 			if (count < 26) {
-				allMoves.append(((char) (65 + i++)) + ". ");
+				allMoves.append("\n" + ((char) (65 + i++)) + ". ");
 			}
 			//else just print one number
 			else {
-				allMoves.append("A" + ((char) (65 + i++)) + ". ");
+				allMoves.append("\nA" + ((char) (65 + i++)) + ". ");
 			}
 
 			//if the move is from the bar print bar instead of the number
 			if (m.getFromPip() >= 26) {
 				if (m.isHit())
 				{
-					allMoves.append("Bar - " + m.getToPip() + "*\n");
+					allMoves.append("Bar - " + m.getToPip() + "*");
 				}
 				else
 				{
-					allMoves.append("Bar - " + m.getToPip() + "\n");
+					allMoves.append("Bar - " + m.getToPip());
 				}
 			}
 			if (m.getToPip() == 0 || m.getToPip() == 25) {
-				allMoves.append(m.getFromPip() + " - Off\n");
+				allMoves.append(m.getFromPip() + " - Off");
 			}
 			else {
 				if (m.isHit()) {
-					allMoves.append(m.getFromPip() + " - " + m.getToPip() + "*\n");
+					allMoves.append(m.getFromPip() + " - " + m.getToPip() + "*");
 				}
 				else
 				{
-					allMoves.append(m.getFromPip() + " - " + m.getToPip() + "\n");
+					allMoves.append(m.getFromPip() + " - " + m.getToPip());
 				}
 			}
 			count++;

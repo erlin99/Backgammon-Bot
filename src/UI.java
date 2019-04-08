@@ -471,7 +471,7 @@ public class UI {
 
                 if (!userResponse.equalsIgnoreCase("next")) {
                     //append the text on to the message box
-                    messagePanelText.append(" > " + userResponse);
+                    messagePanelText.append("\n> " + userResponse);
                 }
 
                 inputCommands(userResponse);
