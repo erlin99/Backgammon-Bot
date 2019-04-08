@@ -217,7 +217,13 @@ public class UI {
                     moveNumber += ascii - 64;
 
                     if (moveNumber > Moves.possibleMoves.size()) {
-                        messagePanelText.append("\n-Please enter a valid move");
+                        if(!Dice.hasPlayerRolledDice()) {
+                            messagePanelText.append("\n-Please roll the dice!");
+                        }
+                        else {
+                            messagePanelText.append("\n-Please enter a valid move");
+                        }
+
                     } else {
                         if (Backgammon.currentPlayer.getPlayerColor() == 'R') {
                             currentPosition = 25 - Moves.possibleMoves.get(moveNumber - 1).getFromPip();
