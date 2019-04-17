@@ -38,23 +38,25 @@ public class Bot0 implements BotAPI {
     }
 
 
-    public void chooseMove(){
-
+    private void chooseMove(){
         /*System.out.println(info.getAllInfo());
         System.out.println(info.getLatestInfo());*/
-
-
+        /*
+        for each available move create an instance of a new board and pass it into
+        calculate score.
+        Create an array of size Plays.size()
+        Pass each new board into calculateScore and store these scores in the array.
+         */
 
     }
 
-    public int calucalteScore(BoardAPI board){
+    //Calculates the score of each move our player can make
+    private int calculateScore(BoardAPI board){
 
         int block = 2;
         int blot = -1;
 
-
         int[][] possibleBoard = board.get();
-
 
         for(int i=0; i<=25; i++){
 
@@ -62,4 +64,48 @@ public class Bot0 implements BotAPI {
 
         return 0;
     }
+
+    //Returns probability of our bot to win. This is used when accepting or offering the doubling cube
+    private int winProbability(){
+        //TODO
+        return 0;
+    }
+
+    private boolean isBlot() {
+        //TODO
+        return false;
+    }
+
+    private boolean isBlock() {
+        //TODO
+        return false;
+    }
+
+    //Sd = number blocks p0 - number of blots p1
+    private int blockBlotDifference(){
+        //TODO
+        return 0;
+    }
+
+    private int homeBoardBlocks() {
+        //TODO
+        return 0;
+    }
+
+    private int numCheckerInHome() {
+        //TODO
+        return 0;
+    }
+
+    private int primeLength() {
+        //TODO
+        return 0;
+    }
+
+    private int pipCountDifference() {
+        //TODO
+        return 0;
+    }
+
+
 }
