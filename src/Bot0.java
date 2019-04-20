@@ -60,16 +60,19 @@ public class Bot0 implements BotAPI {
          */
         int[] scores = new int[possiblePlays.number()];
 
-        for (int i = 0; i < possiblePlays.number(); i++) {
+        for (int i = 0; i < possiblePlays.number(); i++)
+        {
+            int[][] possibleMove = board.get(); //making copy so original board is not changed
+            possibleMove = move(possibleMove, possiblePlays.get(i)); //making the move
 
-
+            scores[i] = calculateScore(possibleMove);
         }
 
         return scores;
     }
 
     //Calculates the score of each move our player can make
-    private int calculateScore(BoardAPI board){
+    private int calculateScore(int[][] board) {
 
         int block = 2;
         int blot = -1;
@@ -127,7 +130,7 @@ public class Bot0 implements BotAPI {
         return 24-pip+1;
     }
 
-    public void move(int[][] possibleBoard, Move move) {
+    private int[][] move(int[][] possibleBoard, Move move) {
         possibleBoard[me.getId()][move.getFromPip()]--;
         possibleBoard[me.getId()][move.getToPip()]++;
 
@@ -137,11 +140,13 @@ public class Bot0 implements BotAPI {
             possibleBoard[opponent.getId()][calculateOpposingPip(move.getToPip())]--;
             possibleBoard[opponent.getId()][BAR]++;
         }
+        return possibleBoard;
     }
 
-    public void move(int[][] possibleBoard, Play play) {
+    private int[][] move(int[][] possibleBoard, Play play) {
         for (Move move : play) {
-            move(possibleBoard, move);
+            possibleBoard = move(possibleBoard, move);
         }
+        return possibleBoard;
     }
 }
