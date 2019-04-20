@@ -1,6 +1,8 @@
 
 public class Bot0 implements BotAPI {
 
+    public static final int BAR = 25;           // index of the BAR
+    public static final int BEAR_OFF = 0;       // index of the BEAR OFF
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
     // Rename Bot to the name of your team. Use camel case.
@@ -23,7 +25,7 @@ public class Bot0 implements BotAPI {
     }
 
     public String getName() {
-        return "ArraysStartAt1"; // must match the class name
+        return "ArraysStartAt1";
     }
 
     public String getCommand(Plays possiblePlays) {
@@ -49,7 +51,6 @@ public class Bot0 implements BotAPI {
         return "n";
     }
 
-
     private int[] assignScoresToMoves(Plays possiblePlays){
         /*
         for each available move create an instance of a new board and pass it into
@@ -59,6 +60,11 @@ public class Bot0 implements BotAPI {
          */
         int[] scores = new int[possiblePlays.number()];
 
+        for (int i = 0; i < possiblePlays.number(); i++) {
+
+
+        }
+
         return scores;
     }
 
@@ -67,8 +73,6 @@ public class Bot0 implements BotAPI {
 
         int block = 2;
         int blot = -1;
-
-        int[][] possibleBoard = board.get();
 
         for(int i=0; i<=25; i++){
 
@@ -117,5 +121,27 @@ public class Bot0 implements BotAPI {
     private int pipCountDifference() {
         //TODO
         return 0;
+    }
+
+    private int calculateOpposingPip(int pip) {
+        return 24-pip+1;
+    }
+
+    public void move(int[][] possibleBoard, Move move) {
+        possibleBoard[me.getId()][move.getFromPip()]--;
+        possibleBoard[me.getId()][move.getToPip()]++;
+
+        if (move.getToPip()< BAR && move.getToPip() > BEAR_OFF &&
+                possibleBoard[opponent.getId()][calculateOpposingPip(move.getToPip())] == 1)
+        {
+            possibleBoard[opponent.getId()][calculateOpposingPip(move.getToPip())]--;
+            possibleBoard[opponent.getId()][BAR]++;
+        }
+    }
+
+    public void move(int[][] possibleBoard, Play play) {
+        for (Move move : play) {
+            move(possibleBoard, move);
+        }
     }
 }
