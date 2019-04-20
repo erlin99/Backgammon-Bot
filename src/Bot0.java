@@ -30,9 +30,18 @@ public class Bot0 implements BotAPI {
 
         int[] moveScores = assignScoresToMoves(possiblePlays);
 
-        // Add your code here
+        int chosenMove = 0;
+        int highestScore = 0;
+        //loop to find the move with the highest score
+        for (int i = 0; i < moveScores.length; i++)
+        {
+            if (moveScores[i] > highestScore) {
+                highestScore = moveScores[i];
+                chosenMove = i;
+            }
+        }
 
-        return "1";
+        return Integer.toString(chosenMove);
     }
 
     public String getDoubleDecision() {
