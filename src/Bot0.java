@@ -27,8 +27,11 @@ public class Bot0 implements BotAPI {
     }
 
     public String getCommand(Plays possiblePlays) {
-        chooseMove();
+
+        int[] moveScores = assignScoresToMoves(possiblePlays);
+
         // Add your code here
+
         return "1";
     }
 
@@ -38,16 +41,16 @@ public class Bot0 implements BotAPI {
     }
 
 
-    private void chooseMove(){
-        /*System.out.println(info.getAllInfo());
-        System.out.println(info.getLatestInfo());*/
+    private int[] assignScoresToMoves(Plays possiblePlays){
         /*
         for each available move create an instance of a new board and pass it into
         calculate score.
         Create an array of size Plays.size()
         Pass each new board into calculateScore and store these scores in the array.
          */
+        int[] scores = new int[possiblePlays.number()];
 
+        return scores;
     }
 
     //Calculates the score of each move our player can make
@@ -106,6 +109,4 @@ public class Bot0 implements BotAPI {
         //TODO
         return 0;
     }
-
-
 }
