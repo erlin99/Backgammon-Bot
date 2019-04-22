@@ -128,9 +128,59 @@ public class Bot0 implements BotAPI {
         return runningSum;
     }
 
-    private int primeLength() {
-        //TODO
-        return 0;
+    // takes an argument PlayerAPI so we can calculate either players prime length
+    private int primeLength(PlayerAPI player) {
+         	
+    	//TODO
+    	// Haven't tested this method yet
+    	// we might want to return the pips at the beginning and end of the prime
+    	int primeLength = 0;
+//    	int beginningPipOfPrime;
+//    	int endingPipOfPrime;
+    	int currentPlayer = player.getId();
+    	
+    	// array for storing the lengths of the primes a player has on the board
+    	int [] primeLengths = new int[12];
+    	// variable count to increment the place in the array above to store the value of the prime lengths 
+    	int count = 0;
+    	
+    	
+    	for(int i=1; i<=24; i++)
+    	{
+    		// if the currentPlayer has more than 1 checker on a position increment primeLength
+    		if(board.getNumCheckers(currentPlayer, i) > 1)
+    		{
+    			primeLength++;
+    		}
+    		else
+    		{
+    			// this if is entered if a 'prime' of length 1 was found
+    			// a prime of length 1 isn't really a prime so it resets primeLength to 0
+    			if(primeLength == 1)
+    			{
+    				primeLength = 0;
+    			}
+    			// if a prime of length 2 or greater is found it's added to the primeLengths array in the next position
+    			// primeLength is then reset to 0 to continue searching
+    			else if(primeLength > 1)
+    			{
+    				primeLengths[count++] = primeLength;
+    				primeLength = 0;
+    			}
+    			
+    		}
+    	}
+    	
+    	int maxPrimeLength = 0;
+    	
+    	for(int j=0; j<12; j++)
+    	{
+    		if(primeLengths[j] > maxPrimeLength)
+    			maxPrimeLength = primeLengths[j];
+    	}
+    	
+    	
+        return maxPrimeLength;
     }
 
     private int pipCountDifference() {
