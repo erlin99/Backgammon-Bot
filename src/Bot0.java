@@ -55,7 +55,7 @@ public class Bot0 implements BotAPI {
         /*
         for each available move create an instance of a new board and pass it into
         calculate score.
-        Create an array of size Plays.size()
+        Create an array of size possiblePlays.number()
         Pass each new board into calculateScore and store these scores in the array.
          */
         int[] scores = new int[possiblePlays.number()];
@@ -111,9 +111,21 @@ public class Bot0 implements BotAPI {
         return 0;
     }
 
-    private int numCheckerInHome() {
-        //TODO
-        return 0;
+    //Function takes a PlayerAPI as its argument so we can calculate both players number of checkers in their home board
+    private int numCheckersInHome(PlayerAPI player) {
+        
+    	int runningSum = 0;
+    	
+    	for(int i=1; i<=6; i++)
+    	{
+    		runningSum += board.getNumCheckers(player.getId(), i);
+    	}
+    	
+    	//TODO
+    	// FOR TESTING
+//    	System.out.println("RunningSum = " + runningSum);
+    	
+        return runningSum;
     }
 
     private int primeLength() {
