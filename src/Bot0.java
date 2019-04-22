@@ -106,9 +106,22 @@ public class Bot0 implements BotAPI {
         return 0;
     }
 
-    private int homeBoardBlocks() {
-        //TODO
-        return 0;
+    //Function takes a PlayerAPI as its argument so we can calculate both players number of blocks in their home board
+    private int homeBoardBlocks(PlayerAPI player) 
+    {
+    	int runningSum = 0;
+    	
+    	for(int i=1; i<=6; i++)
+    	{
+    		if(board.getNumCheckers(player, i) > 1)
+    			runningSum ++;
+    	}
+    	
+    	//TODO
+    	// FOR TESTING
+//    	System.out.println("RunningSum = " + runningSum);
+    	
+        return runningSum;
     }
 
     //Function takes a PlayerAPI as its argument so we can calculate both players number of checkers in their home board
