@@ -1,8 +1,8 @@
 
 public class Bot0 implements BotAPI {
 
-    public static final int BAR = 25;           // index of the BAR
-    public static final int BEAR_OFF = 0;       // index of the BEAR OFF
+    private static final int BAR = 25;           // index of the BAR
+    private static final int BEAR_OFF = 0;       // index of the BEAR OFF
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
     // Rename Bot to the name of your team. Use camel case.
@@ -73,11 +73,17 @@ public class Bot0 implements BotAPI {
 
     //Calculates the score of each move our player can make
     private int calculateScore(int[][] board) {
-
+        /**
+         * 1. Check for blots. 
+         * 2. Check for blocks.
+         * 3. Check for 3 blocks next to each other.
+         * 4. check if you send opponent checkers to the bar.
+         */
         int block = 2;
         int blot = -1;
+        int prime;
 
-        for(int i=0; i<=25; i++){
+        for(int i=0; i <= board[0].length; i++) {
 
         }
 
