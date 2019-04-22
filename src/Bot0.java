@@ -113,7 +113,7 @@ public class Bot0 implements BotAPI {
     	
     	for(int i=1; i<=6; i++)
     	{
-    		if(board.getNumCheckers(player, i) > 1)
+    		if(board.getNumCheckers(player.getId(), i) > 1)
     			runningSum ++;
     	}
     	
