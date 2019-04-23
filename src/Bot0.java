@@ -54,9 +54,62 @@ public class Bot0 implements BotAPI {
     
     public boolean checkIfWeShouldCallDouble()
     {
-    	//TODO
-    	// code here for if we should call a double
-    	return false;
+    	int winProbability = winProbability();
+    	
+    	if((cube.isOwned() && cube.getOwnerId() == me.getId()) || !(cube.isOwned()))
+    	{
+        	// if both players are 2 or less points from winning
+        	if((me.getScore() >= match.getLength()-2) && (opponent.getScore() >= match.getLength()-2))
+        	{
+        		if(winProbability < 50)
+        		{
+        			return false;
+        		}
+        		
+        		if(winProbability >= 50 && winProbability < 75)
+        		{
+        			return true;
+        		}
+        		
+        		if(winProbability >= 75 && winProbability < 100)
+        		{
+        			return true;
+        		}
+        	}
+        	else
+        	{
+        		if(winProbability < 66)
+            	{
+            		return false;
+            	}
+            	
+            	if(winProbability >= 66 && winProbability < 75 )
+            	{
+            		return true;
+            	}
+            	
+            	//TODO
+            	// calculate gammon chances
+            	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 )) //&& no gammon chances) )
+            	{
+            		return true;
+            	}
+            	
+            	if(winProbability >=80 )//&& significant gammon chances) )
+            	{
+            	   return false;
+            	}
+        	}
+        	
+        	//TODO
+        	// if statement for post crawford rule
+        	// method will return true
+        	return false;
+    	}
+    	else
+    		return false;
+    	
+        
     }
 
     public String getDoubleDecision() 
@@ -110,6 +163,7 @@ public class Bot0 implements BotAPI {
     	
     	//TODO
     	// if statement for post crawford rule
+    	// method will return "y"
     	
         return "n";
     }
