@@ -10,5 +10,5 @@ public interface PlayerAPI {
 
     int getScore();
 
-    Dice getDice();
+    Dice getDuplicateDice();
 }

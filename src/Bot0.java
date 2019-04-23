@@ -123,7 +123,7 @@ public class Bot0 implements BotAPI {
 
         //if the difference between the number of checkers in the newBoard is >= to one then we sent one to the bar
         if (nextBoard[opponent.getId()][BAR] - board.getNumCheckers(opponent.getId(), BAR) >= 1)
-            result = true; 
+            result = true;
 
         return result;
     }
