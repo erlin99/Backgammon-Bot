@@ -65,13 +65,13 @@ public class Bot0 implements BotAPI {
     		return "y";
     	}
     	
-    	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 && //no gammon chances) )
+    	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 )) //no gammon chances) )
     	{
     		// we want to call a double right away
     		return "y";
     	}
     	
-    	if((winProbability >=80 && //significant gammon chances) )
+    	if(winProbability >=80 )//significant gammon chances) )
     	{
     	    return "n";
     	}
