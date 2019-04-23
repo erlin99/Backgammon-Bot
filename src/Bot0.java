@@ -49,7 +49,7 @@ public class Bot0 implements BotAPI {
         	return "double";
         }
         else
-        	return Integer.toString(chosenMove);
+        	return Integer.toString(chosenMove + 1);
     }
     
     public boolean checkIfWeShouldCallDouble()
@@ -181,11 +181,11 @@ public class Bot0 implements BotAPI {
     }
 
     /** Assign scores to the different situations*/
-    final int BLOCK = 2;
-    final int BLOT = -1;
+    final int BLOCK = 5;
+    final int BLOT = 15;
     final int PRIME = 0;
     final int ANCHOR = 0;
-    final int HIT = 0;
+    final int HIT = 10;
 
     //Calculates the score of each move our player can make
     private int calculateScore(int[][] nextBoard, int playerID) {
@@ -201,36 +201,46 @@ public class Bot0 implements BotAPI {
         if (haveDoneAHit(nextBoard, playerID))
             score += HIT;
 
+
+        score -= pipCountDifference(nextBoard, playerID);
+
+        score += blockBlotDifference(nextBoard, playerID);
+
+        score += homeBoardBlocks(nextBoard, playerID);
+
+        score += numCheckersInHome(nextBoard, playerID);
+
+
         for(int pip = 1; pip <= NUM_PIPS; pip++) {
 
             //if in the 4th quadrant x4
             if (pip <= 24 && pip >= 19) {
-                score += 4 * score(nextBoard, pip);
+                score += 4 * score(nextBoard, pip, playerID);
             }
             //if in the 3rd quadrant x3
             else if (pip <= 18 && pip >= 13) {
-                score += 3 * score(nextBoard, pip);
+                score += 3 * score(nextBoard, pip, playerID);
             }
             //if in the 2nd quadrant x2
             else if (pip <= 12 && pip >= 7) {
-                score += 2 * score(nextBoard, pip);
+                score += 2 * score(nextBoard, pip, playerID);
             }
             //if in 1st quadrant(closest to the bear off) x1
             else if (pip <= 6 && pip >= 1) {
-                score += score(nextBoard, pip);
+                score += score(nextBoard, pip, playerID);
             }
         }
 
         return score;
     }
 
-    private int score(int[][] nextBoard, int pipNumber) {
+    private int score(int[][] nextBoard, int pipNumber, int playerID) {
         int score = 0;
 
-        if (isBlock(nextBoard, pipNumber, me.getId()))
+        if (isBlock(nextBoard, pipNumber, playerID))
             score += BLOCK;
 
-        if (isBlot(nextBoard, pipNumber, me.getId()))
+        if (isBlot(nextBoard, pipNumber, playerID))
             score -= BLOT;
 
         /**
@@ -245,8 +255,8 @@ public class Bot0 implements BotAPI {
     private int winProbability(int playerID){
         //TODO
 
-        int player1Score = calculateScore(board.get(), 0);
-        int player2Score = calculateScore(board.get(), 1);
+        int player1Score = calculateScore(board.get(), me.getId());
+        int player2Score = calculateScore(board.get(), opponent.getId());
 
         System.out.println("Player 1 current board score: " + player1Score);
         System.out.println("Player 2 current board score: " + player2Score);
