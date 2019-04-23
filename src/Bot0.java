@@ -169,9 +169,22 @@ public class Bot0 implements BotAPI {
     }
 
     //Sd = number blocks p0 - number of blots p1
-    private int blockBlotDifference(){
-        //TODO
-        return 0;
+    private int blockBlotDifference()
+    {
+    	int blockCount, blotCount = 0;
+    	
+    	for(int i=1; i<=NUM_PIPS; i++)
+    	{
+    		//TODO
+    		// is board.get() alright here?
+    		if(isBlock(board.get(), i))
+    			blockCount++;
+    		
+    		if(isBlot(board.get(), i))
+    			blotCount++;
+    	}
+    	
+        return blockCount-blotCount;
     }
 
     //Function takes a PlayerAPI as its argument so we can calculate both players number of blocks in their home board
@@ -263,7 +276,8 @@ public class Bot0 implements BotAPI {
         return maxPrimeLength;
     }
 
-    private int pipCountDifference() {
+    private int pipCountDifference() 
+    {
         //TODO
         return 0;
     }
