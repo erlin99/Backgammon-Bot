@@ -44,11 +44,20 @@ public class Bot0 implements BotAPI {
             }
         }
 
-        return Integer.toString(chosenMove);
+        if(checkIfWeShouldCallDouble())
+        {
+        	return "double";
+        }
+        else
+        	return Integer.toString(chosenMove);
     }
     
-    //TODO
-    // how do we call for a double?
+    public boolean checkIfWeShouldCallDouble()
+    {
+    	//TODO
+    	// code here for if we should call a double
+    	return false;
+    }
 
     public String getDoubleDecision() 
     {
@@ -62,6 +71,7 @@ public class Bot0 implements BotAPI {
     	if(winProbability >= 66 && winProbability < 75 )
     	{
     		// we want to call a double right away
+    		// NOTE: THIS CODE SHOULD BE DONE IN THE CHECKIFWESHOULDCALLDOUBLE METHOD
     		return "y";
     	}
     	
