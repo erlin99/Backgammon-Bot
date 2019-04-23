@@ -278,8 +278,15 @@ public class Bot0 implements BotAPI {
 
     private int pipCountDifference() 
     {
-        //TODO
-        return 0;
+        int ourPipCount = 0, opponentPipCount = 0;
+        
+        for(int i=25; i>=0; i--)
+        {
+        	ourPipCount = ourPipCount + ((board.getNumCheckers(me.getId(), i))*i);
+        	opponentPipCount = opponentPipCount + ((board.getNumCheckers(opponent.getId(), i))*i);
+        }
+        
+        return ourPipCount - opponentPipCount;
     }
 
 
