@@ -46,9 +46,40 @@ public class Bot0 implements BotAPI {
 
         return Integer.toString(chosenMove);
     }
+    
+    //TODO
+    // how do we call for a double?
 
-    public String getDoubleDecision() {
-        // Add your code here
+    public String getDoubleDecision() 
+    {
+    	int winProbability = winProbability();
+    	
+    	if(winProbability < 66)
+    	{
+    		// we can choose to take or drop double
+    	}
+    	
+    	if(winProbability >= 66 && winProbability < 75 )
+    	{
+    		// we want to call a double right away
+    		return "y";
+    	}
+    	
+    	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 && //no gammon chances) )
+    	{
+    		// we want to call a double right away
+    		return "y";
+    	}
+    	
+    	if((winProbability >=80 && //significant gammon chances) )
+    	{
+    	    return "n";
+    	}
+    	
+    	//TODO
+    	//More decisions to be made, found in slide 18 of the bot slides
+    	
+    	
         return "n";
     }
 
