@@ -78,7 +78,7 @@ public class Bot0 implements BotAPI {
     	
     	//TODO
     	//More decisions to be made, found in slide 18 of the bot slides
-    	
+
     	
         return "n";
     }
@@ -150,10 +150,10 @@ public class Bot0 implements BotAPI {
     private int score(int[][] nextBoard, int pipNumber) {
         int score = 0;
 
-        if (isBlock(nextBoard, pipNumber))
+        if (isBlock(nextBoard, pipNumber, me.getId()))
             score += BLOCK;
 
-        if (isBlot(nextBoard, pipNumber))
+        if (isBlot(nextBoard, pipNumber, me.getId()))
             score -= BLOT;
 
         /**
@@ -180,20 +180,20 @@ public class Bot0 implements BotAPI {
         return result;
     }
 
-    private boolean isBlot(int[][] nextBoard, int pipNumber) {
+    private boolean isBlot(int[][] nextBoard, int pipNumber, int player) {
         boolean result = false;
 
-        if (nextBoard[me.getId()][pipNumber] == 1) {
+        if (nextBoard[player][pipNumber] == 1) {
             result = true;
         }
 
         return result;
     }
 
-    private boolean isBlock(int[][] nextBoard, int pipNumber) {
+    private boolean isBlock(int[][] nextBoard, int pipNumber, int player) {
         boolean result = false;
 
-        if (nextBoard[me.getId()][pipNumber] > 1)
+        if (nextBoard[player][pipNumber] > 1)
             result = true;
 
         return result;
@@ -202,18 +202,18 @@ public class Bot0 implements BotAPI {
     //Sd = number blocks p0 - number of blots p1
     private int blockBlotDifference(int[][] nextBoard)
     {
-    	int blockCount = 0, blotCount = 0;
+    	int myBlockCount = 0, opponentBlotCount = 0;
     	
     	for(int i=1; i<=NUM_PIPS; i++)
     	{
-    		if(isBlock(nextBoard, i))
-    			blockCount++;
+    		if(isBlock(nextBoard, i, me.getId()))
+    			myBlockCount++;
     		
-    		if(isBlot(nextBoard, i))
-    			blotCount++;
+    		if(isBlot(nextBoard, i, opponent.getId()))
+    			opponentBlotCount++;
     	}
     	
-        return blockCount-blotCount;
+        return myBlockCount - opponentBlotCount;
     }
 
     //Function takes a PlayerAPI as its argument so we can calculate both players number of blocks in their home board
