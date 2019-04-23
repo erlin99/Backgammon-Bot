@@ -171,7 +171,7 @@ public class Bot0 implements BotAPI {
     //Sd = number blocks p0 - number of blots p1
     private int blockBlotDifference()
     {
-    	int blockCount, blotCount = 0;
+    	int blockCount = 0, blotCount = 0;
     	
     	for(int i=1; i<=NUM_PIPS; i++)
     	{
