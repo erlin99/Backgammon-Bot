@@ -123,10 +123,12 @@ public class Bot0 implements BotAPI {
         return false;
     }
 
-    private boolean isBlock() {
+    private boolean isBlock(int[][] board, int pipNumber) {
+        boolean result = false;
+        if (board[me.getId()][pipNumber] > 1)
+            result = true;
 
-
-        return false;
+        return result;
     }
 
     //Sd = number blocks p0 - number of blots p1
