@@ -397,4 +397,55 @@ public class Bot0 implements BotAPI {
         }
         return possibleBoard;
     }
+
+
+
+    private int gammonChance(int playerID){
+
+        int gammonProbability = 0;
+
+        boolean opponentInOurHalf = false;
+        //If the opponent has 0 checkers beared off gammon is true
+        boolean gammon = board.get()[opponent.getId()][0] == 0;
+
+        //Calculate the pipcount of both players
+        int ourPipCount = 0;
+        int opponentPipCount = 0;
+
+        //if a gammon is not possible return 0 otherwise calculate a score for a gammon
+        if(!gammon){
+            return 0;
+        } else {
+
+
+            for (int i = 25; i >= 0; i--) {
+                ourPipCount = ourPipCount + (board.get()[me.getId()][i] * i);
+                opponentPipCount = opponentPipCount + (board.get()[opponent.getId()][i] * i);
+            }
+
+            //If the opponent has checkers in our half of the board set a boolean to true
+            for (int i = 24; i >= 13; i--) {
+                if (board.get()[opponent.getId()][i] > 0) {
+                    opponentInOurHalf = true;
+                }
+            }
+
+            //If our pipCount is low i.e close to winning we add to pipcount score depending on how close we are
+            if (ourPipCount <= 20) {
+                gammonProbability += (20 + (20 - ourPipCount));
+            }
+
+            //if the opponent is in our half or on the bar 40 is added to the gammon as it significantly increases our chances
+            if (opponentInOurHalf) {
+                gammonProbability += 40;
+            }
+
+            //if we have a difference of at least 10 in our pipcount we add teh differnce to our gammon probability
+            if (pipCountDifference(board.get(), me.getId()) < -10) {
+                gammonProbability -= pipCountDifference(board.get(), me.getId());
+            }
+
+            return gammonProbability;
+        }
+    }
 }
