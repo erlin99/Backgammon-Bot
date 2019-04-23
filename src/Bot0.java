@@ -32,6 +32,7 @@ public class Bot0 implements BotAPI {
     public String getCommand(Plays possiblePlays) {
 
         int[] moveScores = assignScoresToMoves(possiblePlays);
+        String returning = new String();
 
         int chosenMove = 0;
         int highestScore = 0;
@@ -46,59 +47,47 @@ public class Bot0 implements BotAPI {
 
         if(checkIfWeShouldCallDouble())
         {
-        	return "double";
+        	returning = "double";
         }
         else
-        	return Integer.toString(chosenMove + 1);
+        	returning =  Integer.toString(chosenMove + 1);
+
+        return returning;
     }
     
     public boolean checkIfWeShouldCallDouble()
     {
     	int winProbability = winProbability(me.getId());
-    	
+
     	if((cube.isOwned() && cube.getOwnerId() == me.getId()) || !(cube.isOwned()))
     	{
         	// if both players are 2 or less points from winning
         	if((me.getScore() >= match.getLength()-2) && (opponent.getScore() >= match.getLength()-2))
         	{
         		if(winProbability < 50)
-        		{
         			return false;
-        		}
-        		
+
         		if(winProbability >= 50 && winProbability < 75)
-        		{
         			return true;
-        		}
-        		
+
         		if(winProbability >= 75 && winProbability < 100)
-        		{
         			return true;
-        		}
         	}
         	else
         	{
         		if(winProbability < 66)
-            	{
             		return false;
-            	}
-            	
+
             	if(winProbability >= 66 && winProbability < 75 )
-            	{
             		return true;
-            	}
-            	
+
             	//TODO
             	// calculate gammon chances
             	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 ) && gammonChance(me.getId()) < 75) //&& no gammon chances) )
-            	{
             		return true;
-            	}
-            	
+
             	if(winProbability >=80 && gammonChance(me.getId()) > 75)//&& significant gammon chances) )
-            	{
             	   return false;
-            	}
         	}
         	
         	//TODO
@@ -108,13 +97,10 @@ public class Bot0 implements BotAPI {
     	}
     	else
     		return false;
-    	
-        
     }
 
     public String getDoubleDecision() 
     {
-
     	int winProbability = winProbability(me.getId());
     	
     	// if both players are 2 or less points from winning
@@ -124,33 +110,24 @@ public class Bot0 implements BotAPI {
     		{
     			// we can decide if we want to take or drop double
     		}
-    		
+
     		if(winProbability >= 50 && winProbability < 75)
-    		{
     			return "y";
-    		}
-    		
+
     		if(winProbability >= 75 && winProbability < 100)
-    		{
     			return "n";
-    		}
     	}
     	else
     	{
     		if(winProbability < 35 )
-        	{
         		// we can choose to take or drop double
                 return "n";
-        	}
-        	
-        	if((winProbability >= 35 && winProbability <= 45) && gammonChance(opponent.getId()) <= 75 )
-        	{
-        		return "n";
-        	}
 
-        	if(winProbability >= 35){
+        	if((winProbability >= 35 && winProbability <= 45) && gammonChance(opponent.getId()) <= 75 )
+        		return "n";
+
+        	if(winProbability >= 35)
         	    return "y";
-            }
     	}
     	
     	//TODO
@@ -161,12 +138,7 @@ public class Bot0 implements BotAPI {
     }
 
     private int[] assignScoresToMoves(Plays possiblePlays){
-        /*
-        for each available move create an instance of a new board and pass it into
-        calculate score.
-        Create an array of size possiblePlays.number()
-        Pass each new board into calculateScore and store these scores in the array.
-         */
+
         int[] scores = new int[possiblePlays.number()];
 
         for (int i = 0; i < possiblePlays.number(); i++)
@@ -201,7 +173,6 @@ public class Bot0 implements BotAPI {
         if (haveDoneAHit(nextBoard, playerID))
             score += HIT;
 
-
         score -= pipCountDifference(nextBoard, playerID);
 
         score += blockBlotDifference(nextBoard, playerID);
@@ -209,7 +180,6 @@ public class Bot0 implements BotAPI {
         score += homeBoardBlocks(nextBoard, playerID);
 
         score += numCheckersInHome(nextBoard, playerID);
-
 
         for(int pip = 1; pip <= NUM_PIPS; pip++) {
 
@@ -270,13 +240,7 @@ public class Bot0 implements BotAPI {
 
     private boolean haveDoneAHit(int[][] nextBoard, int playerID) {
         boolean result = false;
-        int opponentID;
-
-        if(playerID == 0){
-            opponentID = 1;
-        } else {
-            opponentID = 0;
-        }
+        int opponentID = opponentOf(playerID);
 
         //if the difference between the number of checkers in the newBoard is >= to one then we sent one to the bar
         if (nextBoard[opponentID][BAR] - board.getNumCheckers(opponentID, BAR) >= 1)
@@ -307,24 +271,17 @@ public class Bot0 implements BotAPI {
     //Sd = number blocks p0 - number of blots p1
     private int blockBlotDifference(int[][] nextBoard, int playerID)
     {
-
         //assigns an id to opponent player
-        int opponentID;
-
-        if(playerID == 0){
-            opponentID = 1;
-        } else {
-            opponentID = 0;
-        }
+        int opponentID = opponentOf(playerID);
 
     	int myBlockCount = 0, opponentBlotCount = 0;
     	
-    	for(int i=1; i<=NUM_PIPS; i++)
+    	for(int pip = 1; pip <= NUM_PIPS; pip++)
     	{
-    		if(isBlock(nextBoard, i, playerID))
+    		if(isBlock(nextBoard, pip, playerID))
     			myBlockCount++;
     		
-    		if(isBlot(nextBoard, i, opponentID))
+    		if(isBlot(nextBoard, pip, opponentID))
     			opponentBlotCount++;
     	}
     	
@@ -334,33 +291,29 @@ public class Bot0 implements BotAPI {
     //Function takes a PlayerAPI as its argument so we can calculate both players number of blocks in their home board
     private int homeBoardBlocks(int[][] nextBoard, int playerID)
     {
-    	int runningSum = 0;
+    	int numberOfBlocks = 0;
     	
     	for(int i=1; i<=6; i++)
     	{
     		if(nextBoard[playerID][i] > 1)
-    			runningSum ++;
+    			numberOfBlocks++;
     	}
-    	
-    	
-        return runningSum;
-    }
 
+        return numberOfBlocks;
+    }
 
     private int numCheckersInHome(int[][] nextBoard, int playerID) {
         
-    	int runningSum = 0;
+    	int numberOfCheckers = 0;
     	
     	for(int i=1; i<=6; i++)
     	{
-    		runningSum += nextBoard[playerID][i];
+    		numberOfCheckers += nextBoard[playerID][i];
     	}
-    	
-    	
-        return runningSum;
+
+        return numberOfCheckers;
     }
 
-    
     private int primeLength(int[][] nextBoard, int playerID) {
          	
     	// we might want to return the pips at the beginning and end of the prime
@@ -373,8 +326,7 @@ public class Bot0 implements BotAPI {
     	int [] primeLengths = new int[12];
     	// variable count to increment the place in the array above to store the value of the prime lengths 
     	int count = 0;
-    	
-    	
+
     	for(int i=1; i<=NUM_PIPS; i++)
     	{
     		// if the currentPlayer has more than 1 checker on a position increment primeLength
@@ -397,7 +349,6 @@ public class Bot0 implements BotAPI {
     				primeLengths[count++] = primeLength;
     				primeLength = 0;
     			}
-    			
     		}
     	}
     	
@@ -412,15 +363,9 @@ public class Bot0 implements BotAPI {
         return maxPrimeLength;
     }
 
-    private int pipCountDifference(int[][] nextBoard, int playerID)
-    {
-        int opponentID;
+    private int pipCountDifference(int[][] nextBoard, int playerID) {
 
-        if(playerID == 0){
-            opponentID = 1;
-        } else {
-            opponentID = 0;
-        }
+        int opponentID = opponentOf(playerID);
 
         int ourPipCount = 0, opponentPipCount = 0;
         
@@ -432,7 +377,6 @@ public class Bot0 implements BotAPI {
         
         return ourPipCount - opponentPipCount;
     }
-
 
     private int calculateOpposingPip(int pip) {
         return 24-pip+1;
@@ -458,19 +402,10 @@ public class Bot0 implements BotAPI {
         return possibleBoard;
     }
 
-
-
     private int gammonChance(int playerID){
 
         int gammonProbability = 0;
-
-        int opponentID;
-
-        if(playerID == 0){
-            opponentID = 1;
-        } else {
-            opponentID = 0;
-        }
+        int opponentID = opponentOf(playerID);
 
         boolean opponentInOurHalf = false;
         //If the opponent has 0 checkers beared off gammon is true
@@ -484,7 +419,6 @@ public class Bot0 implements BotAPI {
         if(!gammon){
             return 0;
         } else {
-
 
             for (int i = 25; i >= 0; i--) {
                 ourPipCount = ourPipCount + (board.get()[playerID][i] * i);
@@ -515,5 +449,17 @@ public class Bot0 implements BotAPI {
 
             return gammonProbability;
         }
+    }
+
+    private int opponentOf(int playerID) {
+
+        int opponentID;
+
+        if(playerID == 0)
+            opponentID = 1;
+        else
+            opponentID = 0;
+
+        return opponentID;
     }
 }
