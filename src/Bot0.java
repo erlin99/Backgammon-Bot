@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Bot0 implements BotAPI {
 
@@ -314,53 +315,64 @@ public class Bot0 implements BotAPI {
         return numberOfCheckers;
     }
 
-    private int primeLength(int[][] nextBoard, int playerID) {
-         	
-    	// we might want to return the pips at the beginning and end of the prime
+    private ArrayList<Prime> primesOnTheBoard(int[][] nextBoard, int playerID) {
+
+        ArrayList<Prime> primes = new ArrayList<>();
     	int primeLength = 0;
-//    	int beginningPipOfPrime;
-//    	int endingPipOfPrime;
-    	int currentPlayer = playerID;
-    	
-    	// array for storing the lengths of the primes a player has on the board
-    	int [] primeLengths = new int[12];
-    	// variable count to increment the place in the array above to store the value of the prime lengths 
-    	int count = 0;
 
-    	for(int i=1; i<=NUM_PIPS; i++)
-    	{
-    		// if the currentPlayer has more than 1 checker on a position increment primeLength
-    		if(nextBoard[currentPlayer][i] > 1)
-    		{
-    			primeLength++;
-    		}
-    		else
-    		{
-    			// this if is entered if a 'prime' of length 1 was found
-    			// a prime of length 1 isn't really a prime so it resets primeLength to 0
-    			if(primeLength == 1)
-    			{
-    				primeLength = 0;
-    			}
-    			// if a prime of length 2 or greater is found it's added to the primeLengths array in the next position
-    			// primeLength is then reset to 0 to continue searching
-    			else if(primeLength > 1)
-    			{
-    				primeLengths[count++] = primeLength;
-    				primeLength = 0;
-    			}
-    		}
-    	}
-    	
-    	int maxPrimeLength = 0;
-    	
-    	for(int j=0; j<12; j++)
-    	{
-    		if(primeLengths[j] > maxPrimeLength)
-    			maxPrimeLength = primeLengths[j];
-    	}
+        int pip = 1;
+        while (pip <= NUM_PIPS) {
 
-        return maxPrimeLength;
+            int startPip = pip;
+
+            while (nextBoard[playerID][pip] > 1) {
+                primeLength++;
+                pip++;
+            }
+
+            int endPip = pip;
+
+            if (primeLength == 1) {
+                primeLength = 0;
+            }
+
+    	    else if (primeLength > 1) {
+                Prime prime = new Prime(primeLength, startPip, endPip);
+                primes.add(prime);
+            }
+
+            pip++;
+        }
+
+//        // array for storing the lengths of the primes a player has on the board
+//        int [] primeLengths = new int[12];
+//        //variable count to increment the place in the array above to store the value of the prime lengths
+//        int count = 0;
+//    	for( pip = 1; pip <= NUM_PIPS; pip++)
+//    	{
+//    		// if the currentPlayer has more than 1 checker on a position increment primeLength
+//            if(nextBoard[playerID][pip] > 1)
+//            {
+//                primeLength++;
+//            }
+//    		else
+//    		{
+//    			// this if is entered if a 'prime' of length 1 was found
+//    			// a prime of length 1 isn't really a prime so it resets primeLength to 0
+//    			if(primeLength == 1)
+//    			{
+//    				primeLength = 0;
+//    			}
+//    			// if a prime of length 2 or greater is found it's added to the primeLengths array in the next position
+//    			// primeLength is then reset to 0 to continue searching
+//    			else if(primeLength > 1)
+//    			{
+//    				primeLengths[count++] = primeLength;
+//    				primeLength = 0;
+//    			}
+//    		}
+//    	}
+        return primes;
     }
 
     private int pipCountDifference(int[][] nextBoard, int playerID) {
