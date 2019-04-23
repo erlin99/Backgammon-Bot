@@ -93,28 +93,45 @@ public class Bot0 implements BotAPI {
         if (haveDoneAHit(nextBoard))
             score += HIT;
 
-        for(int i = 1; i <= NUM_PIPS; i++) {
+        for(int pip = 1; pip <= NUM_PIPS; pip++) {
 
             //if in the 4th quadrant x4
-            if (i <= 24 && i >= 19) {
-
+            if (pip <= 24 && pip >= 19) {
+                score += 4 * score(nextBoard, pip);
             }
             //if in the 3rd quadrant x3
-            else if (i <= 18 && i >= 13) {
-
+            else if (pip <= 18 && pip >= 13) {
+                score += 3 * score(nextBoard, pip);
             }
             //if in the 2nd quadrant x2
-            else if (i <= 12 && i >= 7) {
-
+            else if (pip <= 12 && pip >= 7) {
+                score += 2 * score(nextBoard, pip);
             }
             //if in 1st quadrant(closest to the bear off) x1
-            else if (i <= 6 && i >= 1) {
-
+            else if (pip <= 6 && pip >= 1) {
+                score += score(nextBoard, pip);
             }
         }
 
         return score;
     }
+
+    private int score(int[][] nextBoard, int pipNumber) {
+        int score = 0;
+
+        if (isBlock(nextBoard, pipNumber))
+            score += BLOCK;
+
+        if (isBlot(nextBoard, pipNumber))
+            score -= BLOT;
+
+        /**
+         * Add more situations where points have to be added or subtracted to the score
+         */
+
+        return score;
+    }
+
 
     //Returns probability of our bot to win. This is used when accepting or offering the doubling cube
     private int winProbability(){
