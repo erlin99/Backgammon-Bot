@@ -61,6 +61,7 @@ public class Bot0 implements BotAPI {
 
     public String getDoubleDecision() 
     {
+
     	int winProbability = winProbability();
     	
     	if(winProbability < 66)
@@ -107,7 +108,7 @@ public class Bot0 implements BotAPI {
             int[][] possibleMove = board.get(); //making copy so original board is not changed
             possibleMove = move(possibleMove, possiblePlays.get(i)); //making the move
 
-            scores[i] = calculateScore(possibleMove);
+            scores[i] = calculateScore(possibleMove, me.getId());
         }
 
         return scores;
@@ -121,7 +122,7 @@ public class Bot0 implements BotAPI {
     final int HIT = 0;
 
     //Calculates the score of each move our player can make
-    private int calculateScore(int[][] nextBoard) {
+    private int calculateScore(int[][] nextBoard, int playerID) {
         /**
          * 1. Check for blots.
          * 2. Check for blocks.
@@ -131,7 +132,7 @@ public class Bot0 implements BotAPI {
         int[][] originalBoard = board.get();
         int score = 0;
 
-        if (haveDoneAHit(nextBoard))
+        if (haveDoneAHit(nextBoard, playerID))
             score += HIT;
 
         for(int pip = 1; pip <= NUM_PIPS; pip++) {
@@ -177,14 +178,28 @@ public class Bot0 implements BotAPI {
     //Returns probability of our bot to win. This is used when accepting or offering the doubling cube
     private int winProbability(){
         //TODO
+
+        int player1Score = calculateScore(board.get(), 0);
+        int player2Score = calculateScore(board.get(), 1);
+
+        System.out.println("Player 1 current board score: " + player1Score);
+        System.out.println("Player 2 current board score: " + player2Score);
+
         return 0;
     }
 
-    private boolean haveDoneAHit(int[][] nextBoard) {
+    private boolean haveDoneAHit(int[][] nextBoard, int playerID) {
         boolean result = false;
+        int opponentID;
+
+        if(playerID == 0){
+            opponentID = 1;
+        } else {
+            opponentID = 0;
+        }
 
         //if the difference between the number of checkers in the newBoard is >= to one then we sent one to the bar
-        if (nextBoard[opponent.getId()][BAR] - board.getNumCheckers(opponent.getId(), BAR) >= 1)
+        if (nextBoard[opponentID][BAR] - board.getNumCheckers(opponentID, BAR) >= 1)
             result = true;
 
         return result;
@@ -210,16 +225,26 @@ public class Bot0 implements BotAPI {
     }
 
     //Sd = number blocks p0 - number of blots p1
-    private int blockBlotDifference(int[][] nextBoard)
+    private int blockBlotDifference(int[][] nextBoard, int playerID)
     {
+
+        //assigns an id to opponent player
+        int opponentID;
+
+        if(playerID == 0){
+            opponentID = 1;
+        } else {
+            opponentID = 0;
+        }
+
     	int myBlockCount = 0, opponentBlotCount = 0;
     	
     	for(int i=1; i<=NUM_PIPS; i++)
     	{
-    		if(isBlock(nextBoard, i, me.getId()))
+    		if(isBlock(nextBoard, i, playerID))
     			myBlockCount++;
     		
-    		if(isBlot(nextBoard, i, opponent.getId()))
+    		if(isBlot(nextBoard, i, opponentID))
     			opponentBlotCount++;
     	}
     	
@@ -227,13 +252,13 @@ public class Bot0 implements BotAPI {
     }
 
     //Function takes a PlayerAPI as its argument so we can calculate both players number of blocks in their home board
-    private int homeBoardBlocks(int[][] nextBoard) 
+    private int homeBoardBlocks(int[][] nextBoard, int playerID)
     {
     	int runningSum = 0;
     	
     	for(int i=1; i<=6; i++)
     	{
-    		if(nextBoard[me.getId()][i] > 1)
+    		if(nextBoard[playerID][i] > 1)
     			runningSum ++;
     	}
     	
@@ -242,13 +267,13 @@ public class Bot0 implements BotAPI {
     }
 
 
-    private int numCheckersInHome(int[][] nextBoard) {
+    private int numCheckersInHome(int[][] nextBoard, int playerID) {
         
     	int runningSum = 0;
     	
     	for(int i=1; i<=6; i++)
     	{
-    		runningSum += nextBoard[me.getId()][i];
+    		runningSum += nextBoard[playerID][i];
     	}
     	
     	
@@ -256,13 +281,13 @@ public class Bot0 implements BotAPI {
     }
 
     
-    private int primeLength(int[][] nextBoard) {
+    private int primeLength(int[][] nextBoard, int playerID) {
          	
     	// we might want to return the pips at the beginning and end of the prime
     	int primeLength = 0;
 //    	int beginningPipOfPrime;
 //    	int endingPipOfPrime;
-    	int currentPlayer = me.getId();
+    	int currentPlayer = playerID;
     	
     	// array for storing the lengths of the primes a player has on the board
     	int [] primeLengths = new int[12];
@@ -307,14 +332,22 @@ public class Bot0 implements BotAPI {
         return maxPrimeLength;
     }
 
-    private int pipCountDifference(int[][] nextBoard) 
+    private int pipCountDifference(int[][] nextBoard, int playerID)
     {
+        int opponentID;
+
+        if(playerID == 0){
+            opponentID = 1;
+        } else {
+            opponentID = 0;
+        }
+
         int ourPipCount = 0, opponentPipCount = 0;
         
         for(int i=25; i>=0; i--)
         {
-        	ourPipCount = ourPipCount + (nextBoard[me.getId()][i]*i);
-        	opponentPipCount = opponentPipCount + (nextBoard[opponent.getId()][i]*i);
+        	ourPipCount = ourPipCount + (nextBoard[playerID][i]*i);
+        	opponentPipCount = opponentPipCount + (nextBoard[opponentID][i]*i);
         }
         
         return ourPipCount - opponentPipCount;
