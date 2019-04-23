@@ -54,7 +54,7 @@ public class Bot0 implements BotAPI {
     
     public boolean checkIfWeShouldCallDouble()
     {
-    	int winProbability = winProbability();
+    	int winProbability = winProbability(me.getId());
     	
     	if((cube.isOwned() && cube.getOwnerId() == me.getId()) || !(cube.isOwned()))
     	{
@@ -90,12 +90,12 @@ public class Bot0 implements BotAPI {
             	
             	//TODO
             	// calculate gammon chances
-            	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 )) //&& no gammon chances) )
+            	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 ) && gammonChance(me.getId()) < 75) //&& no gammon chances) )
             	{
             		return true;
             	}
             	
-            	if(winProbability >=80 )//&& significant gammon chances) )
+            	if(winProbability >=80 && gammonChance(me.getId()) > 75)//&& significant gammon chances) )
             	{
             	   return false;
             	}
@@ -115,7 +115,7 @@ public class Bot0 implements BotAPI {
     public String getDoubleDecision() 
     {
 
-    	int winProbability = winProbability();
+    	int winProbability = winProbability(me.getId());
     	
     	// if both players are 2 or less points from winning
     	if((me.getScore() >= match.getLength()-2) && (opponent.getScore() >= match.getLength()-2))
@@ -137,28 +137,20 @@ public class Bot0 implements BotAPI {
     	}
     	else
     	{
-    		if(winProbability < 66)
+    		if(winProbability < 35 )
         	{
         		// we can choose to take or drop double
+                return "n";
         	}
         	
-        	if(winProbability >= 66 && winProbability < 75 )
+        	if((winProbability >= 35 && winProbability <= 45) && gammonChance(opponent.getId()) <= 75 )
         	{
-        		return "y";
-        	}
-        	
-        	//TODO
-        	// calculate gammon chances
-        	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 )) //&& no gammon chances) )
-        	{
-        		// we want to call a double right away
         		return "n";
         	}
-        	
-        	if(winProbability >=80 )//&& significant gammon chances) )
-        	{
-        	   // we can choose to take or drop double
-        	}
+
+        	if(winProbability >= 35){
+        	    return "y";
+            }
     	}
     	
     	//TODO
@@ -250,7 +242,7 @@ public class Bot0 implements BotAPI {
 
 
     //Returns probability of our bot to win. This is used when accepting or offering the doubling cube
-    private int winProbability(){
+    private int winProbability(int playerID){
         //TODO
 
         int player1Score = calculateScore(board.get(), 0);
@@ -259,7 +251,11 @@ public class Bot0 implements BotAPI {
         System.out.println("Player 1 current board score: " + player1Score);
         System.out.println("Player 2 current board score: " + player2Score);
 
-        return 0;
+        if(playerID == 0){
+            return player1Score;
+        } else {
+            return player2Score;
+        }
     }
 
     private boolean haveDoneAHit(int[][] nextBoard, int playerID) {
@@ -458,9 +454,17 @@ public class Bot0 implements BotAPI {
 
         int gammonProbability = 0;
 
+        int opponentID;
+
+        if(playerID == 0){
+            opponentID = 1;
+        } else {
+            opponentID = 0;
+        }
+
         boolean opponentInOurHalf = false;
         //If the opponent has 0 checkers beared off gammon is true
-        boolean gammon = board.get()[opponent.getId()][0] == 0;
+        boolean gammon = board.get()[opponentID][0] == 0;
 
         //Calculate the pipcount of both players
         int ourPipCount = 0;
@@ -473,13 +477,13 @@ public class Bot0 implements BotAPI {
 
 
             for (int i = 25; i >= 0; i--) {
-                ourPipCount = ourPipCount + (board.get()[me.getId()][i] * i);
-                opponentPipCount = opponentPipCount + (board.get()[opponent.getId()][i] * i);
+                ourPipCount = ourPipCount + (board.get()[playerID][i] * i);
+                opponentPipCount = opponentPipCount + (board.get()[opponentID][i] * i);
             }
 
             //If the opponent has checkers in our half of the board set a boolean to true
             for (int i = 24; i >= 13; i--) {
-                if (board.get()[opponent.getId()][i] > 0) {
+                if (board.get()[opponentID][i] > 0) {
                     opponentInOurHalf = true;
                 }
             }
@@ -495,7 +499,7 @@ public class Bot0 implements BotAPI {
             }
 
             //if we have a difference of at least 10 in our pipcount we add teh differnce to our gammon probability
-            if (pipCountDifference(board.get(), me.getId()) < -10) {
+            if (pipCountDifference(board.get(), playerID) < -10) {
                 gammonProbability -= pipCountDifference(board.get(), me.getId());
             }
 
