@@ -3,6 +3,7 @@ public class Bot0 implements BotAPI {
 
     private static final int BAR = 25;           // index of the BAR
     private static final int BEAR_OFF = 0;       // index of the BEAR OFF
+    public static final int NUM_PIPS = 24;      // excluding BAR and BEAR OFF
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
     // Rename Bot to the name of your team. Use camel case.
@@ -72,22 +73,43 @@ public class Bot0 implements BotAPI {
     }
 
     //Calculates the score of each move our player can make
-    private int calculateScore(int[][] board) {
+    private int calculateScore(int[][] newBoard) {
         /**
-         * 1. Check for blots. 
+         * 1. Check for blots.
          * 2. Check for blocks.
          * 3. Check for 3 blocks next to each other.
          * 4. check if you send opponent checkers to the bar.
          */
+        int[][] originalBoard = board.get();
+        int score = 0;
+
+        /** Assign scores to the different situations*/
         int block = 2;
         int blot = -1;
-        int prime;
+        int prime = 0;
+        int anchor = 0;
 
-        for(int i=0; i <= board[0].length; i++) {
+        for(int i = 1; i <= NUM_PIPS; i++) {
 
+            //if in the 4th quadrant
+            if (i <= 24 && i >= 19) {
+
+            }
+            //if in the 3rd quadrant
+            else if (i <= 18 && i >= 13) {
+
+            }
+            //if in the 2nd quadrant
+            else if (i <= 12 && i >= 7) {
+
+            }
+            //if in 1st quadrant(closest to the bear off)
+            else if (i <= 6 && i >= 1) {
+
+            }
         }
 
-        return 0;
+        return score;
     }
 
     //Returns probability of our bot to win. This is used when accepting or offering the doubling cube
@@ -102,7 +124,8 @@ public class Bot0 implements BotAPI {
     }
 
     private boolean isBlock() {
-        //TODO
+
+
         return false;
     }
 
@@ -197,8 +220,7 @@ public class Bot0 implements BotAPI {
     		if(primeLengths[j] > maxPrimeLength)
     			maxPrimeLength = primeLengths[j];
     	}
-    	
-    	
+
         return maxPrimeLength;
     }
 
@@ -206,6 +228,7 @@ public class Bot0 implements BotAPI {
         //TODO
         return 0;
     }
+
 
     private int calculateOpposingPip(int pip) {
         return 24-pip+1;
