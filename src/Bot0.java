@@ -118,13 +118,19 @@ public class Bot0 implements BotAPI {
         return 0;
     }
 
-    private boolean isBlot() {
-        //TODO
-        return false;
+    private boolean isBlot(int[][] board, int pipNumber) {
+        boolean result = false;
+
+        if (board[me.getId()][pipNumber] == 1) {
+            result = true;
+        }
+
+        return result;
     }
 
     private boolean isBlock(int[][] board, int pipNumber) {
         boolean result = false;
+
         if (board[me.getId()][pipNumber] > 1)
             result = true;
 
