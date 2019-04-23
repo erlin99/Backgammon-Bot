@@ -64,32 +64,52 @@ public class Bot0 implements BotAPI {
 
     	int winProbability = winProbability();
     	
-    	if(winProbability < 66)
+    	// if both players are 2 or less points from winning
+    	if((me.getScore() >= match.getLength()-2) && (opponent.getScore() >= match.getLength()-2))
     	{
-    		// we can choose to take or drop double
+    		if(winProbability < 50)
+    		{
+    			// we can decide if we want to take or drop double
+    		}
+    		
+    		if(winProbability >= 50 && winProbability < 75)
+    		{
+    			return "y";
+    		}
+    		
+    		if(winProbability >= 75 && winProbability < 100)
+    		{
+    			return "n";
+    		}
     	}
-    	
-    	if(winProbability >= 66 && winProbability < 75 )
+    	else
     	{
-    		// we want to call a double right away
-    		// NOTE: THIS CODE SHOULD BE DONE IN THE CHECKIFWESHOULDCALLDOUBLE METHOD
-    		return "y";
-    	}
-    	
-    	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 )) //no gammon chances) )
-    	{
-    		// we want to call a double right away
-    		return "y";
-    	}
-    	
-    	if(winProbability >=80 )//significant gammon chances) )
-    	{
-    	    return "n";
+    		if(winProbability < 66)
+        	{
+        		// we can choose to take or drop double
+        	}
+        	
+        	if(winProbability >= 66 && winProbability < 75 )
+        	{
+        		return "y";
+        	}
+        	
+        	//TODO
+        	// calculate gammon chances
+        	if((winProbability >= 75 && winProbability < 80) || (winProbability >=80 )) //&& no gammon chances) )
+        	{
+        		// we want to call a double right away
+        		return "n";
+        	}
+        	
+        	if(winProbability >=80 )//&& significant gammon chances) )
+        	{
+        	   // we can choose to take or drop double
+        	}
     	}
     	
     	//TODO
-    	//More decisions to be made, found in slide 18 of the bot slides
-
+    	// if statement for post crawford rule
     	
         return "n";
     }
