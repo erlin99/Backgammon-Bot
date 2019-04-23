@@ -72,8 +72,15 @@ public class Bot0 implements BotAPI {
         return scores;
     }
 
+    /** Assign scores to the different situations*/
+    final int BLOCK = 2;
+    final int BLOT = -1;
+    final int PRIME = 0;
+    final int ANCHOR = 0;
+    final int HIT = 0;
+
     //Calculates the score of each move our player can make
-    private int calculateScore(int[][] newBoard) {
+    private int calculateScore(int[][] nextBoard) {
         /**
          * 1. Check for blots.
          * 2. Check for blocks.
@@ -83,27 +90,24 @@ public class Bot0 implements BotAPI {
         int[][] originalBoard = board.get();
         int score = 0;
 
-        /** Assign scores to the different situations*/
-        int block = 2;
-        int blot = -1;
-        int prime = 0;
-        int anchor = 0;
+        if (haveDoneAHit(nextBoard))
+            score += HIT;
 
         for(int i = 1; i <= NUM_PIPS; i++) {
 
-            //if in the 4th quadrant
+            //if in the 4th quadrant x4
             if (i <= 24 && i >= 19) {
 
             }
-            //if in the 3rd quadrant
+            //if in the 3rd quadrant x3
             else if (i <= 18 && i >= 13) {
 
             }
-            //if in the 2nd quadrant
+            //if in the 2nd quadrant x2
             else if (i <= 12 && i >= 7) {
 
             }
-            //if in 1st quadrant(closest to the bear off)
+            //if in 1st quadrant(closest to the bear off) x1
             else if (i <= 6 && i >= 1) {
 
             }
