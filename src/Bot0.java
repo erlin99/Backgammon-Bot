@@ -462,4 +462,30 @@ public class Bot0 implements BotAPI {
 
         return opponentID;
     }
+
+    //Inner class to hold the length and start and end pip of the primes
+    private class Prime {
+
+        int length;
+        int startPip;
+        int endPip;
+
+        Prime(int length, int startPip, int endPip) {
+            this.length = length;
+            this.startPip = startPip;
+            this.endPip = endPip;
+        }
+
+        public int getLength() {
+            return length;
+        }
+
+        public int getStartPip() {
+            return startPip;
+        }
+
+        public int getEndPip() {
+            return endPip;
+        }
+    }
 }
