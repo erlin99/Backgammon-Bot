@@ -200,18 +200,16 @@ public class Bot0 implements BotAPI {
     }
 
     //Sd = number blocks p0 - number of blots p1
-    private int blockBlotDifference()
+    private int blockBlotDifference(int[][] nextBoard)
     {
     	int blockCount = 0, blotCount = 0;
     	
     	for(int i=1; i<=NUM_PIPS; i++)
     	{
-    		//TODO
-    		// is board.get() alright here?
-    		if(isBlock(board.get(), i))
+    		if(isBlock(nextBoard, i))
     			blockCount++;
     		
-    		if(isBlot(board.get(), i))
+    		if(isBlot(nextBoard, i))
     			blotCount++;
     	}
     	
@@ -219,50 +217,42 @@ public class Bot0 implements BotAPI {
     }
 
     //Function takes a PlayerAPI as its argument so we can calculate both players number of blocks in their home board
-    private int homeBoardBlocks(PlayerAPI player) 
+    private int homeBoardBlocks(int[][] nextBoard) 
     {
     	int runningSum = 0;
     	
     	for(int i=1; i<=6; i++)
     	{
-    		if(board.getNumCheckers(player.getId(), i) > 1)
+    		if(nextBoard[me.getId()][i] > 1)
     			runningSum ++;
     	}
     	
-    	//TODO
-    	// FOR TESTING
-//    	System.out.println("RunningSum = " + runningSum);
     	
         return runningSum;
     }
 
-    //Function takes a PlayerAPI as its argument so we can calculate both players number of checkers in their home board
-    private int numCheckersInHome(PlayerAPI player) {
+
+    private int numCheckersInHome(int[][] nextBoard) {
         
     	int runningSum = 0;
     	
     	for(int i=1; i<=6; i++)
     	{
-    		runningSum += board.getNumCheckers(player.getId(), i);
+    		runningSum += nextBoard[me.getId()][i];
     	}
     	
-    	//TODO
-    	// FOR TESTING
-//    	System.out.println("RunningSum = " + runningSum);
     	
         return runningSum;
     }
 
-    // takes an argument PlayerAPI so we can calculate either players prime length
-    private int primeLength(PlayerAPI player) {
+    
+    private int primeLength(int[][] nextBoard) {
          	
-    	//TODO
-    	// Haven't tested this method yet
     	// we might want to return the pips at the beginning and end of the prime
     	int primeLength = 0;
 //    	int beginningPipOfPrime;
 //    	int endingPipOfPrime;
-    	int currentPlayer = player.getId();
+    	int currentPlayer = me.getId();
     	
     	// array for storing the lengths of the primes a player has on the board
     	int [] primeLengths = new int[12];
@@ -270,10 +260,10 @@ public class Bot0 implements BotAPI {
     	int count = 0;
     	
     	
-    	for(int i=1; i<=24; i++)
+    	for(int i=1; i<=NUM_PIPS; i++)
     	{
     		// if the currentPlayer has more than 1 checker on a position increment primeLength
-    		if(board.getNumCheckers(currentPlayer, i) > 1)
+    		if(nextBoard[currentPlayer][i] > 1)
     		{
     			primeLength++;
     		}
@@ -307,14 +297,14 @@ public class Bot0 implements BotAPI {
         return maxPrimeLength;
     }
 
-    private int pipCountDifference() 
+    private int pipCountDifference(int[][] nextBoard) 
     {
         int ourPipCount = 0, opponentPipCount = 0;
         
         for(int i=25; i>=0; i--)
         {
-        	ourPipCount = ourPipCount + ((board.getNumCheckers(me.getId(), i))*i);
-        	opponentPipCount = opponentPipCount + ((board.getNumCheckers(opponent.getId(), i))*i);
+        	ourPipCount = ourPipCount + (nextBoard[me.getId()][i]*i);
+        	opponentPipCount = opponentPipCount + (nextBoard[opponent.getId()][i]*i);
         }
         
         return ourPipCount - opponentPipCount;
