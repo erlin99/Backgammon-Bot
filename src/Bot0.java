@@ -154,11 +154,11 @@ public class Bot0 implements BotAPI {
     }
 
     /** Assign scores to the different situations*/
-    final int BLOCK = 5;
-    final int BLOT = 15;
+    final int BLOCK = 3;
+    final int BLOT = 10;
     final int PRIME = 0;
     final int ANCHOR = 0;
-    final int HIT = 10;
+    final int HIT = 5;
 
     //Calculates the score of each move our player can make
     private int calculateScore(int[][] nextBoard, int playerID) {
@@ -168,39 +168,55 @@ public class Bot0 implements BotAPI {
          * 3. Check for 3 blocks next to each other.
          * 4. check if you send opponent checkers to the bar.
          */
+
+        System.out.println("\n---------------------------\n");
         int[][] originalBoard = board.get();
         int score = 0;
 
         if (haveDoneAHit(nextBoard, playerID))
             score += HIT;
 
-        score -= pipCountDifference(nextBoard, playerID);
+        System.out.println("Score after hit: " + score);
+
+        if(pipCountDifference(nextBoard, playerID) < 0){
+            score -= pipCountDifference(nextBoard, playerID) / 2;
+        }
+
+        System.out.println("Score after pipCount difference: " + score);
 
         score += blockBlotDifference(nextBoard, playerID);
 
+        System.out.println("Score after block blot: " + score);
+
         score += homeBoardBlocks(nextBoard, playerID);
 
+        System.out.println("Score after home board blocks: " + score);
+
         score += numCheckersInHome(nextBoard, playerID);
+
+        System.out.println("Score after num checkers in home board: " + score);
 
         for(int pip = 1; pip <= NUM_PIPS; pip++) {
 
             //if in the 4th quadrant x4
             if (pip <= 24 && pip >= 19) {
-                score += 4 * score(nextBoard, pip, playerID);
+                score += score(nextBoard, pip, playerID);
             }
             //if in the 3rd quadrant x3
             else if (pip <= 18 && pip >= 13) {
-                score += 3 * score(nextBoard, pip, playerID);
+                score += 2 + score(nextBoard, pip, playerID);
             }
             //if in the 2nd quadrant x2
             else if (pip <= 12 && pip >= 7) {
-                score += 2 * score(nextBoard, pip, playerID);
+                score +=  3 + score(nextBoard, pip, playerID);
             }
             //if in 1st quadrant(closest to the bear off) x1
             else if (pip <= 6 && pip >= 1) {
-                score += score(nextBoard, pip, playerID);
+                score += 4 + score(nextBoard, pip, playerID);
             }
         }
+
+        System.out.println("Score after block blots in weighted quads: " + score);
 
         return score;
     }
@@ -229,13 +245,19 @@ public class Bot0 implements BotAPI {
         int player1Score = calculateScore(board.get(), me.getId());
         int player2Score = calculateScore(board.get(), opponent.getId());
 
+        int player1Probability = (player1Score - player2Score) + 50;
+        int player2Probability = (player2Score - player1Score) + 50;
+
         System.out.println("Player 1 current board score: " + player1Score);
         System.out.println("Player 2 current board score: " + player2Score);
 
+        System.out.println("Player 1 current probability: " + player1Probability);
+        System.out.println("Player 2 current probability: " + player2Probability);
+
         if(playerID == 0){
-            return player1Score;
+            return player1Probability;
         } else {
-            return player2Score;
+            return player2Probability;
         }
     }
 
@@ -307,7 +329,7 @@ public class Bot0 implements BotAPI {
         
     	int numberOfCheckers = 0;
     	
-    	for(int i=1; i<=6; i++)
+    	for(int i=0; i<=6; i++)
     	{
     		numberOfCheckers += nextBoard[playerID][i];
     	}
@@ -386,7 +408,7 @@ public class Bot0 implements BotAPI {
         	ourPipCount = ourPipCount + (nextBoard[playerID][i]*i);
         	opponentPipCount = opponentPipCount + (nextBoard[opponentID][i]*i);
         }
-        
+
         return ourPipCount - opponentPipCount;
     }
 
