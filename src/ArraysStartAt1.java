@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Bot0 implements BotAPI {
+public class ArraysStartAt1 implements BotAPI {
 
     private static final int BAR = 25;           // index of the BAR
     private static final int BEAR_OFF = 0;       // index of the BEAR OFF
@@ -17,7 +17,7 @@ public class Bot0 implements BotAPI {
     private MatchAPI match;
     private InfoPanelAPI info;
 
-    Bot0(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
+    ArraysStartAt1(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
         this.opponent = opponent;
         this.board = board;
@@ -37,6 +37,7 @@ public class Bot0 implements BotAPI {
 
         int chosenMove = 0;
         int highestScore = 0;
+
         //loop to find the move with the highest score
         for (int i = 0; i < moveScores.length; i++)
         {
@@ -155,10 +156,10 @@ public class Bot0 implements BotAPI {
 
     /** Assign scores to the different situations*/
     final int BLOCK = 3;
-    final int BLOT = 10;
+    final int BLOT = 15;
     final int PRIME = 0;
     final int ANCHOR = 0;
-    final int HIT = 5;
+    final int HIT = 10;
 
     //Calculates the score of each move our player can make
     private int calculateScore(int[][] nextBoard, int playerID) {
@@ -179,7 +180,7 @@ public class Bot0 implements BotAPI {
         System.out.println("Score after hit: " + score);
 
         if(pipCountDifference(nextBoard, playerID) < 0){
-            score -= pipCountDifference(nextBoard, playerID) / 2;
+            score -= pipCountDifference(nextBoard, playerID) ;
         }
 
         System.out.println("Score after pipCount difference: " + score);
@@ -204,19 +205,19 @@ public class Bot0 implements BotAPI {
 
             //if in the 4th quadrant x4
             if (pip <= 24 && pip >= 19) {
-                score += score(nextBoard, pip, playerID);
+                score += 2 * score(nextBoard, pip, playerID);
             }
             //if in the 3rd quadrant x3
             else if (pip <= 18 && pip >= 13) {
-                score += 2 + score(nextBoard, pip, playerID);
+                score += 1.75 + score(nextBoard, pip, playerID);
             }
             //if in the 2nd quadrant x2
             else if (pip <= 12 && pip >= 7) {
-                score +=  3 + score(nextBoard, pip, playerID);
+                score +=  1.5 + score(nextBoard, pip, playerID);
             }
             //if in 1st quadrant(closest to the bear off) x1
             else if (pip <= 6 && pip >= 1) {
-                score += 4 + score(nextBoard, pip, playerID);
+                score += score(nextBoard, pip, playerID);
             }
         }
 
@@ -258,9 +259,18 @@ public class Bot0 implements BotAPI {
         System.out.println("Player 2 current probability: " + player2Probability);
 
         if(playerID == 0){
-            return player1Probability;
+            if(player1Probability > 100){
+                return 100;
+            } else {
+                return player1Probability;
+            }
+
         } else {
-            return player2Probability;
+            if(player2Probability > 100){
+                return 100;
+            } else {
+                return player2Probability;
+            }
         }
     }
 
