@@ -237,7 +237,6 @@ public class Bot0 implements BotAPI {
         return score;
     }
 
-
     //Returns probability of our bot to win. This is used when accepting or offering the doubling cube
     private int winProbability(int playerID){
         //TODO
@@ -337,22 +336,23 @@ public class Bot0 implements BotAPI {
         return numberOfCheckers;
     }
 
+    //Finds all the primes on the board and returns an arrayList of Prime objects
     private ArrayList<Prime> primesOnTheBoard(int[][] nextBoard, int playerID) {
 
         ArrayList<Prime> primes = new ArrayList<>();
     	int primeLength = 0;
 
-        int pip = 1;
-        while (pip <= NUM_PIPS) {
+        int pip = NUM_PIPS;
+        while (pip >= 1) {
 
             int startPip = pip;
+            int endPip = 0;
 
             while (nextBoard[playerID][pip] > 1) {
                 primeLength++;
-                pip++;
+                endPip = pip;
+                pip--;
             }
-
-            int endPip = pip;
 
             if (primeLength == 1) {
                 primeLength = 0;
@@ -397,6 +397,54 @@ public class Bot0 implements BotAPI {
         return primes;
     }
 
+    //Calculates a score depending on the primes and their position.
+    private int primeScore(ArrayList<Prime> primes, int[][] nextBoard, int playerID) {
+        int score = 0;
+        int opponent = opponentOf(playerID);
+
+        if (!primes.isEmpty()) {
+
+            int i = primes.size() - 1;
+            while (i >= 0) {
+
+                boolean thereIsOpponentCheckerBeforePrime= false;
+                Prime prime = primes.get(i);
+                int length = prime.getLength();
+                int startPip = prime.getStartPip();
+                int endPip = prime.getEndPip();
+
+                //decreasing order because the way in which primes are calculated in hte primesOnBoardMethod
+                for (int pip = endPip; pip >= 0; pip--) {
+                    //checking if the prime is effective, i.e. there is an opponent's checker before the prime.
+                    if (nextBoard[opponent][calculateOpposingPip(pip)] != 0) {
+                        thereIsOpponentCheckerBeforePrime = true;
+                        break;
+                    }
+                }
+
+                if (thereIsOpponentCheckerBeforePrime) {
+                    //if statements to give more value to the primes depending on where they are on the board.
+                    /**I was thinking to weigth the points depending on what quadrant they are, taking into account
+                     * their length as well. So maybe multiply length * some weight.
+                     * ALso the different sections i have are the bottom row, then the left part of the board in case
+                     * it overlaps between quadrants 2 and 3, and the top row.
+                     * */
+                    if ((startPip <= 24 && startPip >= 13) && (endPip <= 24 && endPip >= 13)) {
+                        score += length;
+                    }
+                    else if ((startPip <= 18 && startPip >= 7) && (endPip <= 18 && endPip >= 7)) {
+                        score += length * 2;
+                    }
+                    else if ((startPip <= 12 && startPip >= 1) && (endPip <= 12 && endPip >= 1)) {
+                        score += length * 3;
+                    }
+                }
+            }
+        }
+
+        return score;
+    }
+
     private int pipCountDifference(int[][] nextBoard, int playerID) {
 
         int opponentID = opponentOf(playerID);
@@ -413,7 +461,7 @@ public class Bot0 implements BotAPI {
     }
 
     private int calculateOpposingPip(int pip) {
-        return 24-pip+1;
+        return NUM_PIPS - pip + 1;
     }
 
     private int[][] move(int[][] possibleBoard, Move move) {
