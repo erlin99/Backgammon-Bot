@@ -196,6 +196,10 @@ public class Bot0 implements BotAPI {
 
         System.out.println("Score after num checkers in home board: " + score);
 
+        score += primeScore(primesOnTheBoard(nextBoard, playerID), nextBoard, playerID);
+
+        System.out.println("Score after prime: " + score);
+
         for(int pip = 1; pip <= NUM_PIPS; pip++) {
 
             //if in the 4th quadrant x4
