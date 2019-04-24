@@ -348,7 +348,7 @@ public class Bot0 implements BotAPI {
             int startPip = pip;
             int endPip = 0;
 
-            while (nextBoard[playerID][pip] > 1) {
+            while (nextBoard[playerID][pip] > 1 && pip >= 1) {
                 primeLength++;
                 endPip = pip;
                 pip--;
@@ -363,7 +363,7 @@ public class Bot0 implements BotAPI {
                 primes.add(prime);
             }
 
-            pip++;
+            pip--;
         }
 
 //        // array for storing the lengths of the primes a player has on the board
@@ -439,6 +439,7 @@ public class Bot0 implements BotAPI {
                         score += length * 3;
                     }
                 }
+                i--;
             }
         }
 
